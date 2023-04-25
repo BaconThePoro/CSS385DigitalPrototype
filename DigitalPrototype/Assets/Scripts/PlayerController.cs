@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour
 
     public bool ourTurn = false;
     public bool isTargetEnemy = false; 
+    private enum direction { left, right, up, down };
 
     // Must be connected via unity editor
     public Grid currGrid = null;
@@ -257,13 +258,40 @@ public class PlayerController : MonoBehaviour
         currTargetedStats.movLeft = 0;
 
         gameController.changeMode(GameController.gameMode.BattleMode);
-        gameController.startBattle(currTargeted, enemyController.enemyUnits[i], true);
+
+        // figure out which way to face (ally on left or right)
+        direction battleDirection = facingWhere(currTargeted.transform.position, enemyController.enemyUnits[i].transform.position);
+
+        // if facing to the right or down then put ally on the left 
+        if (battleDirection == direction.right || battleDirection == direction.down)
+            gameController.startBattle(currTargeted, enemyController.enemyUnits[i], true);
+        // else put ally on the right
+        else
+            gameController.startBattle(enemyController.enemyUnits[i], currTargeted, true);
     }
 
     IEnumerator waitBattle(int i)
     {
         yield return new WaitForSeconds(0.5f);
         beginBattle(i);
+    }
+
+    direction facingWhere(Vector3 allyPos, Vector3 enemyPos)
+    {
+        Vector3 difference = enemyPos - allyPos;
+
+        if (difference.x < 0)
+            return direction.left;
+        else if (difference.x > 0)
+            return direction.right;
+
+        if (difference.y < 0)
+            return direction.down;
+        else if (difference.y > 0)
+            return direction.up;
+
+        Debug.Log("facingWhere() is broke, units somehow standing on top of each other");
+        return direction.left;
     }
 
     bool unitHere(Vector3Int pos)

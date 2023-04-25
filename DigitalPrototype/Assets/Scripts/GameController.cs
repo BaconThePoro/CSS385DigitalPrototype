@@ -53,6 +53,8 @@ public class GameController : MonoBehaviour
     private Quaternion savedQuaLeft;
     private Quaternion savedQuaRight;
     private float savedCamSize;
+    private enum doubleAttack { neitherDouble, leftDoubles, rightDoubles };
+    private int doubleRequirement = 4;
     //
 
     // set these ones 
@@ -166,8 +168,23 @@ public class GameController : MonoBehaviour
 
 
         // do battle stuff like animations and damage
-        //
-        //
+
+        // figure out if one battler is double attacking or not
+        doubleAttack whoDoubles;
+        if (leftStats.SPD > rightStats.SPD + doubleRequirement)
+        {
+            whoDoubles = doubleAttack.leftDoubles;
+        }
+        else if (rightStats.SPD > leftStats.SPD + doubleRequirement)
+        {
+            whoDoubles = doubleAttack.rightDoubles;
+        }
+        else
+            whoDoubles = doubleAttack.neitherDouble;
+
+        //if (turn )
+
+
 
         // this is only here to stall while battle doesnt do anything
         StartCoroutine(waitCoroutine(leftChar, rightChar, turn));
