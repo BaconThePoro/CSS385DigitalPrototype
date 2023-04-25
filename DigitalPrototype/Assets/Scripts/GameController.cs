@@ -55,6 +55,7 @@ public class GameController : MonoBehaviour
     private float savedCamSize;
     private enum doubleAttack { neitherDouble, leftDoubles, rightDoubles };
     private int doubleRequirement = 4;
+    private float inbetweenAttackDelay = 1.5f; 
     //
 
     // set these ones 
@@ -123,8 +124,14 @@ public class GameController : MonoBehaviour
         }
     }
 
-    // turn true = player turn, turn false = enemy turn
-    public void startBattle(GameObject leftChar, GameObject rightChar, bool turn)
+    // playerSide = FALSE, player is on the left
+    // playerSide = TRUE, player is on the right
+    // playerTurn = False, this was not a playerTurn battle
+    // playerTurn = true, this was a playerTurn battle
+
+    // playerSide and Turn in conjunction tell who should strike first (whoevers turn it is ie. playerTurn attack means player attacks first)
+    // if the attack occurs on a playerTurn they need control returned to them as well
+    public IEnumerator startBattle(GameObject leftChar, GameObject rightChar, bool playerSide, bool playerTurn)
     {
         Debug.Log("starting battle");
 
@@ -142,8 +149,7 @@ public class GameController : MonoBehaviour
         mainCamera.orthographicSize = camBattleSize;
         leftHPUI.SetActive(true);
         rightHPUI.SetActive(true);
-        leftHPUI.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "HP: " + leftStats.hpLeft + " / " + leftStats.HP;
-        rightHPUI.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "HP: " + rightStats.hpLeft + " / " + rightStats.HP;
+        updateBattleHP(leftStats, rightStats);
         //
 
         // reactivate participants
@@ -166,40 +172,167 @@ public class GameController : MonoBehaviour
         rightChar.transform.rotation = rightBattleQua;
         //
 
+        // delay for 1.5s so user can see before battle starts
+        yield return new WaitForSeconds(2f);
+
+
 
         // do battle stuff like animations and damage
+        //
+        //
+
+
+
 
         // figure out if one battler is double attacking or not
         doubleAttack whoDoubles;
-        if (leftStats.SPD > rightStats.SPD + doubleRequirement)
+        if (leftStats.SPD >= rightStats.SPD + doubleRequirement)
         {
             whoDoubles = doubleAttack.leftDoubles;
         }
-        else if (rightStats.SPD > leftStats.SPD + doubleRequirement)
+        else if (rightStats.SPD >= leftStats.SPD + doubleRequirement)
         {
             whoDoubles = doubleAttack.rightDoubles;
         }
         else
             whoDoubles = doubleAttack.neitherDouble;
 
-        //if (turn )
+
+        // player initiated battle, they attack first
+        if (playerTurn == true)
+        {
+            // player is on left
+            if (playerSide == false)
+            {
+                // player attack
+                Attack(leftStats, rightStats);
+                updateBattleHP(leftStats, rightStats);
+
+                // delay
+                yield return new WaitForSeconds(inbetweenAttackDelay);
+
+                // enemy attack
+                Attack(rightStats, leftStats);
+                updateBattleHP(leftStats, rightStats);
+
+                if (whoDoubles == doubleAttack.leftDoubles)
+                {
+                    // delay
+                    yield return new WaitForSeconds(inbetweenAttackDelay);
+                    Attack(leftStats, rightStats);
+                    updateBattleHP(leftStats, rightStats);
+                }
+
+                else if (whoDoubles == doubleAttack.rightDoubles)
+                {
+                    // delay
+                    yield return new WaitForSeconds(inbetweenAttackDelay);
+                    Attack(rightStats, leftStats);
+                    updateBattleHP(leftStats, rightStats);
+                }
+
+            }
+            // player is on right
+            else
+            {
+                // player attack
+                Attack(rightStats, leftStats);
+                updateBattleHP(leftStats, rightStats);
+
+                // delay
+                yield return new WaitForSeconds(inbetweenAttackDelay);
+
+                // enemy attack
+                Attack(leftStats, rightStats);
+                updateBattleHP(leftStats, rightStats);
 
 
+                if (whoDoubles == doubleAttack.leftDoubles)
+                {
+                    // delay
+                    yield return new WaitForSeconds(inbetweenAttackDelay);
+                    Attack(leftStats, rightStats);
+                    updateBattleHP(leftStats, rightStats);
+                }
 
-        // this is only here to stall while battle doesnt do anything
-        StartCoroutine(waitCoroutine(leftChar, rightChar, turn));
-    }
+                else if (whoDoubles == doubleAttack.rightDoubles)
+                {
+                    // delay
+                    yield return new WaitForSeconds(inbetweenAttackDelay);
+                    Attack(rightStats, leftStats);
+                    updateBattleHP(leftStats, rightStats);
+                }
+            }
+        }
 
-    // this is only here to stall while battle doesnt do anything
-    IEnumerator waitCoroutine(GameObject leftChar, GameObject rightChar, bool turn)
-    {
-        yield return new WaitForSeconds(3);
-        endBattle(leftChar, rightChar, turn);
-    }
+        // enemy initiated battle, they attack first
+        else
+        {
+            // enemy is on left
+            if (playerSide == true)
+            {
+                // enemy attack
+                Attack(leftStats, rightStats);
+                updateBattleHP(leftStats, rightStats);
 
-    // turn true = player turn, turn false = enemy turn
-    public void endBattle(GameObject leftChar, GameObject rightChar, bool turn)
-    {
+                // delay
+                yield return new WaitForSeconds(inbetweenAttackDelay);
+
+                // player attack
+                Attack(rightStats, leftStats);
+                updateBattleHP(leftStats, rightStats);
+
+                if (whoDoubles == doubleAttack.leftDoubles)
+                {
+                    // delay
+                    yield return new WaitForSeconds(inbetweenAttackDelay);
+                    Attack(leftStats, rightStats);
+                    updateBattleHP(leftStats, rightStats);
+                }
+
+                else if (whoDoubles == doubleAttack.rightDoubles)
+                {
+                    // delay
+                    yield return new WaitForSeconds(inbetweenAttackDelay);
+                    Attack(rightStats, leftStats);
+                    updateBattleHP(leftStats, rightStats);
+                }
+            }
+            // enemy is on right
+            else
+            {
+                // enemy attack
+                Attack(rightStats, leftStats);
+                updateBattleHP(leftStats, rightStats);
+
+                // delay
+                yield return new WaitForSeconds(inbetweenAttackDelay);
+
+                // player attack
+                Attack(leftStats, rightStats);
+                updateBattleHP(leftStats, rightStats);
+
+                if (whoDoubles == doubleAttack.leftDoubles)
+                {
+                    // delay
+                    yield return new WaitForSeconds(inbetweenAttackDelay);
+                    Attack(leftStats, rightStats);
+                    updateBattleHP(leftStats, rightStats);
+                }
+
+                else if (whoDoubles == doubleAttack.rightDoubles)
+                {
+                    // delay
+                    yield return new WaitForSeconds(inbetweenAttackDelay);
+                    Attack(rightStats, leftStats);
+                    updateBattleHP(leftStats, rightStats);
+                }
+            }
+        }
+
+        // delay again for 1.5s so user can see result of battle before leaving battlemode
+        yield return new WaitForSeconds(2f);
+
         // return them to prior positions
         leftChar.transform.position = savedPosLeft;
         rightChar.transform.position = savedPosRight;
@@ -221,10 +354,30 @@ public class GameController : MonoBehaviour
         //
 
         // return to either player or enemy turn
-        if (turn == true)
+        if (playerTurn == true)
             playerController.ourTurn = true;
         else
             playerController.ourTurn = false;
+    }
+
+    public void Attack(Character attacker, Character damageTaker)
+    {
+        // if attacker has a sword
+        if (attacker.weapon == 1)
+        {
+            int damageMinusDefense = attacker.STR - damageTaker.DEF;
+            // make sure you cant do negative damage
+            if (damageMinusDefense < 0)
+                damageMinusDefense = 0;
+
+            damageTaker.hpLeft = damageTaker.hpLeft - damageMinusDefense;
+        }
+    }
+
+    public void updateBattleHP(Character leftStats, Character rightStats)
+    {
+        leftHPUI.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "HP: " + leftStats.hpLeft + " / " + leftStats.HP;
+        rightHPUI.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "HP: " + rightStats.hpLeft + " / " + rightStats.HP;
     }
 
     // for hovering effect

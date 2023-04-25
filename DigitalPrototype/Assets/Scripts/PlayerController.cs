@@ -264,10 +264,10 @@ public class PlayerController : MonoBehaviour
 
         // if facing to the right or down then put ally on the left 
         if (battleDirection == direction.right || battleDirection == direction.down)
-            gameController.startBattle(currTargeted, enemyController.enemyUnits[i], true);
+            gameController.startBattle(currTargeted, enemyController.enemyUnits[i], false, true);
         // else put ally on the right
         else
-            gameController.startBattle(enemyController.enemyUnits[i], currTargeted, true);
+            StartCoroutine(gameController.startBattle(enemyController.enemyUnits[i], currTargeted, true, true));
     }
 
     IEnumerator waitBattle(int i)

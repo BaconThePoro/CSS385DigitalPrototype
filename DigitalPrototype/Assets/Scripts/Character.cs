@@ -17,7 +17,12 @@ public class Character : MonoBehaviour
     public int hpLeft;
     public int movLeft;
 
-    public enum weapon { sword, bow }
+    public int weapon = 1;
+    // 1. Sword
+    // 2. 
+    // 3. 
+    // 4. 
+
 
     public void takeDamage(int amount)
     {
