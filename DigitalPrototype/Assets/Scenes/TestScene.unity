@@ -461,6 +461,7 @@ MonoBehaviour:
   MOV: 3
   hpLeft: 0
   movLeft: 0
+  weapon: 1
 --- !u!1 &219147377
 GameObject:
   m_ObjectHideFlags: 0
@@ -1915,7 +1916,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 2
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.5754031, g: 0.7075472, b: 0.53733534, a: 1}
+  m_Color: {r: 0.8113208, g: 0.8113208, b: 0.8113208, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -2048,6 +2049,7 @@ MonoBehaviour:
   MOV: 1
   hpLeft: 0
   movLeft: 0
+  weapon: 1
 --- !u!1 &839432104
 GameObject:
   m_ObjectHideFlags: 0
@@ -2826,7 +2828,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62a6fa027fb151244a08181fe3d652b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameController: {fileID: 2073513242}
+  gameControllerObj: {fileID: 2073513242}
   enemyUnits: []
   currTilemap: {fileID: 2123449134}
 --- !u!1 &1303951873
@@ -3797,6 +3799,7 @@ MonoBehaviour:
   MOV: 6
   hpLeft: 0
   movLeft: 0
+  weapon: 1
 --- !u!111 &1737337942
 Animation:
   m_ObjectHideFlags: 0
@@ -4780,11 +4783,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbacb9328d739ad449b0bb0ec81fa206, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerController: {fileID: 2084973102}
-  enemyController: {fileID: 1096422116}
-  mainCamera: {fileID: 519420028}
+  playerControllerObj: {fileID: 2084973102}
+  enemyControllerObj: {fileID: 1096422116}
+  mainCameraObj: {fileID: 519420028}
   Mapmode: {fileID: 1892938726}
-  Battlemod: {fileID: 2079111250}
+  Battlemode: {fileID: 2079111250}
   leftHPUI: {fileID: 1650128647}
   rightHPUI: {fileID: 1941376744}
   turnPanel: {fileID: 17159737}
@@ -4889,7 +4892,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 038b84dc45708a6499443ca0b1f33f68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameController: {fileID: 2073513242}
+  gameControllerObj: {fileID: 2073513242}
   enemyControllerObj: {fileID: 1096422116}
   charInfoPanel: {fileID: 839432104}
   ourTurn: 0
@@ -5004,12 +5007,13 @@ MonoBehaviour:
   HP: 15
   STR: 6
   MAG: 5
-  DEF: 4
+  DEF: 2
   RES: 3
-  SPD: 2
+  SPD: 6
   MOV: 5
   hpLeft: 0
   movLeft: 0
+  weapon: 1
 --- !u!1 &2123449131
 GameObject:
   m_ObjectHideFlags: 0
