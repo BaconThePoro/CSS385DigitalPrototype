@@ -8,11 +8,16 @@ using UnityEngine.Tilemaps;
 public class GameController : MonoBehaviour
 {
     // we need a pointer to both Player and Enemy controller. Must be connected via unity editor. 
-    public GameObject playerController = null;
-    public GameObject enemyController = null;
-    public GameObject mainCamera = null;
+    public GameObject playerControllerObj = null;
+    private PlayerController playerController = null;
+    public GameObject enemyControllerObj = null;
+    private EnemyController enemyController = null;
+    public GameObject mainCameraObj = null;
+    private Camera mainCamera = null;
     public GameObject Mapmode = null;
-    public GameObject Battlemod = null; 
+    public GameObject Battlemode = null;
+    public GameObject leftHPUI = null;
+    public GameObject rightHPUI = null;
 
     // enum for whose turn it is currently, the players or the enemies.
     public enum turnMode { PlayerTurn, EnemyTurn };
@@ -50,7 +55,6 @@ public class GameController : MonoBehaviour
     private float savedCamSize;
     //
 
-
     // set these ones 
     public float tileX = 1;
     public float tileY = 1;
@@ -63,6 +67,10 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        playerController = playerControllerObj.GetComponent<PlayerController>();
+        enemyController = enemyControllerObj.GetComponent<EnemyController>();
+        mainCamera = mainCameraObj.GetComponent<Camera>();
+
         changeTurn(turnMode.PlayerTurn);
         changeMode(gameMode.MapMode);
 
@@ -118,15 +126,22 @@ public class GameController : MonoBehaviour
     {
         Debug.Log("starting battle");
 
+        Character leftStats = leftChar.GetComponent<Character>();
+        Character rightStats = rightChar.GetComponent<Character>();
+
         // go to battlemode
         turnPanel.SetActive(false);
-        playerController.GetComponent<PlayerController>().deselectTarget();
-        playerController.GetComponent<PlayerController>().deactivateChildren();
-        enemyController.GetComponent<EnemyController>().deactivateChildren();
+        playerController.deselectTarget();
+        playerController.deactivateChildren();
+        enemyController.deactivateChildren();
         Mapmode.SetActive(false);
-        Battlemod.SetActive(true);
-        savedCamSize = mainCamera.GetComponent<Camera>().orthographicSize;
-        mainCamera.GetComponent<Camera>().orthographicSize = camBattleSize;
+        Battlemode.SetActive(true);
+        savedCamSize = mainCamera.orthographicSize;
+        mainCamera.orthographicSize = camBattleSize;
+        leftHPUI.SetActive(true);
+        rightHPUI.SetActive(true);
+        leftHPUI.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "HP: " + leftStats.hpLeft + " / " + leftStats.HP;
+        rightHPUI.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "HP: " + rightStats.hpLeft + " / " + rightStats.HP;
         //
 
         // reactivate participants
@@ -172,25 +187,27 @@ public class GameController : MonoBehaviour
         leftChar.transform.position = savedPosLeft;
         rightChar.transform.position = savedPosRight;
         mainCamera.transform.position = savedPosCam;
-        mainCamera.GetComponent<Camera>().orthographicSize = savedCamSize;
+        mainCamera.orthographicSize = savedCamSize;
         leftChar.transform.rotation = savedQuaLeft;
         rightChar.transform.rotation = savedQuaRight;
         //
 
         // return to mapmode
+        leftHPUI.SetActive(false);
+        rightHPUI.SetActive(false);
         turnPanel.SetActive(true);
-        playerController.GetComponent<PlayerController>().activateChildren();
-        enemyController.GetComponent<EnemyController>().activateChildren();
+        playerController.activateChildren();
+        enemyController.activateChildren();
         Mapmode.SetActive(true);
-        Battlemod.SetActive(false);
+        Battlemode.SetActive(false);
         changeMode(gameMode.MapMode);
         //
 
         // return to either player or enemy turn
         if (turn == true)
-            playerController.GetComponent<PlayerController>().ourTurn = true;
+            playerController.ourTurn = true;
         else
-            playerController.GetComponent<PlayerController>().ourTurn = false;
+            playerController.ourTurn = false;
     }
 
     // for hovering effect
@@ -215,8 +232,8 @@ public class GameController : MonoBehaviour
             // if player turn
             if (currTurnMode == turnMode.PlayerTurn)
             {
-                playerController.GetComponent<PlayerController>().resetAllMove();
-                playerController.GetComponent<PlayerController>().ourTurn = true;
+                playerController.resetAllMove();
+                playerController.ourTurn = true;
 
                 // give player back their end turn button
                 endTurnButton.gameObject.SetActive(true);
@@ -224,12 +241,12 @@ public class GameController : MonoBehaviour
             // if enemy turn
             else
             {
-                playerController.GetComponent<PlayerController>().ourTurn = false;
+                playerController.ourTurn = false;
 
                 // turn off end turn button for player since it isnt their turn
                 endTurnButton.gameObject.SetActive(false);
 
-                enemyController.GetComponent<EnemyController>().enemyTurn();
+                enemyController.enemyTurn();
             }
         }
         else

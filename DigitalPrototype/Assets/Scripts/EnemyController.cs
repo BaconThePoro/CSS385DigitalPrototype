@@ -7,11 +7,10 @@ using UnityEngine.UI;
 public class EnemyController : MonoBehaviour
 {
     // must be connected via unity editor
-    public GameObject gameController = null;
-    
+    public GameObject gameControllerObj = null;
+    private GameController gameController = null;
 
     public GameObject[] enemyUnits;
-
 
     public Tilemap currTilemap = null;
     // dont set in here, they grab value from GameController
@@ -21,8 +20,9 @@ public class EnemyController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        tileX = gameController.GetComponent<GameController>().tileX;
-        tileY = gameController.GetComponent<GameController>().tileY;
+        gameController = gameControllerObj.GetComponent<GameController>();
+        tileX = gameController.tileX;
+        tileY = gameController.tileY;
 
         // get a handle on each child for EnemyController
         enemyUnits = new GameObject[transform.childCount];
@@ -74,7 +74,7 @@ public class EnemyController : MonoBehaviour
     IEnumerator waitCoroutine()
     {
         yield return new WaitForSeconds(1);
-        gameController.GetComponent<GameController>().changeTurn(GameController.turnMode.PlayerTurn);
+        gameController.changeTurn(GameController.turnMode.PlayerTurn);
         Debug.Log("Enemy turn end");
     }
 

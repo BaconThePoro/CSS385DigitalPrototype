@@ -7,11 +7,24 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
     // Must be connected via unity editor
-    public GameObject gameController = null;
+    public GameObject gameControllerObj = null;
+    private GameController gameController = null;
     public GameObject enemyControllerObj = null; 
-    private EnemyController enemyController;
+    private EnemyController enemyController = null;
     private GameObject currTargeted = null;
+    private Character currTargetedStats = null;
     public GameObject charInfoPanel = null;
+    private GameObject movLeftTXT = null;
+    private GameObject movLeftNUMObj = null;
+    private TMPro.TextMeshProUGUI charNameTXT = null;
+    private TMPro.TextMeshProUGUI hpNUM = null;
+    private TMPro.TextMeshProUGUI strNUM = null;
+    private TMPro.TextMeshProUGUI magNUM = null;
+    private TMPro.TextMeshProUGUI spdNUM = null;
+    private TMPro.TextMeshProUGUI defNUM = null;
+    private TMPro.TextMeshProUGUI resNUM = null;
+    private TMPro.TextMeshProUGUI movNUM = null;
+    private TMPro.TextMeshProUGUI movLeftNUM = null;
 
     public bool ourTurn = false;
     public bool isTargetEnemy = false; 
@@ -30,10 +43,23 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gameController = gameControllerObj.GetComponent<GameController>();
         enemyController = enemyControllerObj.GetComponent<EnemyController>();
-
-        tileX = gameController.GetComponent<GameController>().tileX;
-        tileY = gameController.GetComponent<GameController>().tileY;
+        
+        charNameTXT = charInfoPanel.transform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>();
+        movLeftTXT = charInfoPanel.transform.GetChild(9).gameObject;
+        hpNUM = charInfoPanel.transform.GetChild(10).GetComponent<TMPro.TextMeshProUGUI>();
+        strNUM = charInfoPanel.transform.GetChild(11).GetComponent<TMPro.TextMeshProUGUI>();
+        magNUM = charInfoPanel.transform.GetChild(12).GetComponent<TMPro.TextMeshProUGUI>();
+        spdNUM = charInfoPanel.transform.GetChild(13).GetComponent<TMPro.TextMeshProUGUI>();
+        defNUM = charInfoPanel.transform.GetChild(14).GetComponent<TMPro.TextMeshProUGUI>();
+        resNUM = charInfoPanel.transform.GetChild(15).GetComponent<TMPro.TextMeshProUGUI>();
+        movNUM = charInfoPanel.transform.GetChild(16).GetComponent<TMPro.TextMeshProUGUI>();
+        movLeftNUMObj = charInfoPanel.transform.GetChild(17).gameObject;
+        movLeftNUM = movLeftNUMObj.GetComponent<TMPro.TextMeshProUGUI>();
+        
+        tileX = gameController.tileX;
+        tileY = gameController.tileY;
 
         // get a handle on each child for PlayerController
         playerUnits = new GameObject[transform.childCount];
@@ -209,7 +235,7 @@ public class PlayerController : MonoBehaviour
                 }
 
                 // clicked in move range, move ally
-                if (currTargeted != null && inMovementRange(mousePos) && currTargeted.GetComponent<Character>().movLeft > 0 && isTargetEnemy != true)
+                if (currTargeted != null && inMovementRange(mousePos) && currTargetedStats.movLeft > 0 && isTargetEnemy != true)
                 {
                     moveAlly(mousePos);
                 }
@@ -228,10 +254,10 @@ public class PlayerController : MonoBehaviour
         ourTurn = false;
 
         // can only fight once per turn, reduce movement to 0
-        currTargeted.GetComponent<Character>().movLeft = 0;
+        currTargetedStats.movLeft = 0;
 
-        gameController.GetComponent<GameController>().changeMode(GameController.gameMode.BattleMode);
-        gameController.GetComponent<GameController>().startBattle(currTargeted, enemyController.enemyUnits[i], true);
+        gameController.changeMode(GameController.gameMode.BattleMode);
+        gameController.startBattle(currTargeted, enemyController.enemyUnits[i], true);
     }
 
     IEnumerator waitBattle(int i)
@@ -250,7 +276,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (enemyController.GetComponent<EnemyController>().enemyHere(pos))
+        if (enemyController.enemyHere(pos))
         {
             return true;
         }
@@ -264,6 +290,7 @@ public class PlayerController : MonoBehaviour
         //Debug.Log("i: " + i);
         //Debug.Log("playerUnit @ " + i + " is " + playerUnits[i].transform.name);
         currTargeted = playerUnits[i];
+        currTargetedStats = currTargeted.GetComponent<Character>();
         isTargetEnemy = false;
         //Debug.Log("currTargeted is " + currTargeted.name);
 
@@ -272,6 +299,8 @@ public class PlayerController : MonoBehaviour
 
         charInfoPanel.gameObject.SetActive(true);
         updateCharInfo();
+
+        
     }
 
     public void deselectTarget()
@@ -281,6 +310,7 @@ public class PlayerController : MonoBehaviour
         currTargeted.transform.GetChild(0).gameObject.SetActive(false);
         //currTargeted.transform.GetChild(1).gameObject.SetActive(false);
         currTargeted = null;
+        currTargetedStats = null;
         charInfoPanel.gameObject.SetActive(false);
     }
 
@@ -302,8 +332,8 @@ public class PlayerController : MonoBehaviour
             currTargeted.transform.rotation = new Quaternion(0f, 0f, 0f, 1f);
         }
 
-        currTargeted.GetComponent<Character>().movLeft = (int)(currTargeted.GetComponent<Character>().movLeft - Mathf.Abs(distanceTraveled.x));
-        currTargeted.GetComponent<Character>().movLeft = (int)(currTargeted.GetComponent<Character>().movLeft - Mathf.Abs(distanceTraveled.y));
+        currTargetedStats.movLeft = (int)(currTargetedStats.movLeft - Mathf.Abs(distanceTraveled.x));
+        currTargetedStats.movLeft = (int)(currTargetedStats.movLeft - Mathf.Abs(distanceTraveled.y));
 
         //Debug.Log("moveUsedX: " + Mathf.Abs(distanceTraveled.x));
         //Debug.Log("moveUsedY: " + Mathf.Abs(distanceTraveled.y));
@@ -317,6 +347,7 @@ public class PlayerController : MonoBehaviour
         //Debug.Log("i: " + i);
         //Debug.Log("playerUnit @ " + i + " is " + playerUnits[i].transform.name);
         currTargeted = enemyController.enemyUnits[i];
+        currTargetedStats = currTargeted.GetComponent<Character>();
         isTargetEnemy = true;
         //Debug.Log("currTargeted is " + currTargeted.name);
 
@@ -330,7 +361,7 @@ public class PlayerController : MonoBehaviour
     bool inMovementRange(Vector3Int mousePos)
     {
         Vector3 distanceTraveled = mousePos - currTargeted.transform.position;
-        if (Mathf.Abs(distanceTraveled.x) + Mathf.Abs(distanceTraveled.y) <= currTargeted.GetComponent<Character>().movLeft)
+        if (Mathf.Abs(distanceTraveled.x) + Mathf.Abs(distanceTraveled.y) <= currTargetedStats.movLeft)
         {             
             return true;
         }
@@ -354,26 +385,26 @@ public class PlayerController : MonoBehaviour
 
     public void updateCharInfo()
     {
-        charInfoPanel.transform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>().text = "Name: " + currTargeted.GetComponent<Character>().charName;
-        charInfoPanel.transform.GetChild(9).GetComponent<TMPro.TextMeshProUGUI>().text = "" + currTargeted.GetComponent<Character>().STR;
-        charInfoPanel.transform.GetChild(10).GetComponent<TMPro.TextMeshProUGUI>().text = "" + currTargeted.GetComponent<Character>().MAG;
-        charInfoPanel.transform.GetChild(11).GetComponent<TMPro.TextMeshProUGUI>().text = "" + currTargeted.GetComponent<Character>().DEF;
-        charInfoPanel.transform.GetChild(12).GetComponent<TMPro.TextMeshProUGUI>().text = "" + currTargeted.GetComponent<Character>().RES;
-        charInfoPanel.transform.GetChild(13).GetComponent<TMPro.TextMeshProUGUI>().text = "" + currTargeted.GetComponent<Character>().SPD;
+        charNameTXT.text = "Name: " + currTargetedStats.charName;
+        hpNUM.text = "" + currTargetedStats.hpLeft + " / " + currTargetedStats.HP;
+        strNUM.text = "" + currTargetedStats.STR;
+        magNUM.text = "" + currTargetedStats.MAG;
+        defNUM.text = "" + currTargetedStats.DEF;
+        resNUM.text = "" + currTargetedStats.RES;
+        spdNUM.text = "" + currTargetedStats.SPD;
 
         if (isTargetEnemy == false)
         {
-            charInfoPanel.transform.GetChild(14).GetComponent<TMPro.TextMeshProUGUI>().text = "" + currTargeted.GetComponent<Character>().MOV;
-            charInfoPanel.transform.GetChild(15).GetComponent<TMPro.TextMeshProUGUI>().text = "" + currTargeted.GetComponent<Character>().movLeft;
-            charInfoPanel.transform.GetChild(8).gameObject.SetActive(true);
-            charInfoPanel.transform.GetChild(15).gameObject.SetActive(true);
+            movNUM.text = "" + currTargetedStats.MOV;
+            movLeftNUM.text = "" + currTargetedStats.movLeft;
+            movLeftTXT.SetActive(true);
+            movLeftNUMObj.SetActive(true);
         }
         else
         {
-            charInfoPanel.transform.GetChild(14).GetComponent<TMPro.TextMeshProUGUI>().text = ""
-                + currTargeted.GetComponent<Character>().MOV;
-            charInfoPanel.transform.GetChild(8).gameObject.SetActive(false);
-            charInfoPanel.transform.GetChild(15).gameObject.SetActive(false);
+            movNUM.text = "" + currTargetedStats.MOV;
+            movLeftTXT.SetActive(false);
+            movLeftNUMObj.SetActive(false);
         }
     }
 
