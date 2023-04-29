@@ -38,6 +38,11 @@ public class PlayerController : MonoBehaviour
     // dont set in here, they grab value from GameController
     private float tileX = 0;
     private float tileY = 0;
+    private float mapBoundPlusX = 8f;
+    private float mapBoundPlusY = 4f;
+    private float mapBoundMinusX = -9f;
+    private float mapBoundMinusY = -5f;
+
 
     private GameObject[] playerUnits;
     private Character[] playerStats;
@@ -73,7 +78,7 @@ public class PlayerController : MonoBehaviour
             playerUnits[i] = child.gameObject;
             playerStats[i] = playerUnits[i].GetComponent<Character>();
 
-            Vector3 startPos = new Vector3(3f, -3f + i, -1f);
+            Vector3 startPos = new Vector3(0f, -3f + i, -1f);
             playerUnits[i].transform.position = startPos;
            
             i += 1;      
@@ -93,7 +98,7 @@ public class PlayerController : MonoBehaviour
                 Vector3Int mousePos = GetMousePosition();
                 mousePos = new Vector3Int(mousePos.x, mousePos.y, -1);
 
-                //Debug.Log("Clicked here: " + mousePos);
+                Debug.Log("Clicked here: " + mousePos);
                 //Debug.Log("currTargeted is " + currTargeted.name);
                 //Debug.Log("childCount is " + transform.childCount);
                 for (int i = 0; i < transform.childCount; i++)
@@ -351,6 +356,12 @@ public class PlayerController : MonoBehaviour
 
     void moveAlly(Vector3Int mousePos)
     {
+        if (mousePos.x > mapBoundPlusX || mousePos.x < mapBoundMinusX || mousePos.y > mapBoundPlusY || mousePos.y < mapBoundMinusY)
+        {
+            Debug.Log("Movement area out of bounds, cancelling movement");
+            return;
+        }
+
         Vector3 distanceTraveled = mousePos - currTargeted.transform.position;
         currTargeted.transform.position = mousePos;
 
