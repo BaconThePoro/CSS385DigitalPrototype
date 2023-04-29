@@ -461,6 +461,7 @@ MonoBehaviour:
   MOV: 3
   hpLeft: 0
   movLeft: 0
+  isDead: 0
   weapon: 1
 --- !u!1 &219147377
 GameObject:
@@ -2049,6 +2050,7 @@ MonoBehaviour:
   MOV: 1
   hpLeft: 0
   movLeft: 0
+  isDead: 0
   weapon: 1
 --- !u!1 &839432104
 GameObject:
@@ -2830,6 +2832,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameControllerObj: {fileID: 2073513242}
   enemyUnits: []
+  enemyStats: []
   currTilemap: {fileID: 2123449134}
 --- !u!1 &1303951873
 GameObject:
@@ -3799,6 +3802,7 @@ MonoBehaviour:
   MOV: 6
   hpLeft: 0
   movLeft: 0
+  isDead: 0
   weapon: 1
 --- !u!111 &1737337942
 Animation:
@@ -5013,6 +5017,7 @@ MonoBehaviour:
   MOV: 5
   hpLeft: 0
   movLeft: 0
+  isDead: 0
   weapon: 1
 --- !u!1 &2123449131
 GameObject:
