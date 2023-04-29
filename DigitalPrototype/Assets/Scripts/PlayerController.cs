@@ -286,7 +286,8 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator waitBattle(int i)
     {
-        yield return new WaitForSeconds(0.5f);
+        hideMovArea();       
+        yield return new WaitForSeconds(0.25f);
         beginBattle(i);
     }
 
@@ -442,6 +443,8 @@ public class PlayerController : MonoBehaviour
 
         charInfoPanel.gameObject.SetActive(true);
         updateCharInfo();
+        hideMovArea();
+        showMovArea(currTargeted);
     }
 
     bool inMovementRange(Vector3Int mousePos)
