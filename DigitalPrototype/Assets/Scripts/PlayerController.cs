@@ -35,6 +35,7 @@ public class PlayerController : MonoBehaviour
     public Tilemap currTilemap = null;
     public Tile targetTile = null;
     private Vector3Int prevTarget = Vector3Int.zero; 
+
     // dont set in here, they grab value from GameController
     private float tileX = 0;
     private float tileY = 0;
@@ -43,6 +44,10 @@ public class PlayerController : MonoBehaviour
     private float mapBoundMinusX = -9f;
     private float mapBoundMinusY = -5f;
 
+    // movement area thingies
+    public GameObject oneMovArea = null;
+    public GameObject twoMovArea = null;
+    public GameObject threeMovArea = null;
 
     private GameObject[] playerUnits;
     private Character[] playerStats;
@@ -339,8 +344,40 @@ public class PlayerController : MonoBehaviour
 
         charInfoPanel.gameObject.SetActive(true);
         updateCharInfo();
+        showMovArea(currTargeted);
 
-        
+    }
+
+    public void showMovArea(GameObject unit)
+    {
+        Character unitStats = unit.GetComponent<Character>();
+
+        if (unitStats.movLeft == 0)
+        {
+            hideMovArea();
+        }
+        else if (unitStats.movLeft == 1)
+        {
+            oneMovArea.SetActive(true);
+            oneMovArea.transform.position = unit.transform.position;
+        }
+        else if (unitStats.movLeft == 2)
+        {
+            twoMovArea.SetActive(true);
+            twoMovArea.transform.position = unit.transform.position;
+        }
+        else if (unitStats.movLeft == 3)
+        {
+            threeMovArea.SetActive(true);
+            threeMovArea.transform.position = unit.transform.position;
+        }
+    }
+
+    public void hideMovArea()
+    {
+        oneMovArea.SetActive(false);
+        twoMovArea.SetActive(false);
+        threeMovArea.SetActive(false);
     }
 
     public void deselectTarget()
@@ -352,6 +389,7 @@ public class PlayerController : MonoBehaviour
         currTargeted = null;
         currTargetedStats = null;
         charInfoPanel.gameObject.SetActive(false);
+        hideMovArea();
     }
 
     void moveAlly(Vector3Int mousePos)
@@ -385,6 +423,8 @@ public class PlayerController : MonoBehaviour
         //Debug.Log("moveUsedY: " + Mathf.Abs(distanceTraveled.y));
         //Debug.Log("moveLeft: " + moveLeft);
         updateCharInfo();
+        hideMovArea();
+        showMovArea(currTargeted);
     }
 
     void targetEnemy(int i)
