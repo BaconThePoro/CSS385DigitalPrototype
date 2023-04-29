@@ -175,15 +175,6 @@ public class GameController : MonoBehaviour
         // delay for 1.5s so user can see before battle starts
         yield return new WaitForSeconds(2f);
 
-
-
-        // do battle stuff like animations and damage
-        //
-        //
-
-
-
-
         // figure out if one battler is double attacking or not
         doubleAttack whoDoubles;
         if (leftStats.SPD >= rightStats.SPD + doubleRequirement)
@@ -207,6 +198,9 @@ public class GameController : MonoBehaviour
                 // player attack
                 Attack(leftStats, rightStats);
                 updateBattleHP(leftStats, rightStats);
+
+                // start animation coroutine
+
 
                 // delay
                 yield return new WaitForSeconds(inbetweenAttackDelay);

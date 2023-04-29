@@ -113,8 +113,7 @@ public class PlayerController : MonoBehaviour
 
                         return;
                     }
-                    else if (mousePos == enemyController.enemyUnits[i].transform.position && enemyController.enemyStats[i].isDead == false
-                        )
+                    else if (mousePos == enemyController.enemyUnits[i].transform.position && enemyController.enemyStats[i].isDead == false)
                     {
                         // no ally selected target enemy
                         if (currTargeted == null)
@@ -256,7 +255,7 @@ public class PlayerController : MonoBehaviour
 
     void beginBattle(int i)
     {
-        //Debug.Log("battle time");
+        Debug.Log("battle time");
         ourTurn = false;
 
         // can only fight once per turn, reduce movement to 0
@@ -269,7 +268,7 @@ public class PlayerController : MonoBehaviour
 
         // if facing to the right or down then put ally on the left 
         if (battleDirection == direction.right || battleDirection == direction.down)
-            gameController.startBattle(currTargeted, enemyController.enemyUnits[i], false, true);
+            StartCoroutine(gameController.startBattle(currTargeted, enemyController.enemyUnits[i], false, true));
         // else put ally on the right
         else
             StartCoroutine(gameController.startBattle(enemyController.enemyUnits[i], currTargeted, true, true));
