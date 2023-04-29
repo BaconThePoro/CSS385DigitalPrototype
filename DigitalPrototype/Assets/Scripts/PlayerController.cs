@@ -40,6 +40,7 @@ public class PlayerController : MonoBehaviour
     private float tileY = 0;
 
     private GameObject[] playerUnits;
+    private Character[] playerStats;
 
     // Start is called before the first frame update
     void Start()
@@ -64,10 +65,13 @@ public class PlayerController : MonoBehaviour
 
         // get a handle on each child for PlayerController
         playerUnits = new GameObject[transform.childCount];
+        playerStats = new Character[transform.childCount];
+
         int i = 0;
         foreach(Transform child in transform)
         {
             playerUnits[i] = child.gameObject;
+            playerStats[i] = playerUnits[i].GetComponent<Character>();
 
             Vector3 startPos = new Vector3(3f, -3f + i, -1f);
             playerUnits[i].transform.position = startPos;
@@ -94,7 +98,7 @@ public class PlayerController : MonoBehaviour
                 //Debug.Log("childCount is " + transform.childCount);
                 for (int i = 0; i < transform.childCount; i++)
                 {
-                    if (mousePos == playerUnits[i].transform.position)
+                    if (mousePos == playerUnits[i].transform.position && playerStats[i].isDead == false)
                     {
                         // target ally
                         if (currTargeted == null)
@@ -109,7 +113,8 @@ public class PlayerController : MonoBehaviour
 
                         return;
                     }
-                    else if (mousePos == enemyController.enemyUnits[i].transform.position)
+                    else if (mousePos == enemyController.enemyUnits[i].transform.position && enemyController.enemyStats[i].isDead == false
+                        )
                     {
                         // no ally selected target enemy
                         if (currTargeted == null)
@@ -298,7 +303,7 @@ public class PlayerController : MonoBehaviour
     {
         for (int i = 0; i < transform.childCount; i++)
         {
-            if (playerUnits[i].transform.position == pos)
+            if (playerUnits[i].transform.position == pos && playerStats[i].isDead == false)
             {
                 return true;
             }
@@ -317,6 +322,9 @@ public class PlayerController : MonoBehaviour
         //Debug.Log("Clicked ally");
         //Debug.Log("i: " + i);
         //Debug.Log("playerUnit @ " + i + " is " + playerUnits[i].transform.name);
+        if (playerStats[i].isDead == true)
+            return;
+
         currTargeted = playerUnits[i];
         currTargetedStats = currTargeted.GetComponent<Character>();
         isTargetEnemy = false;
@@ -407,7 +415,7 @@ public class PlayerController : MonoBehaviour
     {
         for (int i = 0; i < transform.childCount; i++)
         {
-            playerUnits[i].GetComponent<Character>().resetMove();
+            playerStats[i].resetMove();
         }
     }
 
@@ -448,7 +456,16 @@ public class PlayerController : MonoBehaviour
     {
         for (int i = 0; i < transform.childCount; i++)
         {
-            playerUnits[i].gameObject.SetActive(true);
+            if (playerStats[i].isDead == false)
+                playerUnits[i].gameObject.SetActive(true);
+        }
+    }
+
+    public void comeBackToLife()
+    {
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            playerStats[i].isDead = false;
         }
     }
 }

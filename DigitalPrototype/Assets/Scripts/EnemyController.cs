@@ -11,6 +11,7 @@ public class EnemyController : MonoBehaviour
     private GameController gameController = null;
 
     public GameObject[] enemyUnits;
+    public Character[] enemyStats;
 
     public Tilemap currTilemap = null;
     // dont set in here, they grab value from GameController
@@ -26,10 +27,12 @@ public class EnemyController : MonoBehaviour
 
         // get a handle on each child for EnemyController
         enemyUnits = new GameObject[transform.childCount];
+        enemyStats = new Character[transform.childCount];
         int i = 0;
         foreach (Transform child in transform)
         {
             enemyUnits[i] = child.gameObject;
+            enemyStats[i] = enemyUnits[i].GetComponent<Character>();
           
             // enemy units go on -5
             Vector3 startPos = new Vector3(-4f, -2f + i, -1f);
@@ -62,7 +65,7 @@ public class EnemyController : MonoBehaviour
     {
         for (int i = 0; i < transform.childCount; i++)
         {
-            if (enemyUnits[i].transform.position == pos)
+            if (enemyUnits[i].transform.position == pos && enemyStats[i].isDead == false)
             {
                 return true;
             }
@@ -90,7 +93,16 @@ public class EnemyController : MonoBehaviour
     {
         for (int i = 0; i < transform.childCount; i++)
         {
-            enemyUnits[i].gameObject.SetActive(true);
+            if (enemyUnits[i].GetComponent<Character>().isDead == false)
+                enemyUnits[i].gameObject.SetActive(true);
+        }
+    }
+
+    public void comeBackToLife()
+    {
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            enemyStats[i].isDead = false;
         }
     }
 }

@@ -362,6 +362,9 @@ public class GameController : MonoBehaviour
 
     public void Attack(Character attacker, Character damageTaker)
     {
+        if (attacker.isDead == true || damageTaker.isDead == true)
+            return;
+
         // if attacker has a sword
         if (attacker.weapon == 1)
         {
@@ -369,8 +372,8 @@ public class GameController : MonoBehaviour
             // make sure you cant do negative damage
             if (damageMinusDefense < 0)
                 damageMinusDefense = 0;
-
-            damageTaker.hpLeft = damageTaker.hpLeft - damageMinusDefense;
+            
+            damageTaker.takeDamage(damageMinusDefense);
         }
     }
 

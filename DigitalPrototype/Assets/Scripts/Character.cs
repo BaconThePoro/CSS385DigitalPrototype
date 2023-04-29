@@ -13,9 +13,9 @@ public class Character : MonoBehaviour
     public int RES = 1;
     public int SPD = 1;
     public int MOV = 1;
-
     public int hpLeft;
     public int movLeft;
+    public bool isDead = false; 
 
     public int weapon = 1;
     // 1. Sword
@@ -26,7 +26,19 @@ public class Character : MonoBehaviour
 
     public void takeDamage(int amount)
     {
-        hpLeft = hpLeft - amount; 
+        hpLeft = hpLeft - amount;
+
+        if (hpLeft < 0)
+            hpLeft = 0;
+        if (hpLeft <= 0)
+            die();
+
+    }
+
+    public void die()
+    {
+        isDead = true;
+        gameObject.SetActive(false);
     }
 
     public void resetMove()
