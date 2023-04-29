@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour
     private float mapBoundPlusX = 8f;
     private float mapBoundPlusY = 4f;
     private float mapBoundMinusX = -9f;
-    private float mapBoundMinusY = -8f;
+    private float mapBoundMinusY = -5f;
 
 
     private GameObject[] playerUnits;
@@ -356,7 +356,11 @@ public class PlayerController : MonoBehaviour
 
     void moveAlly(Vector3Int mousePos)
     {
-        //if (mousePos)
+        if (mousePos.x > mapBoundPlusX || mousePos.x < mapBoundMinusX || mousePos.y > mapBoundPlusY || mousePos.y < mapBoundMinusY)
+        {
+            Debug.Log("Movement area out of bounds, cancelling movement");
+            return;
+        }
 
         Vector3 distanceTraveled = mousePos - currTargeted.transform.position;
         currTargeted.transform.position = mousePos;
