@@ -76,7 +76,8 @@ public class GameController : MonoBehaviour
     // world limit is limit camera should be movable
     float worldLimX = 10f;
     float worldLimY = 5f;
-    float camMoveAmount = 0.05f;
+    float camMoveAmount = 0.01f;
+    float panBorderThickness = 30f;
 
 
     // Start is called before the first frame update
@@ -101,22 +102,26 @@ public class GameController : MonoBehaviour
         if (currGameMode == gameMode.MapMode)
         {
             // camera move up
-            if (Input.GetKey(KeyCode.W) && mainCamera.transform.position.y < worldLimY)
+            if (Input.GetKey(KeyCode.W) && mainCamera.transform.position.y < worldLimY 
+                || Input.mousePosition.y >= Screen.height - panBorderThickness && mainCamera.transform.position.y < worldLimY)
             {
                 mainCamera.transform.position = new Vector3(mainCamera.transform.position.x, mainCamera.transform.position.y + camMoveAmount, mainCamera.transform.position.z); 
             }
             // camera move down
-            if (Input.GetKey(KeyCode.S) && mainCamera.transform.position.y > -worldLimY)
+            if (Input.GetKey(KeyCode.S) && mainCamera.transform.position.y > -worldLimY
+                || Input.mousePosition.y <= panBorderThickness && mainCamera.transform.position.y > -worldLimY)
             {
                 mainCamera.transform.position = new Vector3(mainCamera.transform.position.x, mainCamera.transform.position.y - camMoveAmount, mainCamera.transform.position.z);
             }
             // camera move left
-            if (Input.GetKey(KeyCode.A) && mainCamera.transform.position.x > -worldLimX)
+            if (Input.GetKey(KeyCode.A) && mainCamera.transform.position.x > -worldLimX
+                || Input.mousePosition.x <= panBorderThickness && mainCamera.transform.position.x > -worldLimX)
             {
                 mainCamera.transform.position = new Vector3(mainCamera.transform.position.x - camMoveAmount, mainCamera.transform.position.y, mainCamera.transform.position.z);
             }
             // camera move right
-            if (Input.GetKey(KeyCode.D) && mainCamera.transform.position.x < worldLimX)
+            if (Input.GetKey(KeyCode.D) && mainCamera.transform.position.x < worldLimX
+                || Input.mousePosition.x >= Screen.width - panBorderThickness && mainCamera.transform.position.x < worldLimY)
             {
                 mainCamera.transform.position = new Vector3(mainCamera.transform.position.x + camMoveAmount, mainCamera.transform.position.y, mainCamera.transform.position.z);
             }
