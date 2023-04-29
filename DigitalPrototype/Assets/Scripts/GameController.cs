@@ -135,6 +135,12 @@ public class GameController : MonoBehaviour
                 currTilemap.SetTile(mousePosZHover, hoverTile);
                 previousMousePos = mousePos;
             }
+
+            // if user presses right click, end turn
+            if (Input.GetMouseButtonDown(1) && currTurnMode == turnMode.PlayerTurn)
+            {
+                endTurnButtonPressed();
+            }
         }
     }
 
@@ -523,6 +529,7 @@ public class GameController : MonoBehaviour
             else
             {
                 playerController.ourTurn = false;
+                playerController.deselectTarget();
 
                 // turn off end turn button for player since it isnt their turn
                 endTurnButton.gameObject.SetActive(false);
