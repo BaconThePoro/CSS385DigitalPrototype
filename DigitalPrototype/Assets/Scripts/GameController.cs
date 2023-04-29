@@ -23,6 +23,10 @@ public class GameController : MonoBehaviour
     public GameObject Battlemode = null;
     public GameObject leftHPUI = null;
     public GameObject rightHPUI = null;
+    public GameObject leftDamageUI = null;
+    public GameObject rightDamageUI = null;
+    private TMPro.TMP_Text leftDamageTXT = null;
+    private TMPro.TMP_Text rightDamageTXT = null;
 
     // enum for whose turn it is currently, the players or the enemies.
     public enum turnMode { PlayerTurn, EnemyTurn };
@@ -62,7 +66,7 @@ public class GameController : MonoBehaviour
     private float savedCamSize;
     private enum doubleAttack { neitherDouble, leftDoubles, rightDoubles };
     private int doubleRequirement = 4;
-    private float inbetweenAttackDelay = 0.25f;
+    private float inbetweenAttackDelay = 0.5f;
     private float animationDuration = 0.25f;
 
     // set these ones 
@@ -81,6 +85,8 @@ public class GameController : MonoBehaviour
         playerController = playerControllerObj.GetComponent<PlayerController>();
         enemyController = enemyControllerObj.GetComponent<EnemyController>();
         mainCamera = mainCameraObj.GetComponent<Camera>();
+        leftDamageTXT = leftDamageUI.GetComponent<TMPro.TextMeshProUGUI>();
+        rightDamageTXT = rightDamageUI.GetComponent<TMPro.TextMeshProUGUI>();
 
         changeTurn(turnMode.PlayerTurn);
         changeMode(gameMode.MapMode);
@@ -157,6 +163,8 @@ public class GameController : MonoBehaviour
         mainCamera.orthographicSize = camBattleSize;
         leftHPUI.SetActive(true);
         rightHPUI.SetActive(true);
+        leftDamageUI.SetActive(true);
+        rightDamageUI.SetActive(true);
         updateBattleHP(leftStats, rightStats);
         //
 
@@ -181,7 +189,7 @@ public class GameController : MonoBehaviour
         //
 
         // delay for 1.5s so user can see before battle starts
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1.5f);
 
         // figure out if one battler is double attacking or not
         doubleAttack whoDoubles;
@@ -205,15 +213,16 @@ public class GameController : MonoBehaviour
             {                     
                 StartCoroutine(LerpPosition(leftChar, leftTarget, animationDuration));
                 yield return new WaitForSeconds(.5f);
-                Attack(leftStats, rightStats);
+                StartCoroutine(damageTXT(true, Attack(leftStats, rightStats)));
                 updateBattleHP(leftStats, rightStats);
+                
 
                 // delay
                 yield return new WaitForSeconds(inbetweenAttackDelay);
 
                 StartCoroutine(LerpPosition(rightChar, rightTarget, animationDuration));
                 yield return new WaitForSeconds(.5f);
-                Attack(rightStats, leftStats);
+                StartCoroutine(damageTXT(false, Attack(rightStats, leftStats)));
                 updateBattleHP(leftStats, rightStats);
 
                 if (whoDoubles == doubleAttack.leftDoubles && leftStats.isDead == false && rightStats.isDead == false)
@@ -223,7 +232,7 @@ public class GameController : MonoBehaviour
                    
                     StartCoroutine(LerpPosition(leftChar, leftTarget, animationDuration));
                     yield return new WaitForSeconds(.5f);
-                    Attack(leftStats, rightStats);
+                    StartCoroutine(damageTXT(true, Attack(leftStats, rightStats)));
                     updateBattleHP(leftStats, rightStats);
                 }
 
@@ -234,7 +243,7 @@ public class GameController : MonoBehaviour
                     
                     StartCoroutine(LerpPosition(rightChar, rightTarget, animationDuration));
                     yield return new WaitForSeconds(.5f);
-                    Attack(rightStats, leftStats);
+                    StartCoroutine(damageTXT(false, Attack(rightStats, leftStats)));
                     updateBattleHP(leftStats, rightStats);
                 }
 
@@ -245,7 +254,7 @@ public class GameController : MonoBehaviour
                 // player attack             
                 StartCoroutine(LerpPosition(rightChar, rightTarget, animationDuration));
                 yield return new WaitForSeconds(.5f);
-                Attack(rightStats, leftStats);
+                StartCoroutine(damageTXT(false, Attack(rightStats, leftStats)));
                 updateBattleHP(leftStats, rightStats);
 
                 // delay
@@ -254,7 +263,7 @@ public class GameController : MonoBehaviour
                 // enemy attack               
                 StartCoroutine(LerpPosition(leftChar, leftTarget, animationDuration));
                 yield return new WaitForSeconds(.5f);
-                Attack(leftStats, rightStats);
+                StartCoroutine(damageTXT(true, Attack(leftStats, rightStats)));
                 updateBattleHP(leftStats, rightStats);
 
 
@@ -265,7 +274,7 @@ public class GameController : MonoBehaviour
                     
                     StartCoroutine(LerpPosition(leftChar, leftTarget, animationDuration));
                     yield return new WaitForSeconds(.5f);
-                    Attack(leftStats, rightStats);
+                    StartCoroutine(damageTXT(true, Attack(leftStats, rightStats)));
                     updateBattleHP(leftStats, rightStats);
                 }
 
@@ -276,7 +285,7 @@ public class GameController : MonoBehaviour
                    
                     StartCoroutine(LerpPosition(rightChar, rightTarget, animationDuration));
                     yield return new WaitForSeconds(.5f);
-                    Attack(rightStats, leftStats);
+                    StartCoroutine(damageTXT(false, Attack(rightStats, leftStats)));
                     updateBattleHP(leftStats, rightStats);
                 }
             }
@@ -291,7 +300,7 @@ public class GameController : MonoBehaviour
                 // enemy attack              
                 StartCoroutine(LerpPosition(leftChar, leftTarget, animationDuration));
                 yield return new WaitForSeconds(.5f);
-                Attack(leftStats, rightStats);
+                StartCoroutine(damageTXT(true, Attack(leftStats, rightStats)));
                 updateBattleHP(leftStats, rightStats);
 
                 // delay
@@ -300,7 +309,7 @@ public class GameController : MonoBehaviour
                 // player attack            
                 StartCoroutine(LerpPosition(rightChar, rightTarget, animationDuration));
                 yield return new WaitForSeconds(.5f);
-                Attack(rightStats, leftStats);
+                StartCoroutine(damageTXT(false, Attack(rightStats, leftStats)));
                 updateBattleHP(leftStats, rightStats);
 
 
@@ -311,7 +320,7 @@ public class GameController : MonoBehaviour
                    
                     StartCoroutine(LerpPosition(leftChar, leftTarget, animationDuration));
                     yield return new WaitForSeconds(.5f);
-                    Attack(leftStats, rightStats);
+                    StartCoroutine(damageTXT(true, Attack(leftStats, rightStats)));
                     updateBattleHP(leftStats, rightStats);
                 }
 
@@ -321,7 +330,7 @@ public class GameController : MonoBehaviour
                     yield return new WaitForSeconds(inbetweenAttackDelay);                   
                     StartCoroutine(LerpPosition(rightChar, rightTarget, animationDuration));
                     yield return new WaitForSeconds(.5f);
-                    Attack(rightStats, leftStats);
+                    StartCoroutine(damageTXT(false, Attack(rightStats, leftStats)));
                     updateBattleHP(leftStats, rightStats);
                 }
             }
@@ -331,7 +340,7 @@ public class GameController : MonoBehaviour
                 // enemy attack               
                 StartCoroutine(LerpPosition(rightChar, rightTarget, animationDuration));
                 yield return new WaitForSeconds(.5f);
-                Attack(rightStats, leftStats);
+                StartCoroutine(damageTXT(false, Attack(rightStats, leftStats)));
                 updateBattleHP(leftStats, rightStats);
 
                 // delay
@@ -340,7 +349,7 @@ public class GameController : MonoBehaviour
                 // player attack               
                 StartCoroutine(LerpPosition(leftChar, leftTarget, animationDuration));
                 yield return new WaitForSeconds(.5f);
-                Attack(leftStats, rightStats);
+                StartCoroutine(damageTXT(true, Attack(leftStats, rightStats)));
                 updateBattleHP(leftStats, rightStats);
 
 
@@ -351,7 +360,7 @@ public class GameController : MonoBehaviour
                    
                     StartCoroutine(LerpPosition(leftChar, leftTarget, animationDuration));
                     yield return new WaitForSeconds(.5f);
-                    Attack(leftStats, rightStats);
+                    StartCoroutine(damageTXT(true, Attack(leftStats, rightStats)));
                     updateBattleHP(leftStats, rightStats);
                 }
 
@@ -362,7 +371,7 @@ public class GameController : MonoBehaviour
                     
                     StartCoroutine(LerpPosition(rightChar, rightTarget, animationDuration));
                     yield return new WaitForSeconds(.5f);
-                    Attack(rightStats, leftStats);
+                    StartCoroutine(damageTXT(false, Attack(rightStats, leftStats)));
                     updateBattleHP(leftStats, rightStats);
                 }
             }
@@ -383,6 +392,10 @@ public class GameController : MonoBehaviour
         // return to mapmode
         leftHPUI.SetActive(false);
         rightHPUI.SetActive(false);
+        leftDamageTXT.text = "";
+        rightDamageTXT.text = "";
+        leftDamageUI.SetActive(false);
+        rightDamageUI.SetActive(false);
         turnPanel.SetActive(true);
         playerController.activateChildren();
         enemyController.activateChildren();
@@ -398,6 +411,29 @@ public class GameController : MonoBehaviour
             playerController.ourTurn = false;
     }
     
+    // false == left hurt, true == right hurt
+    public IEnumerator damageTXT(bool side, int damageNum)
+    {
+        // dead char attack number
+        if (damageNum == -999)
+            yield return null;
+        else
+        {
+            if (!side)
+            {
+                leftDamageTXT.text = "(-" + damageNum + ")";
+            }
+            else
+            {
+                rightDamageTXT.text = "(-" + damageNum + ")";
+            }
+
+            yield return new WaitForSeconds(0.75f);
+
+            leftDamageTXT.text = "";
+            rightDamageTXT.text = "";
+        }
+    }
 
     public IEnumerator waitTime(float waitTime)
     {
@@ -429,21 +465,24 @@ public class GameController : MonoBehaviour
     }
     
 
-    public void Attack(Character attacker, Character damageTaker)
+    public int Attack(Character attacker, Character damageTaker)
     {
         if (attacker.isDead == true || damageTaker.isDead == true)
-            return;
+            return -999;
 
+        int damageMinusDefense = -1;
         // if attacker has a sword
         if (attacker.weapon == 1)
         {
-            int damageMinusDefense = attacker.STR - damageTaker.DEF;
+            damageMinusDefense = attacker.STR - damageTaker.DEF;
             // make sure you cant do negative damage
             if (damageMinusDefense < 0)
                 damageMinusDefense = 0;
             
             damageTaker.takeDamage(damageMinusDefense);
         }
+
+        return damageMinusDefense;
     }
 
     public void updateBattleHP(Character leftStats, Character rightStats)
