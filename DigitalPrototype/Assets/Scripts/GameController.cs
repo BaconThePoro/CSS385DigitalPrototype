@@ -215,8 +215,13 @@ public class GameController : MonoBehaviour
 
                 // start animation coroutine
 <<<<<<< HEAD
+<<<<<<< HEAD
                 
 
+=======
+                StartCoroutine(LerpPosition(leftChar,rightKobeTarget,.5f));
+                yield return new WaitForSeconds(.5f);
+>>>>>>> 32e63ac9487bc0a9d521283e2f42a0433481c953
 
 =======
                 StartCoroutine(LerpPosition(leftChar,rightKobeTarget,.5f));
