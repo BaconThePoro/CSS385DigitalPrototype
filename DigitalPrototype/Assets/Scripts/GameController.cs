@@ -202,29 +202,21 @@ public class GameController : MonoBehaviour
         {
             // player is on left
             if (playerSide == false)
-            {
-                // start animation coroutine            
+            {                     
                 StartCoroutine(LerpPosition(leftChar, leftTarget, animationDuration));
                 yield return new WaitForSeconds(.5f);
-
-                // player attack
                 Attack(leftStats, rightStats);
                 updateBattleHP(leftStats, rightStats);
-
-                StartCoroutine(LerpPosition(leftChar, leftTarget, animationDuration));
-                yield return new WaitForSeconds(.5f);
 
                 // delay
                 yield return new WaitForSeconds(inbetweenAttackDelay);
 
-                // enemy attack
-                Attack(rightStats, leftStats);
-                updateBattleHP(leftStats, rightStats);
                 StartCoroutine(LerpPosition(rightChar, rightTarget, animationDuration));
                 yield return new WaitForSeconds(.5f);
+                Attack(rightStats, leftStats);
+                updateBattleHP(leftStats, rightStats);
 
-
-                if (whoDoubles == doubleAttack.leftDoubles)
+                if (whoDoubles == doubleAttack.leftDoubles && leftStats.isDead == false && rightStats.isDead == false)
                 {
                     // delay
                     yield return new WaitForSeconds(inbetweenAttackDelay);
@@ -235,7 +227,7 @@ public class GameController : MonoBehaviour
                     updateBattleHP(leftStats, rightStats);
                 }
 
-                else if (whoDoubles == doubleAttack.rightDoubles)
+                else if (whoDoubles == doubleAttack.rightDoubles && leftStats.isDead == false && rightStats.isDead == false)
                 {
                     // delay
                     yield return new WaitForSeconds(inbetweenAttackDelay);
@@ -266,7 +258,7 @@ public class GameController : MonoBehaviour
                 updateBattleHP(leftStats, rightStats);
 
 
-                if (whoDoubles == doubleAttack.leftDoubles)
+                if (whoDoubles == doubleAttack.leftDoubles && leftStats.isDead == false && rightStats.isDead == false )
                 {
                     // delay
                     yield return new WaitForSeconds(inbetweenAttackDelay);
@@ -277,7 +269,7 @@ public class GameController : MonoBehaviour
                     updateBattleHP(leftStats, rightStats);
                 }
 
-                else if (whoDoubles == doubleAttack.rightDoubles)
+                else if (whoDoubles == doubleAttack.rightDoubles && leftStats.isDead == false && rightStats.isDead == false)
                 {
                     // delay
                     yield return new WaitForSeconds(inbetweenAttackDelay);
@@ -312,7 +304,7 @@ public class GameController : MonoBehaviour
                 updateBattleHP(leftStats, rightStats);
 
 
-                if (whoDoubles == doubleAttack.leftDoubles)
+                if (whoDoubles == doubleAttack.leftDoubles && leftStats.isDead == false && rightStats.isDead == false)
                 {
                     // delay
                     yield return new WaitForSeconds(inbetweenAttackDelay);
@@ -323,7 +315,7 @@ public class GameController : MonoBehaviour
                     updateBattleHP(leftStats, rightStats);
                 }
 
-                else if (whoDoubles == doubleAttack.rightDoubles)
+                else if (whoDoubles == doubleAttack.rightDoubles && leftStats.isDead == false && rightStats.isDead == false)
                 {
                     // delay
                     yield return new WaitForSeconds(inbetweenAttackDelay);                   
@@ -352,7 +344,7 @@ public class GameController : MonoBehaviour
                 updateBattleHP(leftStats, rightStats);
 
 
-                if (whoDoubles == doubleAttack.leftDoubles)
+                if (whoDoubles == doubleAttack.leftDoubles && leftStats.isDead == false && rightStats.isDead == false)
                 {
                     // delay
                     yield return new WaitForSeconds(inbetweenAttackDelay);
@@ -363,7 +355,7 @@ public class GameController : MonoBehaviour
                     updateBattleHP(leftStats, rightStats);
                 }
 
-                else if (whoDoubles == doubleAttack.rightDoubles)
+                else if (whoDoubles == doubleAttack.rightDoubles && leftStats.isDead == false && rightStats.isDead == false)
                 {
                     // delay
                     yield return new WaitForSeconds(inbetweenAttackDelay);
