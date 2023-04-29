@@ -1,9 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine.Tilemaps;
+using Quaternion = UnityEngine.Quaternion;
+using Vector2 = UnityEngine.Vector2;
+using Vector3 = UnityEngine.Vector3;
 
 public class GameController : MonoBehaviour
 {
@@ -41,8 +46,8 @@ public class GameController : MonoBehaviour
     private Vector3Int previousMousePos = new Vector3Int(0, 0, -999);
 
     // stuff for battlemode
-    private Vector3 leftBattlePos = new Vector3(-2, 0, -1);
-    private Vector3 rightBattlePos = new Vector3(2, 0, -1);
+    private static Vector3 leftBattlePos = new Vector3(-2, 0, -1);
+    private static Vector3 rightBattlePos = new Vector3(2, 0, -1);
     private Vector3 camBattlePos = new Vector3(0, 0.5f, -50);
     private float camBattleSize = 2;
     private Quaternion leftBattleQua = new Quaternion();
@@ -55,7 +60,15 @@ public class GameController : MonoBehaviour
     private float savedCamSize;
     private enum doubleAttack { neitherDouble, leftDoubles, rightDoubles };
     private int doubleRequirement = 4;
-    private float inbetweenAttackDelay = 1.5f; 
+    private float inbetweenAttackDelay = 1.5f;
+    private bool attackOrDefend;
+    bool theKobeWaitBool;
+    //Target Position for the orbs to move too in battle
+    public Vector3 leftTarget = leftBattlePos + new Vector3(0.1f,0f,0f);
+    public Vector3 rightKobeTarget = rightBattlePos + new Vector3(-0.1f,0f,0f);
+    //Duration for Animation
+    public float KobeDuration;
+
     //
 
     // set these ones 
@@ -200,7 +213,8 @@ public class GameController : MonoBehaviour
                 updateBattleHP(leftStats, rightStats);
 
                 // start animation coroutine
-
+                StartCoroutine(LerpPosition(leftChar,rightKobeTarget,.5f));
+                yield return new WaitForSeconds(.5f);
 
                 // delay
                 yield return new WaitForSeconds(inbetweenAttackDelay);
@@ -208,6 +222,9 @@ public class GameController : MonoBehaviour
                 // enemy attack
                 Attack(rightStats, leftStats);
                 updateBattleHP(leftStats, rightStats);
+                StartCoroutine(LerpPosition(rightChar,leftTarget, .5f));
+                yield return new WaitForSeconds(.5f);
+
 
                 if (whoDoubles == doubleAttack.leftDoubles)
                 {
@@ -215,6 +232,9 @@ public class GameController : MonoBehaviour
                     yield return new WaitForSeconds(inbetweenAttackDelay);
                     Attack(leftStats, rightStats);
                     updateBattleHP(leftStats, rightStats);
+                    StartCoroutine(LerpPosition(leftChar,rightKobeTarget,.5f));
+                    yield return new WaitForSeconds(.5f);
+    
                 }
 
                 else if (whoDoubles == doubleAttack.rightDoubles)
@@ -223,6 +243,9 @@ public class GameController : MonoBehaviour
                     yield return new WaitForSeconds(inbetweenAttackDelay);
                     Attack(rightStats, leftStats);
                     updateBattleHP(leftStats, rightStats);
+                    StartCoroutine(LerpPosition(rightChar,leftTarget,.5f));
+                    yield return new WaitForSeconds(.5f);
+
                 }
 
             }
@@ -232,13 +255,19 @@ public class GameController : MonoBehaviour
                 // player attack
                 Attack(rightStats, leftStats);
                 updateBattleHP(leftStats, rightStats);
+                StartCoroutine(LerpPosition(rightChar,leftTarget,.25f));
+                yield return new WaitForSeconds(.5f);
 
+                
                 // delay
                 yield return new WaitForSeconds(inbetweenAttackDelay);
 
                 // enemy attack
                 Attack(leftStats, rightStats);
                 updateBattleHP(leftStats, rightStats);
+                StartCoroutine(LerpPosition(leftChar,rightKobeTarget,.25f));
+                yield return new WaitForSeconds(.5f);
+
 
 
                 if (whoDoubles == doubleAttack.leftDoubles)
@@ -247,6 +276,11 @@ public class GameController : MonoBehaviour
                     yield return new WaitForSeconds(inbetweenAttackDelay);
                     Attack(leftStats, rightStats);
                     updateBattleHP(leftStats, rightStats);
+                    StartCoroutine(LerpPosition(leftChar,rightKobeTarget,.25f));
+                    yield return new WaitForSeconds(.5f);
+
+
+
                 }
 
                 else if (whoDoubles == doubleAttack.rightDoubles)
@@ -255,6 +289,10 @@ public class GameController : MonoBehaviour
                     yield return new WaitForSeconds(inbetweenAttackDelay);
                     Attack(rightStats, leftStats);
                     updateBattleHP(leftStats, rightStats);
+                    StartCoroutine(LerpPosition(rightChar,leftTarget,.25f));
+                    yield return new WaitForSeconds(.5f);
+
+                    
                 }
             }
         }
@@ -268,6 +306,10 @@ public class GameController : MonoBehaviour
                 // enemy attack
                 Attack(leftStats, rightStats);
                 updateBattleHP(leftStats, rightStats);
+                StartCoroutine(LerpPosition(leftChar,rightKobeTarget,.25f));
+                yield return new WaitForSeconds(.5f);
+
+
 
                 // delay
                 yield return new WaitForSeconds(inbetweenAttackDelay);
@@ -275,6 +317,10 @@ public class GameController : MonoBehaviour
                 // player attack
                 Attack(rightStats, leftStats);
                 updateBattleHP(leftStats, rightStats);
+                StartCoroutine(LerpPosition(rightChar,leftTarget,.25f));
+                yield return new WaitForSeconds(.5f);
+
+
 
                 if (whoDoubles == doubleAttack.leftDoubles)
                 {
@@ -282,6 +328,11 @@ public class GameController : MonoBehaviour
                     yield return new WaitForSeconds(inbetweenAttackDelay);
                     Attack(leftStats, rightStats);
                     updateBattleHP(leftStats, rightStats);
+                    StartCoroutine(LerpPosition(leftChar,rightKobeTarget,.25f));
+                    yield return new WaitForSeconds(.5f);
+
+
+
                 }
 
                 else if (whoDoubles == doubleAttack.rightDoubles)
@@ -290,6 +341,11 @@ public class GameController : MonoBehaviour
                     yield return new WaitForSeconds(inbetweenAttackDelay);
                     Attack(rightStats, leftStats);
                     updateBattleHP(leftStats, rightStats);
+                    StartCoroutine(LerpPosition(rightChar,leftTarget,.25f));
+                    yield return new WaitForSeconds(.5f);
+
+
+
                 }
             }
             // enemy is on right
@@ -298,6 +354,11 @@ public class GameController : MonoBehaviour
                 // enemy attack
                 Attack(rightStats, leftStats);
                 updateBattleHP(leftStats, rightStats);
+                StartCoroutine(LerpPosition(rightChar,leftTarget,.25f));
+                yield return new WaitForSeconds(.5f);
+
+
+
 
                 // delay
                 yield return new WaitForSeconds(inbetweenAttackDelay);
@@ -305,6 +366,11 @@ public class GameController : MonoBehaviour
                 // player attack
                 Attack(leftStats, rightStats);
                 updateBattleHP(leftStats, rightStats);
+                StartCoroutine(LerpPosition(leftChar,rightKobeTarget,.25f));
+                yield return new WaitForSeconds(.5f);
+
+
+
 
                 if (whoDoubles == doubleAttack.leftDoubles)
                 {
@@ -312,6 +378,9 @@ public class GameController : MonoBehaviour
                     yield return new WaitForSeconds(inbetweenAttackDelay);
                     Attack(leftStats, rightStats);
                     updateBattleHP(leftStats, rightStats);
+                    StartCoroutine(LerpPosition(leftChar,rightKobeTarget,.25f));
+                    yield return new WaitForSeconds(.5f);
+
                 }
 
                 else if (whoDoubles == doubleAttack.rightDoubles)
@@ -320,6 +389,10 @@ public class GameController : MonoBehaviour
                     yield return new WaitForSeconds(inbetweenAttackDelay);
                     Attack(rightStats, leftStats);
                     updateBattleHP(leftStats, rightStats);
+                    StartCoroutine(LerpPosition(rightChar,leftTarget,.25f));
+                    yield return new WaitForSeconds(.5f);
+
+
                 }
             }
         }
@@ -353,6 +426,38 @@ public class GameController : MonoBehaviour
         else
             playerController.ourTurn = false;
     }
+    
+
+    public IEnumerator waitTime(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+    }
+
+    public IEnumerator LerpPosition(GameObject theObject, Vector3 targetPosition, float duration)
+    {
+        float time = 0;
+        Vector2 startPosition = theObject.transform.position;
+        while (time < duration )
+        {
+            theObject.transform.position = Vector2.Lerp(startPosition, targetPosition, time / duration);
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        time = 0;
+        
+        theObject.transform.position = targetPosition;
+        while (time < duration)
+        {
+            theObject.transform.position = Vector2.Lerp(targetPosition, startPosition, time / duration);
+            time += Time.deltaTime;
+            yield return null;
+ 
+        }
+     
+
+    }
+    
 
     public void Attack(Character attacker, Character damageTaker)
     {
