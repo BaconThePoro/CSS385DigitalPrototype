@@ -470,9 +470,14 @@ public class GameController : MonoBehaviour
 
         // return to either player or enemy turn
         if (playerTurn == true)
+        {
             playerController.ourTurn = true;
+            changeTurn(turnMode.PlayerTurn);
+        }
         else
+        {
             playerController.ourTurn = false;
+        }
     }
     
     // false == left hurt, true == right hurt
@@ -633,7 +638,7 @@ public class GameController : MonoBehaviour
                 // turn off end turn button for player since it isnt their turn
                 endTurnButton.gameObject.SetActive(false);
 
-                enemyController.enemyTurn();
+                StartCoroutine(enemyController.enemyTurn());
             }
         }
         else

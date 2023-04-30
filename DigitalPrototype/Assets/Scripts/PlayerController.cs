@@ -50,8 +50,8 @@ public class PlayerController : MonoBehaviour
     private GameObject[] moveAreas;
     private GameObject[] attackAreas;
 
-    private GameObject[] playerUnits;
-    private Character[] playerStats;
+    public GameObject[] playerUnits;
+    public Character[] playerStats;
 
     // Start is called before the first frame update
     void Start()

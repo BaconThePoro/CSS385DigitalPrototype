@@ -9,6 +9,8 @@ public class EnemyController : MonoBehaviour
     // must be connected via unity editor
     public GameObject gameControllerObj = null;
     private GameController gameController = null;
+    public GameObject playerControllerObj = null;
+    private PlayerController playerController = null;
 
     public GameObject[] enemyUnits;
     public Character[] enemyStats;
@@ -18,10 +20,17 @@ public class EnemyController : MonoBehaviour
     private float tileX = 0;
     private float tileY = 0;
 
+    private float inBetweenDelay = 1f;
+    private int aggroRange = 5;
+    public bool battleDone = false; 
+
+    private enum direction { left, right, up, down };
+
     // Start is called before the first frame update
     void Start()
     {
         gameController = gameControllerObj.GetComponent<GameController>();
+        playerController = playerControllerObj.GetComponent<PlayerController>();
         tileX = gameController.tileX;
         tileY = gameController.tileY;
 
@@ -59,17 +68,107 @@ public class EnemyController : MonoBehaviour
         return true; 
     }
 
-    public void enemyTurn()
+    public IEnumerator enemyTurn()
     {
-        Debug.Log("Enemy Turn start");            
-        // do stuff
-        //
-        //
+        Debug.Log("Enemy Turn start");
+
+        // find our target (whoever is closest)
+        for (int i = 0; i < enemyUnits.Length; i++)
+        {
+            GameObject target = null;
+            Vector3 targetVector = Vector3.zero;
+            float targetDistance = 999;
+
+            for (int j = 0; j < playerController.playerUnits.Length; j++)
+            {
+                Vector3 distanceVector = playerController.playerUnits[j].transform.position - enemyUnits[i].transform.position;
+                
+                if ( distanceVector.magnitude < targetDistance)
+                {
+                    target = playerController.playerUnits[j];
+                    targetVector = distanceVector;
+                    targetDistance = distanceVector.magnitude;
+                }
+            }
+
+            // if using sword
+            if (enemyStats[i].weapon == 1)
+            {
+                // if in range already
+                if ((targetVector.x == 1 && targetVector.y == 0) || (targetVector.x == 0 && targetVector.y == 1))
+                {
+                    // small delay at the start of every units turn
+                    yield return new WaitForSeconds(inBetweenDelay);
+                    // attack
+                    yield return StartCoroutine(beginBattle(i, target));
+
+
+                }
+                else
+                {
+                    
+                }
+
+
+            }
+            // using bow
+            else if (enemyStats[i].weapon == 2)
+            {
+
+            }
+
+
+
+
+
+
+
+
+
+
+        }
+
 
         // end turn whenever were finished
         //Debug.Log("Enemy turn end");
         //gameController.GetComponent<GameController>().changeTurn(GameController.turnMode.PlayerTurn);
-        StartCoroutine(waitCoroutine());
+        //yield return StartCoroutine(waitCoroutine());
+
+        yield return new WaitForSeconds(inBetweenDelay);
+        gameController.changeTurn(GameController.turnMode.PlayerTurn);
+        Debug.Log("Enemy turn end");
+    }
+
+    IEnumerator beginBattle(int i, GameObject target)
+    {
+        Debug.Log("battle time");
+
+        gameController.changeMode(GameController.gameMode.BattleMode);
+
+        // figure out which way to face (ally on left or right)
+        direction battleDirection = facingWhere(enemyUnits[i].transform.position, target.transform.position);
+
+        // calculate range of this battle
+        int battleRange = 0;
+        Vector3 distance = target.transform.position - enemyUnits[i].transform.position;
+        if ((Mathf.Abs(distance.x) == 1 && Mathf.Abs(distance.y) == 0)
+            || (Mathf.Abs(distance.x) == 0 && Mathf.Abs(distance.y) == 1))
+        {
+            battleRange = 1;
+        }
+        else if ((Mathf.Abs(distance.x) == 1 && Mathf.Abs(distance.y) == 1)
+            || (Mathf.Abs(distance.x) == 2 && Mathf.Abs(distance.y) == 0)
+            || (Mathf.Abs(distance.x) == 0 && Mathf.Abs(distance.y) == 2))
+        {
+            battleRange = 2;
+        }
+
+        // if facing to the right or down then put ally on the left 
+        if (battleDirection == direction.right || battleDirection == direction.down)
+            yield return StartCoroutine(gameController.startBattle(enemyUnits[i], target, true, false, battleRange));
+        // else put ally on the right
+        else
+            yield return StartCoroutine(gameController.startBattle(target, enemyUnits[i], false, false, battleRange));
     }
 
     public bool enemyHere(Vector3Int pos)
@@ -85,11 +184,22 @@ public class EnemyController : MonoBehaviour
         return false;
     }
 
-    IEnumerator waitCoroutine()
+    direction facingWhere(Vector3 allyPos, Vector3 enemyPos)
     {
-        yield return new WaitForSeconds(1);
-        gameController.changeTurn(GameController.turnMode.PlayerTurn);
-        Debug.Log("Enemy turn end");
+        Vector3 difference = enemyPos - allyPos;
+
+        if (difference.x < 0)
+            return direction.left;
+        else if (difference.x > 0)
+            return direction.right;
+
+        if (difference.y < 0)
+            return direction.down;
+        else if (difference.y > 0)
+            return direction.up;
+
+        Debug.Log("facingWhere() is broke, units somehow standing on top of each other");
+        return direction.left;
     }
 
     public void deactivateChildren()
