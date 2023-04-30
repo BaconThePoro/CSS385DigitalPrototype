@@ -76,9 +76,9 @@ public class GameController : MonoBehaviour
     public float tileY = 1;
 
     // world limit is limit camera should be movable
-    float worldLimX = 10f;
-    float worldLimY = 5f;
-    float camMoveAmount = 0.01f;
+    float worldLimX = 18f;
+    float worldLimY = 11f;
+    float camMoveAmount = 0.02f;
     float panBorderThickness = 30f;
 
 

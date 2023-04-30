@@ -39,10 +39,10 @@ public class PlayerController : MonoBehaviour
     // dont set in here, they grab value from GameController
     private float tileX = 0;
     private float tileY = 0;
-    private float mapBoundPlusX = 8f;
-    private float mapBoundPlusY = 4f;
-    private float mapBoundMinusX = -9f;
-    private float mapBoundMinusY = -5f;
+    private float mapBoundPlusX = 16f;
+    private float mapBoundPlusY = 10f;
+    private float mapBoundMinusX = -16f;
+    private float mapBoundMinusY = -10f;
 
     // movement area thingies
     public GameObject moveAreaParent = null;
