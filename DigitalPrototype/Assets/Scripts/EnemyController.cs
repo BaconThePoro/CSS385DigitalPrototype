@@ -22,7 +22,7 @@ public class EnemyController : MonoBehaviour
     private float tileY = 0;
 
     public float inBetweenDelay = .3f;
-    private int aggroRange = 5;
+    //private int aggroRange = 5;
     public bool battleDone = false; 
 
     private enum direction { left, right, up, down };
@@ -96,13 +96,16 @@ public class EnemyController : MonoBehaviour
 
                 for (int j = 0; j < playerController.playerUnits.Length; j++)
                 {
-                    Vector3 distanceVector = playerController.playerUnits[j].transform.position - enemyUnits[i].transform.position;
-
-                    if (distanceVector.magnitude < targetDistance)
+                    if (playerController.playerStats[j].isDead == false)
                     {
-                        target = playerController.playerUnits[j];
-                        targetVector = distanceVector;
-                        targetDistance = distanceVector.magnitude;
+                        Vector3 distanceVector = playerController.playerUnits[j].transform.position - enemyUnits[i].transform.position;
+
+                        if (distanceVector.magnitude < targetDistance)
+                        {
+                            target = playerController.playerUnits[j];
+                            targetVector = distanceVector;
+                            targetDistance = distanceVector.magnitude;
+                        }
                     }
                 }
 
