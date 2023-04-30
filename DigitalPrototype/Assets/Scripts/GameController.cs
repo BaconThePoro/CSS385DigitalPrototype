@@ -711,8 +711,11 @@ public class GameController : MonoBehaviour
             // if player turn
             if (currTurnMode == turnMode.PlayerTurn)
             {
-                playerController.resetAllMove();
-                playerController.ourTurn = true;
+                if (playerController.ourTurn == false)
+                {
+                    playerController.resetAllMove();
+                    playerController.ourTurn = true;
+                }
 
                 // give player back their end turn button
                 endTurnButton.gameObject.SetActive(true);
