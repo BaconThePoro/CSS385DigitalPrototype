@@ -45,14 +45,10 @@ public class PlayerController : MonoBehaviour
     private float mapBoundMinusY = -5f;
 
     // movement area thingies
-    public GameObject oneMovArea = null;
-    public GameObject twoMovArea = null;
-    public GameObject threeMovArea = null;
-    public GameObject fourMovArea = null;
-    public GameObject oneAttackArea = null;
-    public GameObject twoAttackArea = null;
-    public GameObject threeAttackArea = null;
-    public GameObject fourAttackArea = null;
+    public GameObject moveAreaParent = null;
+    public GameObject attackAreaParent = null;
+    private GameObject[] moveAreas;
+    private GameObject[] attackAreas;
 
     private GameObject[] playerUnits;
     private Character[] playerStats;
@@ -93,6 +89,22 @@ public class PlayerController : MonoBehaviour
            
             i += 1;      
         }
+
+        moveAreas = new GameObject[moveAreaParent.transform.childCount];
+        i = 0;
+        foreach (Transform child in moveAreaParent.transform)
+        {
+            moveAreas[i] = child.gameObject;
+            i += 1;
+        }
+
+        attackAreas = new GameObject[attackAreaParent.transform.childCount];
+        i = 0;
+        foreach (Transform child in attackAreaParent.transform)
+        {
+            attackAreas[i] = child.gameObject;
+            i += 1;
+        }       
     }
 
     // Update is called once per frame
@@ -190,7 +202,7 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator waitBattle(int i)
     {
-        hideMovArea();       
+        hideArea();       
         yield return new WaitForSeconds(0.25f);
         beginBattle(i);
     }
@@ -257,45 +269,34 @@ public class PlayerController : MonoBehaviour
     {
         Character unitStats = unit.GetComponent<Character>();
 
-        if (unitStats.movLeft == 0)
+        if (unitStats.movLeft < 0 || unitStats.movLeft > moveAreas.Length || unitStats.movLeft >= attackAreas.Length)
         {
-            hideMovArea();
-            oneAttackArea.SetActive(true);
-            oneAttackArea.transform.position = unit.transform.position;
+            Debug.Log("movLeft out of range in showArea!!!");
+            hideArea();
         }
-        else if (unitStats.movLeft == 1)
+        else if (unitStats.movLeft == 0)
         {
-            oneMovArea.SetActive(true);
-            oneMovArea.transform.position = unit.transform.position;
-            twoAttackArea.SetActive(true);
-            twoAttackArea.transform.position = unit.transform.position;
+            hideArea();
+            attackAreas[0].SetActive(true);
+            attackAreas[0].transform.position = unit.transform.position;
         }
-        else if (unitStats.movLeft == 2)
+        else
         {
-            twoMovArea.SetActive(true);
-            twoMovArea.transform.position = unit.transform.position;
-            threeAttackArea.SetActive(true);
-            threeAttackArea.transform.position = unit.transform.position;
+            moveAreas[unitStats.movLeft - 1].SetActive(true);
+            moveAreas[unitStats.movLeft - 1].transform.position = unit.transform.position;
+            attackAreas[unitStats.movLeft].SetActive(true);
+            attackAreas[unitStats.movLeft].transform.position = unit.transform.position;
         }
-        else if (unitStats.movLeft == 3)
-        {
-            threeMovArea.SetActive(true);
-            threeMovArea.transform.position = unit.transform.position;
-            fourAttackArea.SetActive(true);
-            fourAttackArea.transform.position = unit.transform.position;
-        }
+
     }
 
-    public void hideMovArea()
+    public void hideArea()
     {
-        oneMovArea.SetActive(false);
-        twoMovArea.SetActive(false);
-        threeMovArea.SetActive(false);
-        fourMovArea.SetActive(false);
-        oneAttackArea.SetActive(false);
-        twoAttackArea.SetActive(false);
-        threeAttackArea.SetActive(false);
-        fourAttackArea.SetActive(false);
+        for (int i = 0; i < moveAreas.Length; i++)
+            moveAreas[i].SetActive(false);
+
+        for (int i = 0; i < attackAreas.Length; i++)
+            attackAreas[i].SetActive(false);
     }
 
     public void deselectTarget()
@@ -307,7 +308,7 @@ public class PlayerController : MonoBehaviour
         currTargeted = null;
         currTargetedStats = null;
         charInfoPanel.gameObject.SetActive(false);
-        hideMovArea();
+        hideArea();
     }
 
     void moveAlly(Vector3Int mousePos)
@@ -341,7 +342,7 @@ public class PlayerController : MonoBehaviour
         //Debug.Log("moveUsedY: " + Mathf.Abs(distanceTraveled.y));
         //Debug.Log("moveLeft: " + moveLeft);
         updateCharInfo();
-        hideMovArea();
+        hideArea();
         showArea(currTargeted);
     }
 
@@ -360,7 +361,7 @@ public class PlayerController : MonoBehaviour
 
         charInfoPanel.gameObject.SetActive(true);
         updateCharInfo();
-        hideMovArea();
+        hideArea();
         showArea(currTargeted);
     }
 
