@@ -93,7 +93,6 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-            
         if (ourTurn)
         {
             // if player left clicks
@@ -521,4 +520,16 @@ public class PlayerController : MonoBehaviour
             playerStats[i].isDead = false;
         }
     }
+
+    public bool allDead()
+    {
+        for (int i = 0; i < playerStats.Length; i++)
+        {
+            if (playerStats[i].isDead == false)
+                return false;
+        }
+
+        return true;
+    }
 }
+

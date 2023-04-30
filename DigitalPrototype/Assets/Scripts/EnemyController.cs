@@ -48,6 +48,17 @@ public class EnemyController : MonoBehaviour
         
     }
 
+    public bool allDead()
+    {
+        for (int i = 0; i < enemyStats.Length; i++)
+        {
+            if (enemyStats[i].isDead == false)
+                return false; 
+        }
+
+        return true; 
+    }
+
     public void enemyTurn()
     {
         Debug.Log("Enemy Turn start");            

@@ -27,6 +27,8 @@ public class GameController : MonoBehaviour
     public GameObject rightDamageUI = null;
     private TMPro.TMP_Text leftDamageTXT = null;
     private TMPro.TMP_Text rightDamageTXT = null;
+    public GameObject VictoryScreen = null;
+    public GameObject DefeatScreen = null;
 
     // enum for whose turn it is currently, the players or the enemies.
     public enum turnMode { PlayerTurn, EnemyTurn };
@@ -98,6 +100,16 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (currGameMode == gameMode.BattleMode)
+        {
+            // if user right clicks during battle
+            if (Input.GetMouseButtonDown(1))
+            {
+                // set delay to 0 (fast mode)
+                inbetweenAttackDelay = 0.1f;
+            }
+        }
+
         // Map mode only
         if (currGameMode == gameMode.MapMode)
         {
@@ -148,6 +160,7 @@ public class GameController : MonoBehaviour
             }
         }
     }
+
 
     // playerSide = FALSE, player is on the left
     // playerSide = TRUE, player is on the right
@@ -200,7 +213,7 @@ public class GameController : MonoBehaviour
         //
 
         // delay for 1.5s so user can see before battle starts
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(inbetweenAttackDelay * 3);
 
         // figure out if one battler is double attacking or not
         doubleAttack whoDoubles;
@@ -389,7 +402,10 @@ public class GameController : MonoBehaviour
         }
 
         // delay again for 1.5s so user can see result of battle before leaving battlemode
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(inbetweenAttackDelay * 4);
+
+        // reset inbetweenAttackDelay in case user skipped battle
+        inbetweenAttackDelay = 0.5f;
 
         // return them to prior positions
         leftChar.transform.position = savedPosLeft;
@@ -493,7 +509,48 @@ public class GameController : MonoBehaviour
             damageTaker.takeDamage(damageMinusDefense);
         }
 
+        // all player characters dead
+        if (playerController.allDead())
+        {
+            Debug.Log("All allies dead you lose");
+            StartCoroutine(defeat());
+        }
+        // all enemy characters dead
+        else if (enemyController.allDead())
+        {
+            Debug.Log("All enemies dead you win");
+            StartCoroutine(victory());
+        }
+
         return damageMinusDefense;
+    }
+
+    public IEnumerator victory()
+    {
+        yield return new WaitForSeconds(2);
+        VictoryScreen.SetActive(true);
+        Mapmode.SetActive(false);
+        turnPanel.SetActive(false);
+        leftHPUI.SetActive(false);
+        rightHPUI.SetActive(false);
+        leftDamageUI.SetActive(false);
+        rightDamageUI.SetActive(false);
+        playerControllerObj.SetActive(false);
+        enemyControllerObj.SetActive(false);
+    }
+
+    public IEnumerator defeat()
+    {
+        yield return new WaitForSeconds(2);
+        DefeatScreen.SetActive(true);
+        Mapmode.SetActive(false);
+        turnPanel.SetActive(false);
+        leftHPUI.SetActive(false);
+        rightHPUI.SetActive(false);
+        leftDamageUI.SetActive(false);
+        rightDamageUI.SetActive(false);
+        playerControllerObj.SetActive(false);
+        enemyControllerObj.SetActive(false);
     }
 
     public void updateBattleHP(Character leftStats, Character rightStats)
