@@ -95,6 +95,7 @@ public class GameController : MonoBehaviour
         changeMode(gameMode.MapMode);
 
         updateTurnText();
+
     }
 
     // Update is called once per frame

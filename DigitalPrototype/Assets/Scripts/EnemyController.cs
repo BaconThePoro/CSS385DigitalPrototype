@@ -35,7 +35,7 @@ public class EnemyController : MonoBehaviour
             enemyStats[i] = enemyUnits[i].GetComponent<Character>();
           
             // enemy units go on -5
-            Vector3 startPos = new Vector3(-4f, -2f + i, -1f);
+            Vector3 startPos = new Vector3(-4f, -2f + i, 0f);
             enemyUnits[i].transform.position = startPos;
 
             i += 1;

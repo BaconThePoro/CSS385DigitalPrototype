@@ -84,7 +84,7 @@ public class PlayerController : MonoBehaviour
             playerUnits[i] = child.gameObject;
             playerStats[i] = playerUnits[i].GetComponent<Character>();
 
-            Vector3 startPos = new Vector3(0f, -1f + i, -1f);
+            Vector3 startPos = new Vector3(0f, -2f + i, 0f);
             playerUnits[i].transform.position = startPos;
            
             i += 1;      
@@ -117,7 +117,7 @@ public class PlayerController : MonoBehaviour
             {
                 // adjust to z level for units
                 Vector3Int mousePos = GetMousePosition();
-                mousePos = new Vector3Int(mousePos.x, mousePos.y, -1);
+                mousePos = new Vector3Int(mousePos.x, mousePos.y, 0);
 
                 Debug.Log("Clicked here: " + mousePos);
                 //Debug.Log("currTargeted is " + currTargeted.name);
@@ -268,25 +268,49 @@ public class PlayerController : MonoBehaviour
     public void showArea(GameObject unit)
     {
         Character unitStats = unit.GetComponent<Character>();
+        if (unitStats.weapon == 1)
+        {
+            if (unitStats.movLeft < 0 || unitStats.movLeft > moveAreas.Length || unitStats.movLeft >= attackAreas.Length)
+            {
+                Debug.Log("movLeft out of range in showArea!!!");
+                hideArea();
+            }
+            else if (unitStats.movLeft == 0)
+            {
+                hideArea();
+                attackAreas[unitStats.movLeft].SetActive(true);
+                attackAreas[unitStats.movLeft].transform.position = unit.transform.position;
+            }
+            else
+            {
+                moveAreas[unitStats.movLeft - 1].SetActive(true);
+                moveAreas[unitStats.movLeft - 1].transform.position = unit.transform.position;
+                attackAreas[unitStats.movLeft].SetActive(true);
+                attackAreas[unitStats.movLeft].transform.position = unit.transform.position;
+            }
+        }
+        else if (unitStats.weapon == 2)
+        {
+            if (unitStats.movLeft < 0 || unitStats.movLeft > moveAreas.Length || unitStats.movLeft + 1 >= attackAreas.Length)
+            {
+                Debug.Log("movLeft out of range in showArea!!!");
+                hideArea();
+            }
+            else if (unitStats.movLeft == 0)
+            {
+                hideArea();
+                attackAreas[unitStats.movLeft + 1].SetActive(true);
+                attackAreas[unitStats.movLeft + 1].transform.position = unit.transform.position;
+            }
+            else
+            {
+                moveAreas[unitStats.movLeft - 1].SetActive(true);
+                moveAreas[unitStats.movLeft - 1].transform.position = unit.transform.position;
+                attackAreas[unitStats.movLeft + 1].SetActive(true);
+                attackAreas[unitStats.movLeft + 1].transform.position = unit.transform.position;
+            }
+        }
 
-        if (unitStats.movLeft < 0 || unitStats.movLeft > moveAreas.Length || unitStats.movLeft >= attackAreas.Length)
-        {
-            Debug.Log("movLeft out of range in showArea!!!");
-            hideArea();
-        }
-        else if (unitStats.movLeft == 0)
-        {
-            hideArea();
-            attackAreas[0].SetActive(true);
-            attackAreas[0].transform.position = unit.transform.position;
-        }
-        else
-        {
-            moveAreas[unitStats.movLeft - 1].SetActive(true);
-            moveAreas[unitStats.movLeft - 1].transform.position = unit.transform.position;
-            attackAreas[unitStats.movLeft].SetActive(true);
-            attackAreas[unitStats.movLeft].transform.position = unit.transform.position;
-        }
 
     }
 
