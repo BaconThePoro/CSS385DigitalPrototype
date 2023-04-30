@@ -20,7 +20,7 @@ public class EnemyController : MonoBehaviour
     private float tileX = 0;
     private float tileY = 0;
 
-    private float inBetweenDelay = 1f;
+    public float inBetweenDelay = .25f;
     private int aggroRange = 5;
     public bool battleDone = false; 
 
@@ -98,15 +98,36 @@ public class EnemyController : MonoBehaviour
                 if ((targetVector.x == 1 && targetVector.y == 0) || (targetVector.x == 0 && targetVector.y == 1))
                 {
                     // small delay at the start of every units turn
-                    yield return new WaitForSeconds(inBetweenDelay);
+                    yield return new WaitForSeconds(inBetweenDelay * 4);
                     // attack
                     yield return StartCoroutine(beginBattle(i, target));
-
-
                 }
                 else
                 {
-                    
+
+                    for (enemyStats[i].movLeft = enemyStats[i].movLeft; enemyStats[i].movLeft > 0; enemyStats[i].movLeft--)
+                    {
+                        // small delay at the start of every units turn
+                        yield return new WaitForSeconds(inBetweenDelay);
+
+                        enemyUnits[i].transform.position = enemyUnits[i].transform.position + targetVector.normalized;
+                        targetVector = target.transform.position - enemyUnits[i].transform.position;
+
+                        // check if in range
+                        if ((targetVector.x == 1 && targetVector.y == 0) || (targetVector.x == 0 && targetVector.y == 1))
+                        {
+                            // small delay at the start of every units turn
+                            yield return new WaitForSeconds(inBetweenDelay * 4);
+                            // attack
+                            yield return StartCoroutine(beginBattle(i, target));
+                            enemyStats[i].movLeft = 0;
+                        }
+
+
+                    }
+
+
+
                 }
 
 
@@ -135,8 +156,17 @@ public class EnemyController : MonoBehaviour
         //yield return StartCoroutine(waitCoroutine());
 
         yield return new WaitForSeconds(inBetweenDelay);
+        resetAllMove();
         gameController.changeTurn(GameController.turnMode.PlayerTurn);
         Debug.Log("Enemy turn end");
+    }
+
+    public void resetAllMove()
+    {
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            enemyStats[i].resetMove();
+        }
     }
 
     IEnumerator beginBattle(int i, GameObject target)

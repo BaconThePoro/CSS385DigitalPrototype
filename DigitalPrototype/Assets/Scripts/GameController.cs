@@ -638,6 +638,7 @@ public class GameController : MonoBehaviour
                 // turn off end turn button for player since it isnt their turn
                 endTurnButton.gameObject.SetActive(false);
 
+                enemyController.resetAllMove();
                 StartCoroutine(enemyController.enemyTurn());
             }
         }
