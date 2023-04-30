@@ -52,6 +52,7 @@ public class PlayerController : MonoBehaviour
 
     public GameObject[] playerUnits;
     public Character[] playerStats;
+    public Vector3[] allyStartPos;
 
     // Start is called before the first frame update
     void Start()
@@ -82,10 +83,8 @@ public class PlayerController : MonoBehaviour
         foreach(Transform child in transform)
         {
             playerUnits[i] = child.gameObject;
-            playerStats[i] = playerUnits[i].GetComponent<Character>();
-
-            Vector3 startPos = new Vector3(-6f, 0f + i, 0f);
-            playerUnits[i].transform.position = startPos;
+            playerStats[i] = playerUnits[i].GetComponent<Character>();          
+            playerUnits[i].transform.position = allyStartPos[i];
            
             i += 1;      
         }
