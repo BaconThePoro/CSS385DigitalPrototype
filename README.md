@@ -9,3 +9,8 @@ Hotkeys:<br>
 <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Battlemode: <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * Right Click: Speeds up battle <br>
+
+
+
+
+***
