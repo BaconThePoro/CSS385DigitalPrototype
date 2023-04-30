@@ -268,6 +268,8 @@ public class PlayerController : MonoBehaviour
     public void showArea(GameObject unit)
     {
         Character unitStats = unit.GetComponent<Character>();
+
+        // sword
         if (unitStats.weapon == 1)
         {
             if (unitStats.movLeft < 0 || unitStats.movLeft > moveAreas.Length || unitStats.movLeft >= attackAreas.Length)
@@ -289,6 +291,7 @@ public class PlayerController : MonoBehaviour
                 attackAreas[unitStats.movLeft].transform.position = unit.transform.position;
             }
         }
+        // bow
         else if (unitStats.weapon == 2)
         {
             if (unitStats.movLeft < 0 || unitStats.movLeft > moveAreas.Length || unitStats.movLeft + 1 >= attackAreas.Length)
@@ -306,6 +309,8 @@ public class PlayerController : MonoBehaviour
             {
                 moveAreas[unitStats.movLeft - 1].SetActive(true);
                 moveAreas[unitStats.movLeft - 1].transform.position = unit.transform.position;
+                attackAreas[unitStats.movLeft].SetActive(true);
+                attackAreas[unitStats.movLeft].transform.position = unit.transform.position;
                 attackAreas[unitStats.movLeft + 1].SetActive(true);
                 attackAreas[unitStats.movLeft + 1].transform.position = unit.transform.position;
             }
