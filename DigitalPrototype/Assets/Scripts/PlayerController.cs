@@ -84,7 +84,7 @@ public class PlayerController : MonoBehaviour
             playerUnits[i] = child.gameObject;
             playerStats[i] = playerUnits[i].GetComponent<Character>();
 
-            Vector3 startPos = new Vector3(0f, -2f + i, 0f);
+            Vector3 startPos = new Vector3(-6f, 0f + i, 0f);
             playerUnits[i].transform.position = startPos;
            
             i += 1;      
@@ -240,7 +240,7 @@ public class PlayerController : MonoBehaviour
         return direction.left;
     }
 
-    bool unitHere(Vector3Int pos)
+    public bool unitHere(Vector3Int pos)
     {
         for (int i = 0; i < transform.childCount; i++)
         {

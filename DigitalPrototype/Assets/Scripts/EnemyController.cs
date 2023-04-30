@@ -95,7 +95,7 @@ public class EnemyController : MonoBehaviour
             if (enemyStats[i].weapon == 1)
             {
                 // if in range already
-                if ((targetVector.x == 1 && targetVector.y == 0) || (targetVector.x == 0 && targetVector.y == 1))
+                if ((Mathf.Abs(targetVector.x) == 1 && targetVector.y == 0) || (targetVector.x == 0 && Mathf.Abs(targetVector.y) == 1))
                 {
                     // small delay at the start of every units turn
                     yield return new WaitForSeconds(inBetweenDelay * 4);
@@ -107,14 +107,59 @@ public class EnemyController : MonoBehaviour
 
                     for (enemyStats[i].movLeft = enemyStats[i].movLeft; enemyStats[i].movLeft > 0; enemyStats[i].movLeft--)
                     {
+                        Debug.Log("Target Vector: " + targetVector);
+
                         // small delay at the start of every units turn
                         yield return new WaitForSeconds(inBetweenDelay);
 
-                        enemyUnits[i].transform.position = enemyUnits[i].transform.position + targetVector.normalized;
+                        // if target is in a straight line
+                        if ((Mathf.Abs(targetVector.normalized.x) == 1 || Mathf.Abs(targetVector.normalized.y) == 1) 
+                            && playerController.unitHere(Vector3Int.FloorToInt(enemyUnits[i].transform.position + targetVector.normalized)) == false)
+                        {
+                            enemyUnits[i].transform.position = enemyUnits[i].transform.position + targetVector.normalized;
+                        }
+                        // target is not in a straight line
+                        else
+                        {
+                            float xMov = 0;
+                            float yMov = 0;
+
+                            if (targetVector.x < 0)
+                                xMov = -1;
+                            else
+                                xMov = 1;
+
+                            if (targetVector.y < 0)
+                                yMov = -1;
+                            else
+                                yMov = 1;
+
+                            Vector3 targetXPos = enemyUnits[i].transform.position + new Vector3(xMov, 0, 0);
+                            Vector3 targetYPos = enemyUnits[i].transform.position + new Vector3(0, yMov, 0);
+
+                            // try move vertically
+                            if (playerController.unitHere(Vector3Int.FloorToInt(targetYPos)) == false)
+                            {
+                                enemyUnits[i].transform.position = targetYPos;
+                            }
+                            // try move horizontally
+                            else if (playerController.unitHere(Vector3Int.FloorToInt(targetXPos)) == false)
+                            {
+                                enemyUnits[i].transform.position = targetXPos;
+                            }
+                            // both sides occupied, cant move
+                            else
+                            {                       
+                                break;
+                            }
+
+                        }
+
+                        // recalc target vector since we moved
                         targetVector = target.transform.position - enemyUnits[i].transform.position;
 
                         // check if in range
-                        if ((targetVector.x == 1 && targetVector.y == 0) || (targetVector.x == 0 && targetVector.y == 1))
+                        if ((Mathf.Abs(targetVector.x) == 1 && targetVector.y == 0) || (targetVector.x == 0 && Mathf.Abs(targetVector.y) == 1))
                         {
                             // small delay at the start of every units turn
                             yield return new WaitForSeconds(inBetweenDelay * 4);
