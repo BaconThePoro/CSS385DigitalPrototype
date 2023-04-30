@@ -21,8 +21,8 @@ public class GameController : MonoBehaviour
     private Camera mainCamera = null;
     public GameObject Mapmode = null;
     public GameObject Battlemode = null;
-    public GameObject leftHPUI = null;
-    public GameObject rightHPUI = null;
+    public GameObject charInfoPanelL = null;
+    public GameObject charInfoPanelR = null;
     public GameObject leftDamageUI = null;
     public GameObject rightDamageUI = null;
     private TMPro.TMP_Text leftDamageTXT = null;
@@ -73,6 +73,32 @@ public class GameController : MonoBehaviour
     private float inbetweenAttackDelay = 0.5f;
     private float animationDuration = 0.25f;
 
+    // panel stuff
+    private GameObject LmovLeftTXT = null;
+    private GameObject LmovLeftNUMObj = null;
+    private TMPro.TextMeshProUGUI LcharNameTXT = null;
+    private TMPro.TextMeshProUGUI LhpNUM = null;
+    private TMPro.TextMeshProUGUI LstrNUM = null;
+    private TMPro.TextMeshProUGUI LmagNUM = null;
+    private TMPro.TextMeshProUGUI LspdNUM = null;
+    private TMPro.TextMeshProUGUI LdefNUM = null;
+    private TMPro.TextMeshProUGUI LresNUM = null;
+    private TMPro.TextMeshProUGUI LmovNUM = null;
+    private TMPro.TextMeshProUGUI LmovLeftNUM = null;
+    //
+    private GameObject RmovLeftTXT = null;
+    private GameObject RmovLeftNUMObj = null;
+    private TMPro.TextMeshProUGUI RcharNameTXT = null;
+    private TMPro.TextMeshProUGUI RhpNUM = null;
+    private TMPro.TextMeshProUGUI RstrNUM = null;
+    private TMPro.TextMeshProUGUI RmagNUM = null;
+    private TMPro.TextMeshProUGUI RspdNUM = null;
+    private TMPro.TextMeshProUGUI RdefNUM = null;
+    private TMPro.TextMeshProUGUI RresNUM = null;
+    private TMPro.TextMeshProUGUI RmovNUM = null;
+    private TMPro.TextMeshProUGUI RmovLeftNUM = null;
+    //
+
     // set these ones 
     public float tileX = 1;
     public float tileY = 1;
@@ -92,6 +118,30 @@ public class GameController : MonoBehaviour
         mainCamera = mainCameraObj.GetComponent<Camera>();
         leftDamageTXT = leftDamageUI.GetComponent<TMPro.TextMeshProUGUI>();
         rightDamageTXT = rightDamageUI.GetComponent<TMPro.TextMeshProUGUI>();
+
+        LcharNameTXT = charInfoPanelL.transform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>();
+        LmovLeftTXT = charInfoPanelL.transform.GetChild(9).gameObject;
+        LhpNUM = charInfoPanelL.transform.GetChild(10).GetComponent<TMPro.TextMeshProUGUI>();
+        LstrNUM = charInfoPanelL.transform.GetChild(11).GetComponent<TMPro.TextMeshProUGUI>();
+        LmagNUM = charInfoPanelL.transform.GetChild(12).GetComponent<TMPro.TextMeshProUGUI>();
+        LspdNUM = charInfoPanelL.transform.GetChild(13).GetComponent<TMPro.TextMeshProUGUI>();
+        LdefNUM = charInfoPanelL.transform.GetChild(14).GetComponent<TMPro.TextMeshProUGUI>();
+        LresNUM = charInfoPanelL.transform.GetChild(15).GetComponent<TMPro.TextMeshProUGUI>();
+        LmovNUM = charInfoPanelL.transform.GetChild(16).GetComponent<TMPro.TextMeshProUGUI>();
+        LmovLeftNUMObj = charInfoPanelL.transform.GetChild(17).gameObject;
+        LmovLeftNUM = LmovLeftNUMObj.GetComponent<TMPro.TextMeshProUGUI>();
+
+        RcharNameTXT = charInfoPanelR.transform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>();
+        RmovLeftTXT = charInfoPanelR.transform.GetChild(9).gameObject;
+        RhpNUM = charInfoPanelR.transform.GetChild(10).GetComponent<TMPro.TextMeshProUGUI>();
+        RstrNUM = charInfoPanelR.transform.GetChild(11).GetComponent<TMPro.TextMeshProUGUI>();
+        RmagNUM = charInfoPanelR.transform.GetChild(12).GetComponent<TMPro.TextMeshProUGUI>();
+        RspdNUM = charInfoPanelR.transform.GetChild(13).GetComponent<TMPro.TextMeshProUGUI>();
+        RdefNUM = charInfoPanelR.transform.GetChild(14).GetComponent<TMPro.TextMeshProUGUI>();
+        RresNUM = charInfoPanelR.transform.GetChild(15).GetComponent<TMPro.TextMeshProUGUI>();
+        RmovNUM = charInfoPanelR.transform.GetChild(16).GetComponent<TMPro.TextMeshProUGUI>();
+        RmovLeftNUMObj = charInfoPanelR.transform.GetChild(17).gameObject;
+        RmovLeftNUM = RmovLeftNUMObj.GetComponent<TMPro.TextMeshProUGUI>();
 
         changeTurn(turnMode.PlayerTurn);
         changeMode(gameMode.MapMode);
@@ -199,11 +249,11 @@ public class GameController : MonoBehaviour
         Battlemode.SetActive(true);
         savedCamSize = mainCamera.orthographicSize;
         mainCamera.orthographicSize = camBattleSize;
-        leftHPUI.SetActive(true);
-        rightHPUI.SetActive(true);
+        charInfoPanelL.SetActive(true);
+        charInfoPanelR.SetActive(true);
         leftDamageUI.SetActive(true);
         rightDamageUI.SetActive(true);
-        updateBattleHP(leftStats, rightStats);
+        updateBattleStats(leftStats, rightStats);
         //
 
         // reactivate participants
@@ -262,7 +312,7 @@ public class GameController : MonoBehaviour
                 StartCoroutine(LerpPosition(leftChar, leftTarget, animationDuration));
                 yield return new WaitForSeconds(.5f);
                 StartCoroutine(damageTXT(true, Attack(leftStats, rightStats)));
-                updateBattleHP(leftStats, rightStats);
+                updateBattleStats(leftStats, rightStats);
                 
                 // delay
                 yield return new WaitForSeconds(inbetweenAttackDelay);
@@ -273,7 +323,7 @@ public class GameController : MonoBehaviour
                     StartCoroutine(LerpPosition(rightChar, rightTarget, animationDuration));
                     yield return new WaitForSeconds(.5f);
                     StartCoroutine(damageTXT(false, Attack(rightStats, leftStats)));
-                    updateBattleHP(leftStats, rightStats);
+                    updateBattleStats(leftStats, rightStats);
                 }
 
                 if (whoDoubles == doubleAttack.leftDoubles && leftStats.isDead == false && rightStats.isDead == false)
@@ -285,7 +335,7 @@ public class GameController : MonoBehaviour
                     StartCoroutine(LerpPosition(leftChar, leftTarget, animationDuration));
                     yield return new WaitForSeconds(.5f);
                     StartCoroutine(damageTXT(true, Attack(leftStats, rightStats)));
-                    updateBattleHP(leftStats, rightStats);
+                    updateBattleStats(leftStats, rightStats);
                 }
 
                 else if (whoDoubles == doubleAttack.rightDoubles && leftStats.isDead == false 
@@ -298,7 +348,7 @@ public class GameController : MonoBehaviour
                     StartCoroutine(LerpPosition(rightChar, rightTarget, animationDuration));
                     yield return new WaitForSeconds(.5f);
                     StartCoroutine(damageTXT(false, Attack(rightStats, leftStats)));
-                    updateBattleHP(leftStats, rightStats);
+                    updateBattleStats(leftStats, rightStats);
                 }
 
             }
@@ -309,7 +359,7 @@ public class GameController : MonoBehaviour
                 StartCoroutine(LerpPosition(rightChar, rightTarget, animationDuration));
                 yield return new WaitForSeconds(.5f);
                 StartCoroutine(damageTXT(false, Attack(rightStats, leftStats)));
-                updateBattleHP(leftStats, rightStats);
+                updateBattleStats(leftStats, rightStats);
 
                 // delay
                 yield return new WaitForSeconds(inbetweenAttackDelay);
@@ -320,7 +370,7 @@ public class GameController : MonoBehaviour
                     StartCoroutine(LerpPosition(leftChar, leftTarget, animationDuration));
                     yield return new WaitForSeconds(.5f);
                     StartCoroutine(damageTXT(true, Attack(leftStats, rightStats)));
-                    updateBattleHP(leftStats, rightStats);
+                    updateBattleStats(leftStats, rightStats);
                 }
 
                 if (whoDoubles == doubleAttack.leftDoubles && leftStats.isDead == false 
@@ -333,7 +383,7 @@ public class GameController : MonoBehaviour
                     StartCoroutine(LerpPosition(leftChar, leftTarget, animationDuration));
                     yield return new WaitForSeconds(.5f);
                     StartCoroutine(damageTXT(true, Attack(leftStats, rightStats)));
-                    updateBattleHP(leftStats, rightStats);
+                    updateBattleStats(leftStats, rightStats);
                 }
 
                 else if (whoDoubles == doubleAttack.rightDoubles && leftStats.isDead == false && rightStats.isDead == false)
@@ -345,7 +395,7 @@ public class GameController : MonoBehaviour
                     StartCoroutine(LerpPosition(rightChar, rightTarget, animationDuration));
                     yield return new WaitForSeconds(.5f);
                     StartCoroutine(damageTXT(false, Attack(rightStats, leftStats)));
-                    updateBattleHP(leftStats, rightStats);
+                    updateBattleStats(leftStats, rightStats);
                 }
             }
         }
@@ -360,7 +410,7 @@ public class GameController : MonoBehaviour
                 StartCoroutine(LerpPosition(leftChar, leftTarget, animationDuration));
                 yield return new WaitForSeconds(.5f);
                 StartCoroutine(damageTXT(true, Attack(leftStats, rightStats)));
-                updateBattleHP(leftStats, rightStats);
+                updateBattleStats(leftStats, rightStats);
 
                 // delay
                 yield return new WaitForSeconds(inbetweenAttackDelay);
@@ -371,7 +421,7 @@ public class GameController : MonoBehaviour
                     StartCoroutine(LerpPosition(rightChar, rightTarget, animationDuration));
                     yield return new WaitForSeconds(.5f);
                     StartCoroutine(damageTXT(false, Attack(rightStats, leftStats)));
-                    updateBattleHP(leftStats, rightStats);
+                    updateBattleStats(leftStats, rightStats);
                 }
 
 
@@ -384,7 +434,7 @@ public class GameController : MonoBehaviour
                     StartCoroutine(LerpPosition(leftChar, leftTarget, animationDuration));
                     yield return new WaitForSeconds(.5f);
                     StartCoroutine(damageTXT(true, Attack(leftStats, rightStats)));
-                    updateBattleHP(leftStats, rightStats);
+                    updateBattleStats(leftStats, rightStats);
                 }
 
                 else if (whoDoubles == doubleAttack.rightDoubles && leftStats.isDead == false
@@ -397,7 +447,7 @@ public class GameController : MonoBehaviour
                     StartCoroutine(LerpPosition(rightChar, rightTarget, animationDuration));
                     yield return new WaitForSeconds(.5f);
                     StartCoroutine(damageTXT(false, Attack(rightStats, leftStats)));
-                    updateBattleHP(leftStats, rightStats);
+                    updateBattleStats(leftStats, rightStats);
                 }
             }
             // enemy is on right
@@ -407,7 +457,7 @@ public class GameController : MonoBehaviour
                 StartCoroutine(LerpPosition(rightChar, rightTarget, animationDuration));
                 yield return new WaitForSeconds(.5f);
                 StartCoroutine(damageTXT(false, Attack(rightStats, leftStats)));
-                updateBattleHP(leftStats, rightStats);
+                updateBattleStats(leftStats, rightStats);
 
                 // delay
                 yield return new WaitForSeconds(inbetweenAttackDelay);
@@ -418,7 +468,7 @@ public class GameController : MonoBehaviour
                     StartCoroutine(LerpPosition(leftChar, leftTarget, animationDuration));
                     yield return new WaitForSeconds(.5f);
                     StartCoroutine(damageTXT(true, Attack(leftStats, rightStats)));
-                    updateBattleHP(leftStats, rightStats);
+                    updateBattleStats(leftStats, rightStats);
                 }
 
 
@@ -432,7 +482,7 @@ public class GameController : MonoBehaviour
                     StartCoroutine(LerpPosition(leftChar, leftTarget, animationDuration));
                     yield return new WaitForSeconds(.5f);
                     StartCoroutine(damageTXT(true, Attack(leftStats, rightStats)));
-                    updateBattleHP(leftStats, rightStats);
+                    updateBattleStats(leftStats, rightStats);
                 }
 
                 else if (whoDoubles == doubleAttack.rightDoubles && leftStats.isDead == false && rightStats.isDead == false)
@@ -444,7 +494,7 @@ public class GameController : MonoBehaviour
                     StartCoroutine(LerpPosition(rightChar, rightTarget, animationDuration));
                     yield return new WaitForSeconds(.5f);
                     StartCoroutine(damageTXT(false, Attack(rightStats, leftStats)));
-                    updateBattleHP(leftStats, rightStats);
+                    updateBattleStats(leftStats, rightStats);
                 }
             }
         }
@@ -468,8 +518,8 @@ public class GameController : MonoBehaviour
         //
 
         // return to mapmode
-        leftHPUI.SetActive(false);
-        rightHPUI.SetActive(false);
+        charInfoPanelL.SetActive(false);
+        charInfoPanelR.SetActive(false);
         leftDamageTXT.text = "";
         rightDamageTXT.text = "";
         leftDamageUI.SetActive(false);
@@ -592,8 +642,8 @@ public class GameController : MonoBehaviour
         VictoryScreen.SetActive(true);
         Mapmode.SetActive(false);
         turnPanel.SetActive(false);
-        leftHPUI.SetActive(false);
-        rightHPUI.SetActive(false);
+        charInfoPanelL.SetActive(false);
+        charInfoPanelR.SetActive(false);
         leftDamageUI.SetActive(false);
         rightDamageUI.SetActive(false);
         playerControllerObj.SetActive(false);
@@ -606,18 +656,37 @@ public class GameController : MonoBehaviour
         DefeatScreen.SetActive(true);
         Mapmode.SetActive(false);
         turnPanel.SetActive(false);
-        leftHPUI.SetActive(false);
-        rightHPUI.SetActive(false);
+        charInfoPanelL.SetActive(false);
+        charInfoPanelR.SetActive(false);
         leftDamageUI.SetActive(false);
         rightDamageUI.SetActive(false);
         playerControllerObj.SetActive(false);
         enemyControllerObj.SetActive(false);
     }
 
-    public void updateBattleHP(Character leftStats, Character rightStats)
+    public void updateBattleStats(Character leftStats, Character rightStats)
     {
-        leftHPUI.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "HP: " + leftStats.hpLeft + " / " + leftStats.HP;
-        rightHPUI.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "HP: " + rightStats.hpLeft + " / " + rightStats.HP;
+        LcharNameTXT.text = "Name: " + leftStats.charName;
+        LhpNUM.text = "" + leftStats.hpLeft + " / " + leftStats.HP;
+        LstrNUM.text = "" + leftStats.STR;
+        LmagNUM.text = "" + leftStats.MAG;
+        LdefNUM.text = "" + leftStats.DEF;
+        LresNUM.text = "" + leftStats.RES;
+        LspdNUM.text = "" + leftStats.SPD;
+        LmovNUM.text = "" + leftStats.MOV;
+        LmovLeftTXT.SetActive(false);
+        LmovLeftNUMObj.SetActive(false);
+
+        RcharNameTXT.text = "Name: " + rightStats.charName;
+        RhpNUM.text = "" + rightStats.hpLeft + " / " + rightStats.HP;
+        RstrNUM.text = "" + rightStats.STR;
+        RmagNUM.text = "" + rightStats.MAG;
+        RdefNUM.text = "" + rightStats.DEF;
+        RresNUM.text = "" + rightStats.RES;
+        RspdNUM.text = "" + rightStats.SPD;
+        RmovNUM.text = "" + rightStats.MOV;
+        RmovLeftTXT.SetActive(false);
+        RmovLeftNUMObj.SetActive(false);
     }
 
     // for hovering effect
