@@ -82,6 +82,9 @@ public class EnemyController : MonoBehaviour
         // find our target (whoever is closest)
         for (int i = 0; i < enemyUnits.Length; i++)
         {
+            // turn on target reticle for this unit
+            enemyUnits[i].transform.GetChild(0).gameObject.SetActive(true);
+
             GameObject target = null;
             Vector3 targetVector = Vector3.zero;
             float targetDistance = 999;
@@ -104,7 +107,9 @@ public class EnemyController : MonoBehaviour
                 // small delay at the start of every units turn
                 yield return new WaitForSeconds(inBetweenDelay * 4);
                 // attack
+                enemyUnits[i].transform.GetChild(0).gameObject.SetActive(false);
                 yield return StartCoroutine(beginBattle(i, target));
+                enemyUnits[i].transform.GetChild(0).gameObject.SetActive(true);
             }
             else
             {
@@ -168,11 +173,17 @@ public class EnemyController : MonoBehaviour
                         // small delay at the start of every units turn
                         yield return new WaitForSeconds(inBetweenDelay * 4);
                         // attack
+                        enemyUnits[i].transform.GetChild(0).gameObject.SetActive(false);
                         yield return StartCoroutine(beginBattle(i, target));
+                        enemyUnits[i].transform.GetChild(0).gameObject.SetActive(true);
                         enemyStats[i].movLeft = 0;
                     }
                 }
             }
+
+            yield return new WaitForSeconds(inBetweenDelay);
+            // disable target reticle
+            enemyUnits[i].transform.GetChild(0).gameObject.SetActive(false);
         }
         
         // end turn whenever were finished
@@ -218,7 +229,7 @@ public class EnemyController : MonoBehaviour
 
     IEnumerator beginBattle(int i, GameObject target)
     {
-        Debug.Log("battle time");
+        Debug.Log("battle time");        
 
         gameController.changeMode(GameController.gameMode.BattleMode);
 
