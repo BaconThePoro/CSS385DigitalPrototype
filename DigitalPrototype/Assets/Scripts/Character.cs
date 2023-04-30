@@ -23,6 +23,19 @@ public class Character : MonoBehaviour
     // 3. 
     // 4. 
 
+    // number means able to attack at that range and all lower ranges
+
+    public float attackRange;
+
+    public void changeWeapon(int choice)
+    {
+        weapon = choice;
+
+        if (weapon == 1)
+            attackRange = 1;
+        else if (weapon == 2)
+            attackRange = 2;
+    }
 
     public void takeDamage(int amount)
     {

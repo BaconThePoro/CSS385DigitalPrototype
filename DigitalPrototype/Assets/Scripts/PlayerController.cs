@@ -192,12 +192,27 @@ public class PlayerController : MonoBehaviour
         // figure out which way to face (ally on left or right)
         direction battleDirection = facingWhere(currTargeted.transform.position, enemyController.enemyUnits[i].transform.position);
 
+        // calculate range of this battle
+        int battleRange = 0;
+        Vector3 distance = enemyController.enemyUnits[i].transform.position - currTargeted.transform.position;
+        if ((Mathf.Abs(distance.x) == 1 && Mathf.Abs(distance.y) == 0)
+            || (Mathf.Abs(distance.x) == 0 && Mathf.Abs(distance.y) == 1))
+        {
+            battleRange = 1;
+        }
+        else if ((Mathf.Abs(distance.x) == 1 && Mathf.Abs(distance.y) == 1)
+            || (Mathf.Abs(distance.x) == 2 && Mathf.Abs(distance.y) == 0)
+            || (Mathf.Abs(distance.x) == 0 && Mathf.Abs(distance.y) == 2))
+        {
+            battleRange = 2;
+        }
+
         // if facing to the right or down then put ally on the left 
         if (battleDirection == direction.right || battleDirection == direction.down)
-            StartCoroutine(gameController.startBattle(currTargeted, enemyController.enemyUnits[i], false, true));
+            StartCoroutine(gameController.startBattle(currTargeted, enemyController.enemyUnits[i], false, true, battleRange));
         // else put ally on the right
         else
-            StartCoroutine(gameController.startBattle(enemyController.enemyUnits[i], currTargeted, true, true));
+            StartCoroutine(gameController.startBattle(enemyController.enemyUnits[i], currTargeted, true, true, battleRange));
     }
 
     IEnumerator waitBattle(int i)
@@ -409,10 +424,18 @@ public class PlayerController : MonoBehaviour
     {
         Character unitStats = unit.GetComponent<Character>();
 
+        // sword
         if (unitStats.weapon == 1)
         {
             Vector3Int distance = mousePos - Vector3Int.FloorToInt(unit.transform.position);
             if ((Mathf.Abs(distance.x) == 1 && distance.y == 0) || (distance.x == 0 && Mathf.Abs(distance.y) == 1))
+                return true;
+        }
+        // bow
+        else if (unitStats.weapon == 2)
+        {
+            Vector3Int distance = mousePos - Vector3Int.FloorToInt(unit.transform.position);
+            if ((Mathf.Abs(distance.x) == 2 && distance.y == 0) || (distance.x == 0 && Mathf.Abs(distance.y) == 2) || (Mathf.Abs(distance.x) == 1 && Mathf.Abs(distance.y) == 1)) 
                 return true;
         }
 
