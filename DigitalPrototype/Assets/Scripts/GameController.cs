@@ -105,10 +105,21 @@ public class GameController : MonoBehaviour
     {
         if (currGameMode == gameMode.BattleMode)
         {
-            // if user right clicks during battle
-            if (Input.GetMouseButtonDown(1))
+            // if user left clicks during battle
+            if (Input.GetMouseButtonDown(0))
             {
                 // set delay to 0 (fast mode)
+                inbetweenAttackDelay = 0.1f;
+            }
+        }
+
+        if (currTurnMode == turnMode.EnemyTurn)
+        {
+            // if user left clicks during enemy turn
+            if (Input.GetMouseButtonDown(0))
+            {
+                // set delay to 0 (fast mode)
+                enemyController.inBetweenDelay = 0.1f;
                 inbetweenAttackDelay = 0.1f;
             }
         }
@@ -442,8 +453,11 @@ public class GameController : MonoBehaviour
         yield return new WaitForSeconds(inbetweenAttackDelay * 4);
 
         // reset inbetweenAttackDelay in case user skipped battle
-        inbetweenAttackDelay = 0.5f;
-
+        if (playerTurn == true)
+        {
+            resetDelay();
+        }
+        
         // return them to prior positions
         leftChar.transform.position = savedPosLeft;
         rightChar.transform.position = savedPosRight;
@@ -478,6 +492,11 @@ public class GameController : MonoBehaviour
         {
             playerController.ourTurn = false;
         }
+    }
+
+    public void resetDelay()
+    {
+        inbetweenAttackDelay = 0.5f;
     }
     
     // false == left hurt, true == right hurt

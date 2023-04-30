@@ -21,7 +21,7 @@ public class EnemyController : MonoBehaviour
     private float tileX = 0;
     private float tileY = 0;
 
-    public float inBetweenDelay = .25f;
+    public float inBetweenDelay = .3f;
     private int aggroRange = 5;
     public bool battleDone = false; 
 
@@ -47,6 +47,8 @@ public class EnemyController : MonoBehaviour
 
             i += 1;
         }
+
+        resetDelay();
     }
 
     // Update is called once per frame
@@ -66,9 +68,16 @@ public class EnemyController : MonoBehaviour
         return true; 
     }
 
+    public void resetDelay()
+    {
+        inBetweenDelay = 0.3f;
+        gameController.resetDelay();
+    }
+
     public IEnumerator enemyTurn()
     {
         Debug.Log("Enemy Turn start");
+        resetDelay();
 
         // find our target (whoever is closest)
         for (int i = 0; i < enemyUnits.Length; i++)

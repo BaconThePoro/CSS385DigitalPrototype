@@ -14016,8 +14016,14 @@ MonoBehaviour:
   playerControllerObj: {fileID: 2084973102}
   enemyUnits: []
   enemyStats: []
+  enemyStartPos:
+  - {x: -8, y: 3, z: 0}
+  - {x: -8, y: -4, z: 0}
+  - {x: 8, y: 2, z: 0}
+  - {x: 8, y: -4, z: 0}
   currTilemap: {fileID: 1357189901}
-  battleCounter: 0
+  inBetweenDelay: 0.25
+  battleDone: 0
 --- !u!1 &1115037565
 GameObject:
   m_ObjectHideFlags: 0
@@ -32548,6 +32554,11 @@ MonoBehaviour:
   attackAreaParent: {fileID: 652705634}
   playerUnits: []
   playerStats: []
+  allyStartPos:
+  - {x: -2, y: 2, z: 0}
+  - {x: 2, y: 2, z: 0}
+  - {x: 2, y: -2, z: 0}
+  - {x: -2, y: -2, z: 0}
 --- !u!1 &2085740318
 GameObject:
   m_ObjectHideFlags: 0
