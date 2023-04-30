@@ -48,6 +48,11 @@ public class PlayerController : MonoBehaviour
     public GameObject oneMovArea = null;
     public GameObject twoMovArea = null;
     public GameObject threeMovArea = null;
+    public GameObject fourMovArea = null;
+    public GameObject oneAttackArea = null;
+    public GameObject twoAttackArea = null;
+    public GameObject threeAttackArea = null;
+    public GameObject fourAttackArea = null;
 
     private GameObject[] playerUnits;
     private Character[] playerStats;
@@ -107,13 +112,15 @@ public class PlayerController : MonoBehaviour
                 //Debug.Log("childCount is " + transform.childCount);
                 for (int i = 0; i < transform.childCount; i++)
                 {
+                    // clicked ally 
                     if (mousePos == playerUnits[i].transform.position && playerStats[i].isDead == false)
                     {
-                        // target ally
+                        // target ally 
                         if (currTargeted == null)
                         {
                             targetAlly(i);
                         }
+                        // someone already selected, deselct and retarget them
                         else
                         {
                             deselectTarget();
@@ -122,119 +129,17 @@ public class PlayerController : MonoBehaviour
 
                         return;
                     }
+                    // clicked enemy 
                     else if (mousePos == enemyController.enemyUnits[i].transform.position && enemyController.enemyStats[i].isDead == false)
                     {
-                        // no ally selected target enemy
+                        // no ally selected target the enemy
                         if (currTargeted == null)
                         {
                             targetEnemy(i);
                         }
                         // ally selected and in range, attack
-                        else if (currTargeted != null && isTargetEnemy == false && inMovementRange(mousePos))
-                        {                          
-                            // if you clicked an enemy but arent next to them yet, then move next to them
-                            Vector3Int distanceFrom = mousePos - Vector3Int.FloorToInt(currTargeted.transform.position);
-                            //Debug.Log("initial distanceFrom = " + distanceFrom);
-
-                            // to far diagonally
-                            if (Mathf.Abs(distanceFrom.x) >= 1 && Mathf.Abs(distanceFrom.y) >= 1)
-                            {
-                                // just copies the vertical movement stuff
-                                Vector3Int temp;
-
-                                if (distanceFrom.y < 0) // if the distance is negative
-                                    temp = new Vector3Int(0, -1, 0);
-                                else // its positive
-                                    temp = new Vector3Int(0, 1, 0);
-
-                                distanceFrom = distanceFrom - temp;
-                                Debug.Log("Initiated combat within mov range but not adjacent. Moving: " + distanceFrom);
-
-                                // if theres an ally already in the space your moving to
-                                if (unitHere(Vector3Int.FloorToInt(currTargeted.transform.position) + distanceFrom))
-                                { // try move horizontally
-
-                                    distanceFrom = distanceFrom + temp;
-                                    if (distanceFrom.x < 0) // if the distance is negative
-                                        temp = new Vector3Int(-1, 0, 0);
-                                    else // its positive
-                                        temp = new Vector3Int(1, 0, 0);
-
-                                    distanceFrom = distanceFrom - temp;
-                                    Debug.Log("Initiated combat within mov range but not adjacent. Moving: " + distanceFrom);
-
-                                    // both sides occupied just cant attack
-                                    if (unitHere(Vector3Int.FloorToInt(currTargeted.transform.position) + distanceFrom))
-                                    {
-                                        deselectTarget();
-                                        targetEnemy(i);
-                                        return;
-                                    }
-                                }
-
-                                moveAlly(Vector3Int.FloorToInt(currTargeted.transform.position) + distanceFrom);
-
-                                // small delay before beginning battle so user can see character move
-                                StartCoroutine(waitBattle(i));
-                                return;
-                            }
-
-                            // to far horizontally
-                            else if (Mathf.Abs(distanceFrom.x) > 1)
-                            {                               
-                                Vector3Int temp;
-
-                                if (distanceFrom.x < 0) // if the distance is negative
-                                    temp = new Vector3Int(-1, 0, 0);
-                                else // its positive
-                                    temp = new Vector3Int(1, 0, 0);
-
-                                distanceFrom = distanceFrom - temp;
-                                //Debug.Log("new distanceFrom = " + distanceFrom);
-                                //Debug.Log("Initiated combat within mov range but not adjacent. Moving: " + distanceFrom);
-
-                                // if theres an ally already in the space your moving to
-                                if (unitHere(Vector3Int.FloorToInt(currTargeted.transform.position) + distanceFrom))
-                                {
-                                    deselectTarget();
-                                    targetEnemy(i);
-                                    return;
-                                }
-
-                                moveAlly(Vector3Int.FloorToInt(currTargeted.transform.position) + distanceFrom);
-
-                                // small delay before beginning battle so user can see character move
-                                StartCoroutine(waitBattle(i));
-                                return;
-                            }
-                            // to far vertically
-                            else if (Mathf.Abs(distanceFrom.y) > 1)
-                            {
-                                Vector3Int temp;
-                               
-                                if (distanceFrom.y < 0) // if the distance is negative
-                                    temp = new Vector3Int(0, -1, 0);
-                                else // its positive
-                                    temp = new Vector3Int(0, 1, 0);
-
-                                distanceFrom = distanceFrom - temp;
-                                //Debug.Log("Initiated combat within mov range but not adjacent. Moving: " + distanceFrom);
-
-                                // if theres an ally already in the space your moving to
-                                if (unitHere(Vector3Int.FloorToInt(currTargeted.transform.position) + distanceFrom))
-                                {
-                                    deselectTarget();
-                                    targetEnemy(i);
-                                    return;
-                                }
-
-                                moveAlly(Vector3Int.FloorToInt(currTargeted.transform.position) + distanceFrom);
-
-                                // small delay before beginning battle so user can see character move
-                                StartCoroutine(waitBattle(i));
-                                return;
-                            }
-
+                        else if (currTargeted != null && isTargetEnemy == false && inAttackRange(mousePos, currTargeted))
+                        {
                             beginBattle(i);
                         }
                         // ally selected but not in range, reselect enemy instead
@@ -344,32 +249,40 @@ public class PlayerController : MonoBehaviour
 
         charInfoPanel.gameObject.SetActive(true);
         updateCharInfo();
-        showMovArea(currTargeted);
+        showArea(currTargeted);
 
     }
 
-    public void showMovArea(GameObject unit)
+    public void showArea(GameObject unit)
     {
         Character unitStats = unit.GetComponent<Character>();
 
         if (unitStats.movLeft == 0)
         {
             hideMovArea();
+            oneAttackArea.SetActive(true);
+            oneAttackArea.transform.position = unit.transform.position;
         }
         else if (unitStats.movLeft == 1)
         {
             oneMovArea.SetActive(true);
             oneMovArea.transform.position = unit.transform.position;
+            twoAttackArea.SetActive(true);
+            twoAttackArea.transform.position = unit.transform.position;
         }
         else if (unitStats.movLeft == 2)
         {
             twoMovArea.SetActive(true);
             twoMovArea.transform.position = unit.transform.position;
+            threeAttackArea.SetActive(true);
+            threeAttackArea.transform.position = unit.transform.position;
         }
         else if (unitStats.movLeft == 3)
         {
             threeMovArea.SetActive(true);
             threeMovArea.transform.position = unit.transform.position;
+            fourAttackArea.SetActive(true);
+            fourAttackArea.transform.position = unit.transform.position;
         }
     }
 
@@ -378,6 +291,11 @@ public class PlayerController : MonoBehaviour
         oneMovArea.SetActive(false);
         twoMovArea.SetActive(false);
         threeMovArea.SetActive(false);
+        fourMovArea.SetActive(false);
+        oneAttackArea.SetActive(false);
+        twoAttackArea.SetActive(false);
+        threeAttackArea.SetActive(false);
+        fourAttackArea.SetActive(false);
     }
 
     public void deselectTarget()
@@ -424,7 +342,7 @@ public class PlayerController : MonoBehaviour
         //Debug.Log("moveLeft: " + moveLeft);
         updateCharInfo();
         hideMovArea();
-        showMovArea(currTargeted);
+        showArea(currTargeted);
     }
 
     void targetEnemy(int i)
@@ -443,7 +361,7 @@ public class PlayerController : MonoBehaviour
         charInfoPanel.gameObject.SetActive(true);
         updateCharInfo();
         hideMovArea();
-        showMovArea(currTargeted);
+        showArea(currTargeted);
     }
 
     bool inMovementRange(Vector3Int mousePos)
@@ -455,6 +373,20 @@ public class PlayerController : MonoBehaviour
         }
         else
             return false;
+    }
+
+    bool inAttackRange(Vector3Int mousePos, GameObject unit)
+    {
+        Character unitStats = unit.GetComponent<Character>();
+
+        if (unitStats.weapon == 1)
+        {
+            Vector3Int distance = mousePos - Vector3Int.FloorToInt(unit.transform.position);
+            if ((Mathf.Abs(distance.x) == 1 && distance.y == 0) || (distance.x == 0 && Mathf.Abs(distance.y) == 1))
+                return true;
+        }
+
+        return false; 
     }
 
     Vector3Int GetMousePosition()
@@ -530,6 +462,114 @@ public class PlayerController : MonoBehaviour
         }
 
         return true;
+    }
+
+    public void moveToAttack(Vector3Int mousePos, int i)
+    {
+        // if you clicked an enemy but arent next to them yet, then move next to them
+        Vector3Int distanceFrom = mousePos - Vector3Int.FloorToInt(currTargeted.transform.position);
+        //Debug.Log("initial distanceFrom = " + distanceFrom);
+
+        // to far diagonally
+        if (Mathf.Abs(distanceFrom.x) >= 1 && Mathf.Abs(distanceFrom.y) >= 1)
+        {
+            // just copies the vertical movement stuff
+            Vector3Int temp;
+
+            if (distanceFrom.y < 0) // if the distance is negative
+                temp = new Vector3Int(0, -1, 0);
+            else // its positive
+                temp = new Vector3Int(0, 1, 0);
+
+            distanceFrom = distanceFrom - temp;
+            Debug.Log("Initiated combat within mov range but not adjacent. Moving: " + distanceFrom);
+
+            // if theres an ally already in the space your moving to
+            if (unitHere(Vector3Int.FloorToInt(currTargeted.transform.position) + distanceFrom))
+            { // try move horizontally
+
+                distanceFrom = distanceFrom + temp;
+                if (distanceFrom.x < 0) // if the distance is negative
+                    temp = new Vector3Int(-1, 0, 0);
+                else // its positive
+                    temp = new Vector3Int(1, 0, 0);
+
+                distanceFrom = distanceFrom - temp;
+                Debug.Log("Initiated combat within mov range but not adjacent. Moving: " + distanceFrom);
+
+                // both sides occupied just cant attack
+                if (unitHere(Vector3Int.FloorToInt(currTargeted.transform.position) + distanceFrom))
+                {
+                    deselectTarget();
+                    targetEnemy(i);
+                    return;
+                }
+            }
+
+            moveAlly(Vector3Int.FloorToInt(currTargeted.transform.position) + distanceFrom);
+
+            // small delay before beginning battle so user can see character move
+            StartCoroutine(waitBattle(i));
+            return;
+        }
+
+        // to far horizontally
+        else if (Mathf.Abs(distanceFrom.x) > 1)
+        {
+            Vector3Int temp;
+
+            if (distanceFrom.x < 0) // if the distance is negative
+                temp = new Vector3Int(-1, 0, 0);
+            else // its positive
+                temp = new Vector3Int(1, 0, 0);
+
+            distanceFrom = distanceFrom - temp;
+            //Debug.Log("new distanceFrom = " + distanceFrom);
+            //Debug.Log("Initiated combat within mov range but not adjacent. Moving: " + distanceFrom);
+
+            // if theres an ally already in the space your moving to
+            if (unitHere(Vector3Int.FloorToInt(currTargeted.transform.position) + distanceFrom))
+            {
+                deselectTarget();
+                targetEnemy(i);
+                return;
+            }
+
+            moveAlly(Vector3Int.FloorToInt(currTargeted.transform.position) + distanceFrom);
+
+            // small delay before beginning battle so user can see character move
+            StartCoroutine(waitBattle(i));
+            return;
+        }
+        // to far vertically
+        else if (Mathf.Abs(distanceFrom.y) > 1)
+        {
+            Vector3Int temp;
+
+            if (distanceFrom.y < 0) // if the distance is negative
+                temp = new Vector3Int(0, -1, 0);
+            else // its positive
+                temp = new Vector3Int(0, 1, 0);
+
+            distanceFrom = distanceFrom - temp;
+            //Debug.Log("Initiated combat within mov range but not adjacent. Moving: " + distanceFrom);
+
+            // if theres an ally already in the space your moving to
+            if (unitHere(Vector3Int.FloorToInt(currTargeted.transform.position) + distanceFrom))
+            {
+                deselectTarget();
+                targetEnemy(i);
+                return;
+            }
+
+            moveAlly(Vector3Int.FloorToInt(currTargeted.transform.position) + distanceFrom);
+
+            // small delay before beginning battle so user can see character move
+            StartCoroutine(waitBattle(i));
+            return;
+        }
+
+        beginBattle(i);
     }
 }
 
