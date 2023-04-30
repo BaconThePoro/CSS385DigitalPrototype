@@ -18,3 +18,6 @@ Hotkeys:<br>
 
 
 ***
+
+Current Issues: <br>
+* Enemies with more then one range can get 'encircled'. When this happens they should move backwards if possible and attack, but they can't
