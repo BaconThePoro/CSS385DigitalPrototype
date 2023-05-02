@@ -32,6 +32,7 @@ Hours Breakdown: <br>
   <li> Sanket Karna: </li>
   <li> Krisna Oeurn: </li>
   <li> Sandesh Rai: </li>
+ </ul>
 
 ***
 
