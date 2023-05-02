@@ -10,13 +10,15 @@ Hotkeys:
   <li> WASD/Hover edge of screen: moves camera in pointed direction </li>
  </ul>
 
-* Left Click: Speeds up enemy turn 
+ <li> Left Click: Speeds up enemy turn </li>
  <ul>
  </ul>
   
  
- Battlemode: 
-* Left Click: Speeds up battle 
+ <li> Battlemode: </li>
+ <ul>
+  <li> Left Click: Speeds up battle </li>
+  
  </ul>
 </ul>
 *** 
