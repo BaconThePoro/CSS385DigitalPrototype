@@ -30,7 +30,7 @@ Hours Breakdown:
   <li> Kobe Kamin: 8 hours </li>
   <li> Jacob Tea: 4.5 hours </li>
   <li> Sanket Karna: 3 hours </li>
-  <li> Krisna Oeurn: 2.5 hours </li>
+  <li> Krisna Oeurn: 3 hours </li>
   <li> Sandesh Rai: 3 hours </li>
  </ul>
 
@@ -39,37 +39,38 @@ Hours Breakdown:
 Backlog (ordered by importance): 
 <ul>
  <li> Create github for alpha build and port over functionality from digital prototype <strong>[Nobody] (30min)</strong> </li>
- <li> Start website on main final project page [Nobody] (1 hour) </li>
- <li> Use Djikstras for movement [Nobody] (3 hours) </li>
- <li> Rework weapon system to implement +/- stats on weapons [Nobody] (1 hour) </li>
- <li> Rework attack system to work with reworked Speed stat [Nobody] (1 hour) </li>
- <li> Rest of the weapons (melee, damaging magic, healing magic) [Nobody] (2 hours) </li>
- <li> Upgrade system/menu [Nobody] (1 hour)  </li>
- <li> Main menu mockup [Jacob] (30min)  </li>
- <li> Tutorial/How-to-play menu [Nobody] (2 hours)  </li>
- <li> Level design [Nobody] (>4 hours)  </li>
- <li> Sprites! [Nobody] (>4 hours) </li>
- <li> Improve Animations [Nobody] (>4 hours) </li>
- <li> Story/cutscenes [Nobody] (>4 hours) </li>
+ <li> Start website on main final project page <strong>[Nobody] (1 hour)</strong> </li>
+ <li> Use Djikstras for movement <strong>[Nobody] (3 hours)</strong> </li>
+ <li> Rework weapon system to implement +/- stats on weapons <strong>[Nobody] (1 hour)</strong> </li>
+ <li> Rework attack system to work with reworked Speed stat <strong>[Nobody] (1 hour)</strong> </li>
+ <li> Rest of the weapons (melee, damaging magic, healing magic) <strong>[Nobody] (2 hours)</strong> </li>
+ <li> Upgrade system/menu <strong>[Nobody] (1 hour)</strong>  </li>
+ <li> Main menu mockup <strong>[Jacob] (30min)</strong>  </li>
+ <li> Tutorial/How-to-play menu <strong>[Nobody] (2 hours)</strong>  </li>
+ <li> Level design <strong>[Nobody] (>4 hours)</strong>  </li>
+ <li> Sprites! <strong>[Nobody] (>4 hours)</strong> </li>
+ <li> Improve Animations <strong>[Nobody] (>4 hours) </strong></li>
+ <li> Story/cutscenes <strong>[Nobody]</strong> (>4 hours) </li>
 </ul>
 
 ***
 
 Completed:
 <ul>
- <li> Tilemap [Sanket] (1 hours) </li>
- <li> inGameGrid [Sanket + Kobe] (1 hours)  </li>
- <li> TurnSystem [Sandesh] (30 min)  </li>
- <li> ModesSystem [Sandesh + Krisna] (30 min)  </li>
- <li> Character script / Stats [Krisna] (30 min)  </li>
- <li> Mapmode UI [Sandesh] (1 hour)  </li>
- <li> Selection system [Kobe] (1 hour)  </li>
- <li> Selection highlighting [Sanket + Jacob] (1 hour)  </li>
- <li> Movement + Attack area highlighting [Kobe] (1 hour)  </li>
- <li> Player Movement [Jacob + Kobe] (1 hour)  </li>
- <li> Battlemode setup [Jacob] (30 min)  </li>
- <li> Battlemode UI [Krisna] (1 hour)  </li>
- <li> Attack system [Jacob + Kobe] (2 hour)  </li>
- <li> Starter Enemy AI [Kobe] (2 hour) </li>
- <li> Initial Spriting [Sandesh] (1 hour) </li>
+ <li> Tilemap <strong>[Sanket] (1 hours)</strong> </li>
+ <li> inGameGrid <strong>[Sanket + Kobe] (1 hours)</strong>  </li>
+ <li> TurnSystem <strong>[Sandesh] (30 min)</strong>  </li>
+ <li> ModesSystem <strong>[Sandesh + Krisna] (30 min)</strong>  </li>
+ <li> Character script / Stats <strong>[Krisna] (30 min)</strong>  </li>
+ <li> Mapmode UI <strong>[Sandesh] (1 hour)</strong>  </li>
+ <li> Selection system <strong>[Kobe] (1 hour)</strong>  </li>
+ <li> Selection highlighting <strong>[Sanket + Jacob] (1 hour)</strong>  </li>
+ <li> Movement + Attack area highlighting <strong>[Kobe] (1 hour)</strong>  </li>
+ <li> Player Movement <strong>[Jacob + Kobe] (1 hour)</strong>  </li>
+ <li> Battlemode setup <strong>[Jacob] (30 min)</strong>  </li>
+ <li> Battlemode UI <strong>[Krisna] (1 hour)</strong>  </li>
+ <li> Attack system <strong>[Jacob + Kobe] (2 hour)</strong>  </li>
+ <li> Starter Enemy AI <strong>[Kobe] (2 hour)</strong> </li>
+ <li> Initial Spriting <strong>[Sandesh] (1 hour)</strong> </li>
+ <li> Create backlog <strong>[Krisna] (30 min)</strong> </li>
 </ul>
