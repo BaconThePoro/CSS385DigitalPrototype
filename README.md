@@ -43,7 +43,7 @@ Backlog (ordered by importance):
  <li> Use Djikstras for movement [Nobody] (3 hours) </li>
  <li> Rework weapon system to implement +/- stats on weapons [Nobody] (1 hour) </li>
  <li> Rework attack system to work with reworked Speed stat [Nobody] (1 hour) </li>
- <li> Rest of the weapons (melee triangle, damaging magic, healing magic) [Nobody] (2 hours) </li>
+ <li> Rest of the weapons (melee, damaging magic, healing magic) [Nobody] (2 hours) </li>
  <li> Upgrade system/menu [Nobody] (1 hour)  </li>
  <li> Main menu mockup [Jacob] (30min)  </li>
  <li> Tutorial/How-to-play menu [Nobody] (2 hours)  </li>
