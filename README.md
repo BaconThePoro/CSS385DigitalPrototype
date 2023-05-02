@@ -11,7 +11,8 @@ Hotkeys:
  </ul>
  <br>
  <li> Enemy Turn: </li>
- <ul> Left Click: Speeds up enemy turn </li>
+ <ul> 
+  <li> Left Click: Speeds up enemy turn </li>
  </ul>
  <br>
  <li> Battlemode: </li>
