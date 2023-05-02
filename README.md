@@ -9,14 +9,16 @@ Hotkeys:
   <li> Right Click: clicks end turn button </li>
   <li> WASD/Hover edge of screen: moves camera in pointed direction </li>
  </ul>
-</ul>
 
-* Left Click: Speeds up enemy turn <br>
-<br>
- Battlemode: <br>
-* Left Click: Speeds up battle <br>
-</ul>
+* Left Click: Speeds up enemy turn 
+ <ul>
+ </ul>
   
+ 
+ Battlemode: 
+* Left Click: Speeds up battle 
+ </ul>
+</ul>
 *** 
 
 Hours Breakdown: <br>
