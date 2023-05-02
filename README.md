@@ -39,38 +39,38 @@ Hours Breakdown:
 Backlog (ordered by importance): 
 <ul>
  <li> Create github for alpha build and port over functionality from digital prototype <em><strong>[Nobody] (30min)</strong></em> </li>
- <li> Start website on main final project page <strong>[Nobody] (1 hour)</strong> </li>
- <li> Use Djikstras for movement <strong>[Nobody] (3 hours)</strong> </li>
- <li> Rework weapon system to implement +/- stats on weapons <strong>[Nobody] (1 hour)</strong> </li>
- <li> Rework attack system to work with reworked Speed stat <strong>[Nobody] (1 hour)</strong> </li>
- <li> Rest of the weapons (melee, damaging magic, healing magic) <strong>[Nobody] (2 hours)</strong> </li>
- <li> Upgrade system/menu <strong>[Nobody] (1 hour)</strong>  </li>
- <li> Main menu mockup <strong>[Jacob] (30min)</strong>  </li>
- <li> Tutorial/How-to-play menu <strong>[Nobody] (2 hours)</strong>  </li>
- <li> Level design <strong>[Nobody] (>4 hours)</strong>  </li>
- <li> Sprites! <strong>[Nobody] (>4 hours)</strong> </li>
- <li> Improve Animations <strong>[Nobody] (>4 hours) </strong></li>
- <li> Story/cutscenes <strong>[Nobody]</strong> (>4 hours) </li>
+ <li> Start website on main final project page <em><strong>[Nobody] (1 hour)</strong></em> </li>
+ <li> Use Djikstras for movement <em><strong>[Nobody] (3 hours)</strong></em> </li>
+ <li> Rework weapon system to implement +/- stats on weapons <em><strong>[Nobody] (1 hour)</strong></em> </li>
+ <li> Rework attack system to work with reworked Speed stat <em><strong>[Nobody] (1 hour)</strong></em> </li>
+ <li> Rest of the weapons (melee, damaging magic, healing magic) <em><strong>[Nobody] (2 hours)</strong></em> </li>
+ <li> Upgrade system/menu <em><strong>[Nobody] (1 hour)</strong></em>  </li>
+ <li> Main menu mockup <em><strong>[Jacob] (30min)</strong></em>  </li>
+ <li> Tutorial/How-to-play menu <em><strong>[Nobody] (2 hours)</strong></em>  </li>
+ <li> Level design <em><strong>[Nobody] (>4 hours)</strong></em>  </li>
+ <li> Sprites! <em><strong>[Nobody] (>4 hours)</strong></em> </li>
+ <li> Improve Animations <em><strong>[Nobody] (>4 hours) </strong></em> </li>
+ <li> Story/cutscenes <em><strong>[Nobody] (>4 hours)</strong> </em> </li>
 </ul>
 
 ***
 
 Completed:
 <ul>
- <li> Tilemap <strong>[Sanket] (1 hours)</strong> </li>
- <li> inGameGrid <strong>[Sanket + Kobe] (1 hours)</strong>  </li>
- <li> TurnSystem <strong>[Sandesh] (30 min)</strong>  </li>
- <li> ModesSystem <strong>[Sandesh + Krisna] (30 min)</strong>  </li>
- <li> Character script / Stats <strong>[Krisna] (30 min)</strong>  </li>
- <li> Mapmode UI <strong>[Sandesh] (1 hour)</strong>  </li>
- <li> Selection system <strong>[Kobe] (1 hour)</strong>  </li>
- <li> Selection highlighting <strong>[Sanket + Jacob] (1 hour)</strong>  </li>
- <li> Movement + Attack area highlighting <strong>[Kobe] (1 hour)</strong>  </li>
- <li> Player Movement <strong>[Jacob + Kobe] (1 hour)</strong>  </li>
- <li> Battlemode setup <strong>[Jacob] (30 min)</strong>  </li>
- <li> Battlemode UI <strong>[Krisna] (1 hour)</strong>  </li>
- <li> Attack system <strong>[Jacob + Kobe] (2 hour)</strong>  </li>
- <li> Starter Enemy AI <strong>[Kobe] (2 hour)</strong> </li>
- <li> Initial Spriting <strong>[Sandesh] (1 hour)</strong> </li>
- <li> Create backlog <strong>[Krisna] (30 min)</strong> </li>
+ <li> Tilemap <em><strong>[Sanket] (1 hours)</strong></em> </li>
+ <li> inGameGrid <em><strong>[Sanket + Kobe] (1 hours)</strong></em>  </li>
+ <li> TurnSystem <em><strong>[Sandesh] (30 min)</strong></em>  </li>
+ <li> ModesSystem <em><strong>[Sandesh + Krisna] (30 min)</strong></em>  </li>
+ <li> Character script / Stats <em><strong>[Krisna] (30 min)</strong></em>  </li>
+ <li> Mapmode UI <em><strong>[Sandesh] (1 hour)</strong></em>  </li>
+ <li> Selection system <em><strong>[Kobe] (1 hour)</strong></em>  </li>
+ <li> Selection highlighting <em><strong>[Sanket + Jacob] (1 hour)</strong></em>  </li>
+ <li> Movement + Attack area highlighting <em><strong>[Kobe] (1 hour)</strong></em>  </li>
+ <li> Player Movement <em><strong>[Jacob + Kobe] (1 hour)</strong></em>  </li>
+ <li> Battlemode setup <em><strong>[Jacob] (30 min)</strong></em>  </li>
+ <li> Battlemode UI <em><strong>[Krisna] (1 hour)</strong></em>  </li>
+ <li> Attack system <em><strong>[Jacob + Kobe] (2 hour)</strong></em>  </li>
+ <li> Starter Enemy AI <em><strong>[Kobe] (2 hour)</strong></em> </li>
+ <li> Initial Spriting <em><strong>[Sandesh] (1 hour)</strong></em> </li>
+ <li> Create backlog <em><strong>[Krisna] (30 min)</strong></em> </li>
 </ul>
