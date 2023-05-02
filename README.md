@@ -26,7 +26,7 @@ Hotkeys:
 
 Hours Breakdown: 
 <ul>
-  <li> Total Hours: </li>
+  <li> Total Hours: ~21 hours </li>
   <li> Kobe Kamin: 8 hours </li>
   <li> Jacob Tea: 4.5 hours </li>
   <li> Sanket Karna: 3 hours </li>
