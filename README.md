@@ -1,4 +1,5 @@
 Latest WebGL Build: [https://bacontheporo.github.io/CSS385DigitalPrototype/Build/](https://bacontheporo.github.io/CSS385DigitalPrototype/Build/)
+
 ***
 
 Hotkeys:
@@ -21,6 +22,7 @@ Hotkeys:
   
  </ul>
 </ul>
+
 *** 
 
 Hours Breakdown: <br>
@@ -30,8 +32,6 @@ Hours Breakdown: <br>
   <li> Sanket Karna: </li>
   <li> Krisna Oeurn: </li>
   <li> Sandesh Rai: </li>
-
-
 
 ***
 
