@@ -27,11 +27,11 @@ Hotkeys:
 Hours Breakdown: 
 <ul>
   <li> Total Hours: </li>
-  <li> Kobe Kamin: </li>
-  <li> Jacob Tea: </li>
-  <li> Sanket Karna: </li>
-  <li> Krisna Oeurn: </li>
-  <li> Sandesh Rai: </li>
+  <li> Kobe Kamin: 8 hours </li>
+  <li> Jacob Tea: 4.5 hours </li>
+  <li> Sanket Karna: 3 hours </li>
+  <li> Krisna Oeurn: 2.5 hours </li>
+  <li> Sandesh Rai: 3 hours </li>
  </ul>
 
 ***
@@ -58,7 +58,7 @@ Backlog (ordered by importance):
 Completed:
 <ul>
  <li> Tilemap [Sanket] (1 hours) </li>
- <li> inGameGrid [Kobe] (1 hours)  </li>
+ <li> inGameGrid [Sanket + Kobe] (1 hours)  </li>
  <li> TurnSystem [Sandesh] (30 min)  </li>
  <li> ModesSystem [Sandesh + Krisna] (30 min)  </li>
  <li> Character script / Stats [Krisna] (30 min)  </li>
@@ -68,7 +68,8 @@ Completed:
  <li> Movement + Attack area highlighting [Kobe] (1 hour)  </li>
  <li> Player Movement [Jacob + Kobe] (1 hour)  </li>
  <li> Battlemode setup [Jacob] (30 min)  </li>
- <li> Battlemode UI [Krisna] (30 min)  </li>
+ <li> Battlemode UI [Krisna] (1 hour)  </li>
  <li> Attack system [Jacob + Kobe] (2 hour)  </li>
  <li> Starter Enemy AI [Kobe] (2 hour) </li>
+ <li> Initial Spriting [Sandesh] (1 hour) </li>
 </ul>
