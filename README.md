@@ -19,5 +19,13 @@ Hotkeys:<br>
 
 ***
 
-Current Issues: <br>
-* Enemies with more then one range can get 'encircled'. When this happens they should move backwards if possible and attack, but they can't
+Current Issues (ordered by importance): <br>
+* Start website
+* Use Djikstras for movement
+* Rest of the weapons (melee triangle, damaging magic, healing magic)
+* Upgrade system/menu 
+* Main menu mockup 
+* Tutorial/How-to-play menu 
+* Level design 
+* Sprites!
+* Improve Animations
