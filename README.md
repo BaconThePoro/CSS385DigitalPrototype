@@ -31,3 +31,6 @@ Current Issues (ordered by importance): <br>
 * Sprites!
 * Improve Animations
 * Story/cutscenes
+
+Completed Issues: <br>
+*
