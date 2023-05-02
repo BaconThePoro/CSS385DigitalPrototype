@@ -13,7 +13,15 @@ Hotkeys:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Battlemode: <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * Left Click: Speeds up battle <br>
 
+*** 
 
+Hours Breakdown: <br>
+<ul>
+  <li> Kobe Kamin: </li>
+  <li> Jacob Tea: </li>
+  <li> Sanket Karna: </li>
+  <li> Krisna Oeurn: </li>
+  <li> Sandesh Rai: </li>
 
 
 
@@ -35,4 +43,7 @@ Backlog (ordered by importance): <br>
 ***
 
 Completed : <br>
-*
+* Tilemap
+* inGameGrid
+* TurnSystem
+* ModesSystem
