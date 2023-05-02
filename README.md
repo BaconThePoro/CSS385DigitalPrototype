@@ -29,3 +29,4 @@ Current Issues (ordered by importance): <br>
 * Level design 
 * Sprites!
 * Improve Animations
+* Story/cutscenes
