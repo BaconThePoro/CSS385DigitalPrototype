@@ -2,10 +2,11 @@ Latest WebGL Build: [https://bacontheporo.github.io/CSS385DigitalPrototype/Build
 ***
 
 Hotkeys:
-<ul> Player Turn (Map): 
-<li> Left Click: Select hovered unit, move a selected unit, attack with selected unit </ul> 
-<li> Right Click: clicks end turn button </ul>
-<li> WASD/Hover edge of screen: moves camera in pointed direction </ul>
+<ul> 
+ <li> Player Turn (Map): </li>
+ <li> Left Click: Select hovered unit, move a selected unit, attack with selected unit </li>
+ <li> Right Click: clicks end turn button </li>
+ <li> WASD/Hover edge of screen: moves camera in pointed direction </li>
 </ul>
 
 * Left Click: Speeds up enemy turn <br>
