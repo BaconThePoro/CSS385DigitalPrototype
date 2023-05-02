@@ -19,13 +19,12 @@ Hotkeys:
  <li> Battlemode: </li>
  <ul>
   <li> Left Click: Speeds up battle </li>
-  
  </ul>
 </ul>
 
 *** 
 
-Hours Breakdown: <br>
+Hours Breakdown: 
 <ul>
   <li> Total Hours: </li>
   <li> Kobe Kamin: </li>
@@ -54,8 +53,10 @@ Backlog (ordered by importance):
 
 ***
 
-Completed : 
-* Tilemap
-* inGameGrid
-* TurnSystem
-* ModesSystem
+Completed:
+<ul>
+ <li> Tilemap </li>
+ <li> inGameGrid </li>
+ <li> TurnSystem </li>
+ <li> ModesSystem </li>
+</ul>
