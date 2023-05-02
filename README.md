@@ -40,9 +40,9 @@ Backlog (ordered by importance):
 <ul>
  <li> Create github for alpha build and port over functionality from digital prototype <em><strong>[Nobody] (30min)</strong></em> </li>
  <li> Start website on main final project page <em><strong>[Krisna] (1 hour)</strong></em> </li>
- <li> Use Djikstras for movement <em><strong>[Nobody] (3 hours)</strong></em> </li>
- <li> Rework weapon system to implement +/- stats on weapons <em><strong>[Nobody] (1 hour)</strong></em> </li>
- <li> Rework attack system to work with reworked Speed stat <em><strong>[Nobody] (1 hour)</strong></em> </li>
+ <li> Use Djikstras for movement <em><strong>[Sanket + Kobe] (3 hours)</strong></em> </li>
+ <li> Rework weapon system to implement +/- stats on weapons <em><strong>[Kobe] (1 hour)</strong></em> </li>
+ <li> Rework attack system to work with reworked Speed stat <em><strong>[Kobe] (1 hour)</strong></em> </li>
  <li> Rest of the weapons (melee, damaging magic, healing magic) <em><strong>[Nobody] (2 hours)</strong></em> </li>
  <li> Upgrade system/menu <em><strong>[Nobody] (1 hour)</strong></em>  </li>
  <li> Main menu mockup <em><strong>[Jacob] (30min)</strong></em>  </li>
