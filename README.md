@@ -1,7 +1,7 @@
 Latest WebGL Build: [https://bacontheporo.github.io/CSS385DigitalPrototype/Build/](https://bacontheporo.github.io/CSS385DigitalPrototype/Build/)
 ***
 
-Hotkeys:<br>
+Hotkeys:
 <ul> Player Turn (Map): 
 <li> Left Click: Select hovered unit, move a selected unit, attack with selected unit </ul> 
 <li> Right Click: clicks end turn button </ul>
