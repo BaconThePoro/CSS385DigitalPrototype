@@ -19,7 +19,7 @@ Hotkeys:<br>
 
 ***
 
-Current Issues (ordered by importance): <br>
+Backlog (ordered by importance): <br>
 * Create github for alpha build and port over functionality from digital prototype
 * Start website on main final project page
 * Use Djikstras for movement
@@ -32,5 +32,7 @@ Current Issues (ordered by importance): <br>
 * Improve Animations
 * Story/cutscenes
 
-Completed Issues: <br>
+***
+
+Completed : <br>
 *
