@@ -27,6 +27,7 @@ Hotkeys:
 
 Hours Breakdown: <br>
 <ul>
+  <li> Total Hours: </li>
   <li> Kobe Kamin: </li>
   <li> Jacob Tea: </li>
   <li> Sanket Karna: </li>
@@ -36,22 +37,24 @@ Hours Breakdown: <br>
 
 ***
 
-Backlog (ordered by importance): <br>
-* Create github for alpha build and port over functionality from digital prototype
-* Start website on main final project page
-* Use Djikstras for movement
-* Rest of the weapons (melee triangle, damaging magic, healing magic)
-* Upgrade system/menu 
-* Main menu mockup 
-* Tutorial/How-to-play menu 
-* Level design 
-* Sprites!
-* Improve Animations
-* Story/cutscenes
+Backlog (ordered by importance): 
+<ul>
+ <li> Create github for alpha build and port over functionality from digital prototype </li>
+ <li> Start website on main final project page </li>
+ <li> Use Djikstras for movement </li>
+ <li> Rest of the weapons (melee triangle, damaging magic, healing magic) </li>
+ <li> Upgrade system/menu  </li>
+ <li> Main menu mockup  </li>
+ <li> Tutorial/How-to-play menu  </li>
+ <li> Level design  </li>
+ <li> Sprites! </li>
+ <li> Improve Animations </li>
+ <li> Story/cutscenes </li>
+</ul>
 
 ***
 
-Completed : <br>
+Completed : 
 * Tilemap
 * inGameGrid
 * TurnSystem
