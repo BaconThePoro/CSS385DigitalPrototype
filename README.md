@@ -41,6 +41,8 @@ Backlog (ordered by importance):
 <ul>
  <li> Start website on main final project page <em><strong>[Krisna] (1 hour)</strong></em> </li>
  <li> Use Djikstras for movement <em><strong>[Sanket + Kobe] (3 hours)</strong></em> </li>
+ <li> Move areas up to 6 <em><strong>[Nobody] (30 min)</strong></em> </li>
+ <li> Attack areas up to 8 <em><strong>[Nobody] (30 min)</strong></em> </li>
  <li> Rework weapon system to implement +/- stats on weapons <em><strong>[Kobe] (1 hour)</strong></em> </li>
  <li> Rework attack system to work with reworked Speed stat <em><strong>[Kobe] (1 hour)</strong></em> </li>
  <li> Rest of the weapons (melee, damaging magic, healing magic) <em><strong>[Nobody] (2 hours)</strong></em> </li>
@@ -72,5 +74,6 @@ Completed:
  <li> Attack system <em><strong>[Jacob + Kobe] (2 hour)</strong></em>  </li>
  <li> Starter Enemy AI <em><strong>[Kobe] (2 hour)</strong></em> </li>
  <li> Initial Spriting <em><strong>[Sandesh] (1 hour)</strong></em> </li>
+ <li> Move + Attack areas up to 4 <em><strong>[Sanket] (1 hour)</strong></em> </li>
  <li> Create backlog <em><strong>[Krisna] (30 min)</strong></em> </li>
 </ul>
