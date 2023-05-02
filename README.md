@@ -20,7 +20,8 @@ Hotkeys:<br>
 ***
 
 Current Issues (ordered by importance): <br>
-* Start website
+* Create github for alpha build and port over functionality from digital prototype
+* Start website on main final project page
 * Use Djikstras for movement
 * Rest of the weapons (melee triangle, damaging magic, healing magic)
 * Upgrade system/menu 
