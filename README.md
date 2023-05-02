@@ -46,7 +46,7 @@ Backlog (ordered by importance):
  <li> Rest of the weapons (melee, damaging magic, healing magic) <em><strong>[Nobody] (2 hours)</strong></em> </li>
  <li> Upgrade system/menu <em><strong>[Nobody] (1 hour)</strong></em>  </li>
  <li> Main menu mockup <em><strong>[Jacob] (30min)</strong></em>  </li>
- <li> Tutorial/How-to-play menu <em><strong>[Nobody] (2 hours)</strong></em>  </li>
+ <li> Tutorial/How-to-play menu <em><strong>[Jacob + Sanket] (2 hours)</strong></em>  </li>
  <li> Level design <em><strong>[Nobody] (>4 hours)</strong></em>  </li>
  <li> Sprites! <em><strong>[Nobody] (>4 hours)</strong></em> </li>
  <li> Improve Animations <em><strong>[Nobody] (>4 hours) </strong></em> </li>
