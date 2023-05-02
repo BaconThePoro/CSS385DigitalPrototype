@@ -38,7 +38,7 @@ Hours Breakdown:
 
 Backlog (ordered by importance): 
 <ul>
- <li> Create github for alpha build and port over functionality from digital prototype [Nobody] (30min) </li>
+ <li> Create github for alpha build and port over functionality from digital prototype <strong>[Nobody] (30min)</strong> </li>
  <li> Start website on main final project page [Nobody] (1 hour) </li>
  <li> Use Djikstras for movement [Nobody] (3 hours) </li>
  <li> Rework weapon system to implement +/- stats on weapons [Nobody] (1 hour) </li>
