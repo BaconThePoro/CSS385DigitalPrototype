@@ -1,4 +1,4 @@
-Digital Prototype WebGL: [https://bacontheporo.github.io/CSS385DigitalPrototype/Build/](https://bacontheporo.github.io/CSS385DigitalPrototype/Build/)
+Digital Prototype WebGL: [https://bacontheporo.github.io/CSS385DigitalPrototype/Build/](https://bacontheporo.github.io/CSS385DigitalPrototype/Build/) <br>
 Alpha Playtest WebGL: 
 
 ***
