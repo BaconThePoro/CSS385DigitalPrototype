@@ -1078,7 +1078,7 @@ GameObject:
   - component: {fileID: 1120895405}
   - component: {fileID: 1120895404}
   - component: {fileID: 1120895403}
-  - component: {fileID: 1120895402}
+  - component: {fileID: 1120895406}
   m_Layer: 5
   m_Name: TutorialButton
   m_TagString: Untagged
@@ -1107,18 +1107,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -40.2}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1120895402
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1120895400}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c29c1c122371544e8dbe8afa2e73400, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1120895403
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1162,7 +1150,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1120895404}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1120895406}
+        m_TargetAssemblyTypeName: StartScript, Assembly-CSharp
+        m_MethodName: loadTutorial
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1120895404
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1201,6 +1201,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1120895400}
   m_CullTransparentMesh: 1
+--- !u!114 &1120895406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1120895400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2de3adda302a5845a4f4c8773fbe834, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1344299996
 GameObject:
   m_ObjectHideFlags: 0
@@ -1213,7 +1225,7 @@ GameObject:
   - component: {fileID: 1344300001}
   - component: {fileID: 1344300000}
   - component: {fileID: 1344299999}
-  - component: {fileID: 1344299998}
+  - component: {fileID: 1344300002}
   m_Layer: 5
   m_Name: Credits
   m_TagString: Untagged
@@ -1242,18 +1254,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -80.1}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1344299998
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1344299996}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c29c1c122371544e8dbe8afa2e73400, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1344299999
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1297,7 +1297,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1344300000}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1344300002}
+        m_TargetAssemblyTypeName: StartScript, Assembly-CSharp
+        m_MethodName: loadCredits
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1344300000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1336,6 +1348,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1344299996}
   m_CullTransparentMesh: 1
+--- !u!114 &1344300002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1344299996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2de3adda302a5845a4f4c8773fbe834, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1978279244
 GameObject:
   m_ObjectHideFlags: 0
