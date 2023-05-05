@@ -10,6 +10,7 @@ Hotkeys:
   <li> Left Click: Select hovered unit, move a selected unit, attack with selected unit </li>
   <li> Right Click: clicks end turn button </li>
   <li> WASD/Hover edge of screen: moves camera in pointed direction </li>
+  <li> Scroll Wheel: changes camera zoom </li>
  </ul>
  <br>
  <li> Enemy Turn: </li>
