@@ -6,25 +6,17 @@ using UnityEngine.UI;
 
 public class EnemyController : MonoBehaviour
 {
-    // must be connected via unity editor
+    // most public stuff needs to be connected through unity editor
     public GameObject gameControllerObj = null;
     private GameController gameController = null;
     public GameObject playerControllerObj = null;
     private PlayerController playerController = null;
-
     public GameObject[] enemyUnits;
     public Character[] enemyStats;
     public Vector3[] enemyStartPos;
-
     public Tilemap currTilemap = null;
-    // dont set in here, they grab value from GameController
-    private float tileX = 0;
-    private float tileY = 0;
-
     public float inBetweenDelay = .3f;
-    //private int aggroRange = 5;
-    public bool battleDone = false; 
-
+    public bool battleDone = false;
     private enum direction { left, right, up, down };
 
     // Start is called before the first frame update
@@ -32,8 +24,6 @@ public class EnemyController : MonoBehaviour
     {
         gameController = gameControllerObj.GetComponent<GameController>();
         playerController = playerControllerObj.GetComponent<PlayerController>();
-        tileX = gameController.tileX;
-        tileY = gameController.tileY;
 
         // get a handle on each child for EnemyController
         enemyUnits = new GameObject[transform.childCount];
@@ -124,7 +114,7 @@ public class EnemyController : MonoBehaviour
 
                     for (enemyStats[i].movLeft = enemyStats[i].movLeft; enemyStats[i].movLeft > 0; enemyStats[i].movLeft--)
                     {
-                        Debug.Log("Target Vector: " + targetVector);
+                        //Debug.Log("Target Vector: " + targetVector);
 
                         // small delay at the start of every units turn
                         yield return new WaitForSeconds(inBetweenDelay);
@@ -262,10 +252,10 @@ public class EnemyController : MonoBehaviour
 
         // if facing to the right or down then put ally on the left 
         if (battleDirection == direction.right || battleDirection == direction.down)
-            yield return StartCoroutine(gameController.startBattle(enemyUnits[i], target, true, false, battleRange));
+            yield return StartCoroutine(gameController.startBattle(enemyUnits[i], target, false, battleRange));
         // else put ally on the right
         else
-            yield return StartCoroutine(gameController.startBattle(target, enemyUnits[i], false, false, battleRange));
+            yield return StartCoroutine(gameController.startBattle(target, enemyUnits[i], false, battleRange));
     }
 
     public bool enemyHere(Vector3Int pos)

@@ -21,43 +21,23 @@ public class GameController : MonoBehaviour
     private Camera mainCamera = null;
     public GameObject Mapmode = null;
     public GameObject Battlemode = null;
+    public GameObject damageTXTObj = null;
+    private TMPro.TextMeshProUGUI damageTXT = null;
     public GameObject charInfoPanelL = null;
     public GameObject charInfoPanelR = null;
-    public GameObject leftDamageUI = null;
-    public GameObject rightDamageUI = null;
-    private TMPro.TMP_Text leftDamageTXT = null;
-    private TMPro.TMP_Text rightDamageTXT = null;
     public GameObject VictoryScreen = null;
     public GameObject DefeatScreen = null;
-
-    // enum for whose turn it is currently, the players or the enemies.
-    public enum turnMode { PlayerTurn, EnemyTurn };
-    private turnMode currTurnMode;
-
-    // enum for what the game is currently doing/displayhing, a menu, the map, or a battle. 
-    public enum gameMode { MenuMode, MapMode, BattleMode };
-    private gameMode currGameMode;
-
-    // Must be connected via unity editor
     public GameObject turnPanel = null;
     public TMPro.TMP_Text turnModeTXT = null;
     public Button endTurnButton = null;
-
-    // Must be connected via unity editor
     public Grid currGrid = null;
     public Tilemap currTilemap = null;
     public Tile hoverTile = null;
-
-    // defaulted to this so the hover doesnt overwrite an existing tile on first deselection
-    private Vector3Int previousMousePos = new Vector3Int(0, 0, -999);
-
     // stuff for battlemode
     private Vector3 leftBattlePos1 = new Vector3(-1.5f, 0, -1);
     private Vector3 rightBattlePos1 = new Vector3(1.5f, 0, -1);
     private Vector3 leftBattlePos2 = new Vector3(-3, 0, -1);
     private Vector3 rightBattlePos2 = new Vector3(3, 0, -1);
-    private Vector3 leftTarget = new Vector3(0f, 0, -1);
-    private Vector3 rightTarget = new Vector3(0f, 0, -1);
     private Vector3 camBattlePos = new Vector3(0, 0.5f, -50);
     private float camBattleSize = 2;
     private Quaternion leftBattleQua = new Quaternion();
@@ -68,11 +48,9 @@ public class GameController : MonoBehaviour
     private Quaternion savedQuaLeft;
     private Quaternion savedQuaRight;
     private float savedCamSize;
-    private enum doubleAttack { neitherDouble, leftDoubles, rightDoubles };
-    private int doubleRequirement = 4;
     private float inbetweenAttackDelay = 0.5f;
     private float animationDuration = 0.25f;
-
+    private Vector3 damageTextOffset = new Vector3(0.5f, 0.5f, 0);
     // panel stuff
     private GameObject LmovLeftTXT = null;
     private GameObject LmovLeftNUMObj = null;
@@ -85,7 +63,6 @@ public class GameController : MonoBehaviour
     private TMPro.TextMeshProUGUI LresNUM = null;
     private TMPro.TextMeshProUGUI LmovNUM = null;
     private TMPro.TextMeshProUGUI LmovLeftNUM = null;
-    //
     private GameObject RmovLeftTXT = null;
     private GameObject RmovLeftNUMObj = null;
     private TMPro.TextMeshProUGUI RcharNameTXT = null;
@@ -97,11 +74,17 @@ public class GameController : MonoBehaviour
     private TMPro.TextMeshProUGUI RresNUM = null;
     private TMPro.TextMeshProUGUI RmovNUM = null;
     private TMPro.TextMeshProUGUI RmovLeftNUM = null;
-    //
 
-    // set these ones 
-    public float tileX = 1;
-    public float tileY = 1;
+    // enum for whose turn it is currently, the players or the enemies.
+    public enum turnMode { PlayerTurn, EnemyTurn };
+    private turnMode currTurnMode;
+
+    // enum for what the game is currently doing/displayhing, a menu, the map, or a battle. 
+    public enum gameMode { MenuMode, MapMode, BattleMode };
+    private gameMode currGameMode;
+
+    // defaulted to this so the hover doesnt overwrite an existing tile on first deselection
+    private Vector3Int previousMousePos = new Vector3Int(0, 0, -999);
 
     // world limit is limit camera should be movable
     float worldLimX = 18f;
@@ -109,16 +92,16 @@ public class GameController : MonoBehaviour
     float camMoveAmount = 0.02f;
     float panBorderThickness = 30f;
 
+    bool isFocused = true; 
 
     // Start is called before the first frame update
     void Start()
     {
+        // getting a billion components
         playerController = playerControllerObj.GetComponent<PlayerController>();
         enemyController = enemyControllerObj.GetComponent<EnemyController>();
         mainCamera = mainCameraObj.GetComponent<Camera>();
-        leftDamageTXT = leftDamageUI.GetComponent<TMPro.TextMeshProUGUI>();
-        rightDamageTXT = rightDamageUI.GetComponent<TMPro.TextMeshProUGUI>();
-
+        damageTXT = damageTXTObj.GetComponent<TMPro.TextMeshProUGUI>();
         LcharNameTXT = charInfoPanelL.transform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>();
         LmovLeftTXT = charInfoPanelL.transform.GetChild(9).gameObject;
         LhpNUM = charInfoPanelL.transform.GetChild(10).GetComponent<TMPro.TextMeshProUGUI>();
@@ -130,7 +113,6 @@ public class GameController : MonoBehaviour
         LmovNUM = charInfoPanelL.transform.GetChild(16).GetComponent<TMPro.TextMeshProUGUI>();
         LmovLeftNUMObj = charInfoPanelL.transform.GetChild(17).gameObject;
         LmovLeftNUM = LmovLeftNUMObj.GetComponent<TMPro.TextMeshProUGUI>();
-
         RcharNameTXT = charInfoPanelR.transform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>();
         RmovLeftTXT = charInfoPanelR.transform.GetChild(9).gameObject;
         RhpNUM = charInfoPanelR.transform.GetChild(10).GetComponent<TMPro.TextMeshProUGUI>();
@@ -147,12 +129,25 @@ public class GameController : MonoBehaviour
         changeMode(gameMode.MapMode);
 
         updateTurnText();
-
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Application.isFocused != isFocused)
+        {
+            isFocused = !isFocused;
+            if (isFocused)
+            {
+                Time.timeScale = 1;
+            }
+            else
+            {
+                Time.timeScale = 0;
+            }
+        }
+   
+
         if (currGameMode == gameMode.BattleMode)
         {
             // if user left clicks during battle
@@ -178,10 +173,10 @@ public class GameController : MonoBehaviour
         if (currGameMode == gameMode.MapMode)
         {
             // camera move up
-            if (Input.GetKey(KeyCode.W) && mainCamera.transform.position.y < worldLimY 
+            if (Input.GetKey(KeyCode.W) && mainCamera.transform.position.y < worldLimY
                 || Input.mousePosition.y >= Screen.height - panBorderThickness && mainCamera.transform.position.y < worldLimY)
             {
-                mainCamera.transform.position = new Vector3(mainCamera.transform.position.x, mainCamera.transform.position.y + camMoveAmount, mainCamera.transform.position.z); 
+                mainCamera.transform.position = new Vector3(mainCamera.transform.position.x, mainCamera.transform.position.y + camMoveAmount, mainCamera.transform.position.z);
             }
             // camera move down
             if (Input.GetKey(KeyCode.S) && mainCamera.transform.position.y > -worldLimY
@@ -233,13 +228,11 @@ public class GameController : MonoBehaviour
 
     // playerSide and Turn in conjunction tell who should strike first (whoevers turn it is ie. playerTurn attack means player attacks first)
     // if the attack occurs on a playerTurn they need control returned to them as well
-    public IEnumerator startBattle(GameObject leftChar, GameObject rightChar, bool playerSide, bool playerTurn, int battleRange)
+    public IEnumerator startBattle(GameObject leftChar, GameObject rightChar, bool playerTurn, int battleRange)
     {
         Debug.Log("starting battle");
-
         Character leftStats = leftChar.GetComponent<Character>();
         Character rightStats = rightChar.GetComponent<Character>();
-
         // go to battlemode
         turnPanel.SetActive(false);
         playerController.deselectTarget();
@@ -251,23 +244,17 @@ public class GameController : MonoBehaviour
         mainCamera.orthographicSize = camBattleSize;
         charInfoPanelL.SetActive(true);
         charInfoPanelR.SetActive(true);
-        leftDamageUI.SetActive(true);
-        rightDamageUI.SetActive(true);
+        damageTXT.gameObject.SetActive(true);
         updateBattleStats(leftStats, rightStats);
-        //
-
         // reactivate participants
         leftChar.SetActive(true);
         rightChar.SetActive(true);
-
         // save position and rotation for both participants (and camera) before we move them
         savedPosLeft = leftChar.transform.position;
         savedPosRight = rightChar.transform.position;
         savedPosCam = mainCamera.transform.position;
         savedQuaLeft = leftChar.transform.rotation;
         savedQuaRight = rightChar.transform.rotation;
-        //
-
         // move both participants (and camera) to position for battle
         if (battleRange == 1)
         {
@@ -279,228 +266,79 @@ public class GameController : MonoBehaviour
             leftChar.transform.position = leftBattlePos2;
             rightChar.transform.position = rightBattlePos2;
         }
-
         mainCamera.transform.position = camBattlePos;
         leftChar.transform.rotation = leftBattleQua;
         rightChar.transform.rotation = rightBattleQua;
-        //
 
         // delay for 1.5s so user can see before battle starts
         yield return new WaitForSeconds(inbetweenAttackDelay * 3);
 
-        // figure out if one battler is double attacking or not
-        doubleAttack whoDoubles;
-        if (leftStats.SPD >= rightStats.SPD + doubleRequirement)
+        // Determine who should attack first
+        GameObject firstAttacker;
+        Character firstStats;
+        GameObject secondAttacker;
+        Character secondStats;
+
+        // left is faster
+        if (leftStats.SPD > rightStats.SPD)
         {
-            whoDoubles = doubleAttack.leftDoubles;
+            firstAttacker = leftChar;
+            secondAttacker = rightChar;
+            firstStats = leftStats;
+            secondStats = rightStats;
         }
-        else if (rightStats.SPD >= leftStats.SPD + doubleRequirement)
+        // speed tie
+        else if (leftStats.SPD == rightStats.SPD)
         {
-            whoDoubles = doubleAttack.rightDoubles;
-        }
-        else
-            whoDoubles = doubleAttack.neitherDouble;
-
-
-        // player initiated battle, they attack first
-        if (playerTurn == true)
-        {
-            // player is on left
-            if (playerSide == false)
-            {       
-                // player attack
-                StartCoroutine(LerpPosition(leftChar, leftTarget, animationDuration));
-                yield return new WaitForSeconds(.5f);
-                StartCoroutine(damageTXT(true, Attack(leftStats, rightStats)));
-                updateBattleStats(leftStats, rightStats);
-                
-                // delay
-                yield return new WaitForSeconds(inbetweenAttackDelay);
-
-                // enemy attack
-                if (rightStats.attackRange == battleRange)
-                {
-                    StartCoroutine(LerpPosition(rightChar, rightTarget, animationDuration));
-                    yield return new WaitForSeconds(.5f);
-                    StartCoroutine(damageTXT(false, Attack(rightStats, leftStats)));
-                    updateBattleStats(leftStats, rightStats);
-                }
-
-                if (whoDoubles == doubleAttack.leftDoubles && leftStats.isDead == false && rightStats.isDead == false)
-                {
-                    // delay
-                    yield return new WaitForSeconds(inbetweenAttackDelay);
-                   
-                    // player doubles
-                    StartCoroutine(LerpPosition(leftChar, leftTarget, animationDuration));
-                    yield return new WaitForSeconds(.5f);
-                    StartCoroutine(damageTXT(true, Attack(leftStats, rightStats)));
-                    updateBattleStats(leftStats, rightStats);
-                }
-
-                else if (whoDoubles == doubleAttack.rightDoubles && leftStats.isDead == false 
-                    && rightStats.isDead == false && rightStats.attackRange == battleRange)
-                {
-                    // delay
-                    yield return new WaitForSeconds(inbetweenAttackDelay);
-                    
-                    // enemy doubles
-                    StartCoroutine(LerpPosition(rightChar, rightTarget, animationDuration));
-                    yield return new WaitForSeconds(.5f);
-                    StartCoroutine(damageTXT(false, Attack(rightStats, leftStats)));
-                    updateBattleStats(leftStats, rightStats);
-                }
-
+            // coin flip who goes first
+            if (Random.value >= 0.5)
+            {
+                firstAttacker = leftChar;
+                secondAttacker = rightChar;
+                firstStats = leftStats;
+                secondStats = rightStats;
             }
-            // player is on right
             else
             {
-                // player attack             
-                StartCoroutine(LerpPosition(rightChar, rightTarget, animationDuration));
-                yield return new WaitForSeconds(.5f);
-                StartCoroutine(damageTXT(false, Attack(rightStats, leftStats)));
-                updateBattleStats(leftStats, rightStats);
-
-                // delay
-                yield return new WaitForSeconds(inbetweenAttackDelay);
-
-                // enemy attack
-                if (leftStats.attackRange == battleRange)
-                {
-                    StartCoroutine(LerpPosition(leftChar, leftTarget, animationDuration));
-                    yield return new WaitForSeconds(.5f);
-                    StartCoroutine(damageTXT(true, Attack(leftStats, rightStats)));
-                    updateBattleStats(leftStats, rightStats);
-                }
-
-                if (whoDoubles == doubleAttack.leftDoubles && leftStats.isDead == false 
-                    && rightStats.isDead == false && leftStats.attackRange == battleRange)
-                {
-                    // delay
-                    yield return new WaitForSeconds(inbetweenAttackDelay);
-                    
-                    // enemy doubles
-                    StartCoroutine(LerpPosition(leftChar, leftTarget, animationDuration));
-                    yield return new WaitForSeconds(.5f);
-                    StartCoroutine(damageTXT(true, Attack(leftStats, rightStats)));
-                    updateBattleStats(leftStats, rightStats);
-                }
-
-                else if (whoDoubles == doubleAttack.rightDoubles && leftStats.isDead == false && rightStats.isDead == false)
-                {
-                    // delay
-                    yield return new WaitForSeconds(inbetweenAttackDelay);
-                   
-                    // player doubles
-                    StartCoroutine(LerpPosition(rightChar, rightTarget, animationDuration));
-                    yield return new WaitForSeconds(.5f);
-                    StartCoroutine(damageTXT(false, Attack(rightStats, leftStats)));
-                    updateBattleStats(leftStats, rightStats);
-                }
+                firstAttacker = rightChar;
+                secondAttacker = leftChar;
+                firstStats = rightStats;
+                secondStats = leftStats;
             }
         }
-
-        // enemy initiated battle, they attack first
+        // right is faster
         else
         {
-            // enemy is on left
-            if (playerSide == true)
-            {
-                // enemy attack              
-                StartCoroutine(LerpPosition(leftChar, leftTarget, animationDuration));
-                yield return new WaitForSeconds(.5f);
-                StartCoroutine(damageTXT(true, Attack(leftStats, rightStats)));
-                updateBattleStats(leftStats, rightStats);
+            firstAttacker = rightChar;
+            secondAttacker = leftChar;
+            firstStats = rightStats;
+            secondStats = leftStats;
+        }
 
-                // delay
-                yield return new WaitForSeconds(inbetweenAttackDelay);
+        // first attacks
+        if (firstStats.attackRange == battleRange)
+        {
+            StartCoroutine(LerpPosition(firstAttacker, firstAttacker.transform.position + firstAttacker.transform.right, animationDuration));
+            yield return new WaitForSeconds(.5f);
+            StartCoroutine(updateDamageTXT(secondAttacker, Attack(firstStats, secondStats))); // person taking damage and damage value
+            updateBattleStats(leftStats, rightStats);
+        }
+ 
+        // delay
+        yield return new WaitForSeconds(inbetweenAttackDelay);
 
-                // player attack
-                if (rightStats.attackRange == battleRange)
-                {
-                    StartCoroutine(LerpPosition(rightChar, rightTarget, animationDuration));
-                    yield return new WaitForSeconds(.5f);
-                    StartCoroutine(damageTXT(false, Attack(rightStats, leftStats)));
-                    updateBattleStats(leftStats, rightStats);
-                }
-
-
-                if (whoDoubles == doubleAttack.leftDoubles && leftStats.isDead == false && rightStats.isDead == false)
-                {
-                    // delay
-                    yield return new WaitForSeconds(inbetweenAttackDelay);
-                   
-                    // enemy doubles
-                    StartCoroutine(LerpPosition(leftChar, leftTarget, animationDuration));
-                    yield return new WaitForSeconds(.5f);
-                    StartCoroutine(damageTXT(true, Attack(leftStats, rightStats)));
-                    updateBattleStats(leftStats, rightStats);
-                }
-
-                else if (whoDoubles == doubleAttack.rightDoubles && leftStats.isDead == false
-                    && rightStats.isDead == false && rightStats.attackRange == battleRange)
-                {
-                    // delay
-                    yield return new WaitForSeconds(inbetweenAttackDelay);  
-                    
-                    // player doubles
-                    StartCoroutine(LerpPosition(rightChar, rightTarget, animationDuration));
-                    yield return new WaitForSeconds(.5f);
-                    StartCoroutine(damageTXT(false, Attack(rightStats, leftStats)));
-                    updateBattleStats(leftStats, rightStats);
-                }
-            }
-            // enemy is on right
-            else
-            {
-                // enemy attack               
-                StartCoroutine(LerpPosition(rightChar, rightTarget, animationDuration));
-                yield return new WaitForSeconds(.5f);
-                StartCoroutine(damageTXT(false, Attack(rightStats, leftStats)));
-                updateBattleStats(leftStats, rightStats);
-
-                // delay
-                yield return new WaitForSeconds(inbetweenAttackDelay);
-
-                // player attack
-                if (leftStats.attackRange == battleRange)
-                {
-                    StartCoroutine(LerpPosition(leftChar, leftTarget, animationDuration));
-                    yield return new WaitForSeconds(.5f);
-                    StartCoroutine(damageTXT(true, Attack(leftStats, rightStats)));
-                    updateBattleStats(leftStats, rightStats);
-                }
-
-
-                if (whoDoubles == doubleAttack.leftDoubles && leftStats.isDead == false 
-                    && rightStats.isDead == false && leftStats.attackRange == battleRange)
-                {
-                    // delay
-                    yield return new WaitForSeconds(inbetweenAttackDelay);
-                   
-                    // enemy doubles
-                    StartCoroutine(LerpPosition(leftChar, leftTarget, animationDuration));
-                    yield return new WaitForSeconds(.5f);
-                    StartCoroutine(damageTXT(true, Attack(leftStats, rightStats)));
-                    updateBattleStats(leftStats, rightStats);
-                }
-
-                else if (whoDoubles == doubleAttack.rightDoubles && leftStats.isDead == false && rightStats.isDead == false)
-                {
-                    // delay
-                    yield return new WaitForSeconds(inbetweenAttackDelay);
-                    
-                    // player doubles
-                    StartCoroutine(LerpPosition(rightChar, rightTarget, animationDuration));
-                    yield return new WaitForSeconds(.5f);
-                    StartCoroutine(damageTXT(false, Attack(rightStats, leftStats)));
-                    updateBattleStats(leftStats, rightStats);
-                }
-            }
+        // second attack
+        if (secondStats.attackRange == battleRange)
+        {
+            StartCoroutine(LerpPosition(secondAttacker, secondAttacker.transform.position + secondAttacker.transform.right, animationDuration));
+            yield return new WaitForSeconds(.5f);
+            StartCoroutine(updateDamageTXT(firstAttacker, Attack(secondStats, firstStats))); // person taking damage and damage value
+            updateBattleStats(leftStats, rightStats);
         }
 
         // delay again for 1.5s so user can see result of battle before leaving battlemode
         yield return new WaitForSeconds(inbetweenAttackDelay * 4);
+
 
         // reset inbetweenAttackDelay in case user skipped battle
         if (playerTurn == true)
@@ -515,23 +353,16 @@ public class GameController : MonoBehaviour
         mainCamera.orthographicSize = savedCamSize;
         leftChar.transform.rotation = savedQuaLeft;
         rightChar.transform.rotation = savedQuaRight;
-        //
-
         // return to mapmode
         charInfoPanelL.SetActive(false);
         charInfoPanelR.SetActive(false);
-        leftDamageTXT.text = "";
-        rightDamageTXT.text = "";
-        leftDamageUI.SetActive(false);
-        rightDamageUI.SetActive(false);
+        damageTXT.gameObject.SetActive(false);
         turnPanel.SetActive(true);
         playerController.activateChildren();
         enemyController.activateChildren();
         Mapmode.SetActive(true);
         Battlemode.SetActive(false);
-        changeMode(gameMode.MapMode);
-        //
-
+        changeMode(gameMode.MapMode); 
         // return to either player or enemy turn
         if (playerTurn == true)
         {
@@ -550,26 +381,20 @@ public class GameController : MonoBehaviour
     }
     
     // false == left hurt, true == right hurt
-    public IEnumerator damageTXT(bool side, int damageNum)
+    public IEnumerator updateDamageTXT(GameObject unitHurt, int damageNum)
     {
+        damageTXT.transform.position = mainCamera.WorldToScreenPoint(unitHurt.transform.position + damageTextOffset);
+
         // dead char attack number
         if (damageNum == -999)
             yield return null;
         else
         {
-            if (!side)
-            {
-                leftDamageTXT.text = "(-" + damageNum + ")";
-            }
-            else
-            {
-                rightDamageTXT.text = "(-" + damageNum + ")";
-            }
+            damageTXT.text = "(-" + damageNum + ")";
 
             yield return new WaitForSeconds(0.75f);
 
-            leftDamageTXT.text = "";
-            rightDamageTXT.text = "";
+            damageTXT.text = "";
         }
     }
 
@@ -644,8 +469,6 @@ public class GameController : MonoBehaviour
         turnPanel.SetActive(false);
         charInfoPanelL.SetActive(false);
         charInfoPanelR.SetActive(false);
-        leftDamageUI.SetActive(false);
-        rightDamageUI.SetActive(false);
         playerControllerObj.SetActive(false);
         enemyControllerObj.SetActive(false);
     }
@@ -658,8 +481,6 @@ public class GameController : MonoBehaviour
         turnPanel.SetActive(false);
         charInfoPanelL.SetActive(false);
         charInfoPanelR.SetActive(false);
-        leftDamageUI.SetActive(false);
-        rightDamageUI.SetActive(false);
         playerControllerObj.SetActive(false);
         enemyControllerObj.SetActive(false);
     }

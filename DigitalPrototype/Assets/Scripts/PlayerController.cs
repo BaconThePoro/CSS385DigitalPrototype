@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
-    // Must be connected via unity editor
+    // most public stuff needs to be connected through unity editor
     public GameObject gameControllerObj = null;
     private GameController gameController = null;
     public GameObject enemyControllerObj = null; 
@@ -36,9 +36,6 @@ public class PlayerController : MonoBehaviour
     public Tile targetTile = null;
     private Vector3Int prevTarget = Vector3Int.zero; 
 
-    // dont set in here, they grab value from GameController
-    private float tileX = 0;
-    private float tileY = 0;
     private float mapBoundPlusX = 16f;
     private float mapBoundPlusY = 10f;
     private float mapBoundMinusX = -16f;
@@ -71,9 +68,6 @@ public class PlayerController : MonoBehaviour
         movNUM = charInfoPanel.transform.GetChild(16).GetComponent<TMPro.TextMeshProUGUI>();
         movLeftNUMObj = charInfoPanel.transform.GetChild(17).gameObject;
         movLeftNUM = movLeftNUMObj.GetComponent<TMPro.TextMeshProUGUI>();
-        
-        tileX = gameController.tileX;
-        tileY = gameController.tileY;
 
         // get a handle on each child for PlayerController
         playerUnits = new GameObject[transform.childCount];
@@ -85,7 +79,7 @@ public class PlayerController : MonoBehaviour
             playerUnits[i] = child.gameObject;
             playerStats[i] = playerUnits[i].GetComponent<Character>();          
             playerUnits[i].transform.position = allyStartPos[i];
-           
+
             i += 1;      
         }
 
@@ -208,10 +202,10 @@ public class PlayerController : MonoBehaviour
 
         // if facing to the right or down then put ally on the left 
         if (battleDirection == direction.right || battleDirection == direction.down)
-            StartCoroutine(gameController.startBattle(currTargeted, enemyController.enemyUnits[i], false, true, battleRange));
+            StartCoroutine(gameController.startBattle(currTargeted, enemyController.enemyUnits[i], true, battleRange));
         // else put ally on the right
         else
-            StartCoroutine(gameController.startBattle(enemyController.enemyUnits[i], currTargeted, true, true, battleRange));
+            StartCoroutine(gameController.startBattle(enemyController.enemyUnits[i], currTargeted, true, battleRange));
     }
 
     IEnumerator waitBattle(int i)
