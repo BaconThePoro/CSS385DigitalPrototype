@@ -21,7 +21,8 @@ public class GameController : MonoBehaviour
     private Camera mainCamera = null;
     public GameObject Mapmode = null;
     public GameObject Battlemode = null;
-    public GameObject damageTXTObj = null;
+    public GameObject damageTXTPanel = null;
+    private GameObject damageTXTObj = null;
     private TMPro.TextMeshProUGUI damageTXT = null;
     public GameObject charInfoPanelL = null;
     public GameObject charInfoPanelR = null;
@@ -48,9 +49,9 @@ public class GameController : MonoBehaviour
     private Quaternion savedQuaLeft;
     private Quaternion savedQuaRight;
     private float savedCamSize;
-    private float inbetweenAttackDelay = 0.5f;
+    private float inbetweenAttackDelay = 0.75f;
     private float animationDuration = 0.25f;
-    private Vector3 damageTextOffset = new Vector3(0.5f, 0.5f, 0);
+    private Vector3 damageTextOffset = new Vector3(0, 0.5f, 0);
     // panel stuff
     private GameObject LmovLeftTXT = null;
     private GameObject LmovLeftNUMObj = null;
@@ -91,6 +92,11 @@ public class GameController : MonoBehaviour
     float worldLimY = 11f;
     float camMoveAmount = 0.02f;
     float panBorderThickness = 30f;
+    float targetZoom;
+    float sensitivity = 1;
+    float camSpeed = 3;
+    float maxZoom = 7;
+    float minZoom = 3;
 
     bool isFocused = true; 
 
@@ -101,6 +107,7 @@ public class GameController : MonoBehaviour
         playerController = playerControllerObj.GetComponent<PlayerController>();
         enemyController = enemyControllerObj.GetComponent<EnemyController>();
         mainCamera = mainCameraObj.GetComponent<Camera>();
+        damageTXTObj = damageTXTPanel.transform.GetChild(0).gameObject;
         damageTXT = damageTXTObj.GetComponent<TMPro.TextMeshProUGUI>();
         LcharNameTXT = charInfoPanelL.transform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>();
         LmovLeftTXT = charInfoPanelL.transform.GetChild(9).gameObject;
@@ -124,6 +131,8 @@ public class GameController : MonoBehaviour
         RmovNUM = charInfoPanelR.transform.GetChild(16).GetComponent<TMPro.TextMeshProUGUI>();
         RmovLeftNUMObj = charInfoPanelR.transform.GetChild(17).gameObject;
         RmovLeftNUM = RmovLeftNUMObj.GetComponent<TMPro.TextMeshProUGUI>();
+
+        targetZoom = mainCamera.orthographicSize;
 
         changeTurn(turnMode.PlayerTurn);
         changeMode(gameMode.MapMode);
@@ -197,6 +206,11 @@ public class GameController : MonoBehaviour
                 mainCamera.transform.position = new Vector3(mainCamera.transform.position.x + camMoveAmount, mainCamera.transform.position.y, mainCamera.transform.position.z);
             }
 
+            targetZoom -= Input.mouseScrollDelta.y * sensitivity;
+            targetZoom = Mathf.Clamp(targetZoom, minZoom, maxZoom);
+            float newSize = Mathf.MoveTowards(mainCamera.orthographicSize, targetZoom, camSpeed * Time.deltaTime);
+            mainCamera.orthographicSize = newSize;
+
             // mouse hover over effect
             Vector3Int mousePos = GetMousePosition();
 
@@ -244,7 +258,6 @@ public class GameController : MonoBehaviour
         mainCamera.orthographicSize = camBattleSize;
         charInfoPanelL.SetActive(true);
         charInfoPanelR.SetActive(true);
-        damageTXT.gameObject.SetActive(true);
         updateBattleStats(leftStats, rightStats);
         // reactivate participants
         leftChar.SetActive(true);
@@ -337,14 +350,7 @@ public class GameController : MonoBehaviour
         }
 
         // delay again for 1.5s so user can see result of battle before leaving battlemode
-        yield return new WaitForSeconds(inbetweenAttackDelay * 4);
-
-
-        // reset inbetweenAttackDelay in case user skipped battle
-        if (playerTurn == true)
-        {
-            resetDelay();
-        }
+        yield return new WaitForSeconds(inbetweenAttackDelay * 4);   
         
         // return them to prior positions
         leftChar.transform.position = savedPosLeft;
@@ -356,7 +362,6 @@ public class GameController : MonoBehaviour
         // return to mapmode
         charInfoPanelL.SetActive(false);
         charInfoPanelR.SetActive(false);
-        damageTXT.gameObject.SetActive(false);
         turnPanel.SetActive(true);
         playerController.activateChildren();
         enemyController.activateChildren();
@@ -368,6 +373,9 @@ public class GameController : MonoBehaviour
         {
             playerController.ourTurn = true;
             changeTurn(turnMode.PlayerTurn);
+            resetDelay(); // reset inbetweenAttackDelay in case user skipped battle
+            leftStats.setAttack(false);
+            rightStats.setAttack(false);
         }
         else
         {
@@ -383,11 +391,22 @@ public class GameController : MonoBehaviour
     // false == left hurt, true == right hurt
     public IEnumerator updateDamageTXT(GameObject unitHurt, int damageNum)
     {
-        damageTXT.transform.position = mainCamera.WorldToScreenPoint(unitHurt.transform.position + damageTextOffset);
+        damageTXTPanel.gameObject.SetActive(true);
+        damageTXTPanel.transform.position = mainCamera.WorldToScreenPoint(unitHurt.transform.position + damageTextOffset);
 
         // dead char attack number
         if (damageNum == -999)
             yield return null;
+        else if (damageNum == 0)
+        {
+            damageTXT.color = Color.yellow;
+            damageTXT.text = "(" + damageNum + ")";
+
+            yield return new WaitForSeconds(0.75f);
+
+            damageTXT.text = "";
+            damageTXT.color = Color.red;
+        }
         else
         {
             damageTXT.text = "(-" + damageNum + ")";
@@ -396,6 +415,7 @@ public class GameController : MonoBehaviour
 
             damageTXT.text = "";
         }
+        damageTXTPanel.gameObject.SetActive(false);
     }
 
     public IEnumerator waitTime(float waitTime)
@@ -434,8 +454,8 @@ public class GameController : MonoBehaviour
             return -999;
 
         int damageMinusDefense = -1;
-        // if attacker has a sword
-        if (attacker.weapon == 1 || attacker.weapon == 2)
+        // if attacker has a physical weapon
+        if (attacker.weapon == 1 || attacker.weapon == 2 || attacker.weapon == 3)
         {
             damageMinusDefense = attacker.STR - damageTaker.DEF;
             // make sure you cant do negative damage
@@ -538,6 +558,7 @@ public class GameController : MonoBehaviour
                     playerController.ourTurn = true;
                 }
 
+                playerController.resetAllAttack();
                 // give player back their end turn button
                 endTurnButton.gameObject.SetActive(true);
             }

@@ -23,7 +23,8 @@ public class Character : MonoBehaviour
     public int MOV = 1;
     public int hpLeft;
     public int movLeft;
-    public bool isDead = false; 
+    public bool isDead = false;
+    public bool canAttack = true; 
 
     public int weapon = 1;
     // 1. Sword
@@ -86,6 +87,11 @@ public class Character : MonoBehaviour
         hpLeft = HP;
     }
 
+    public void setAttack(bool b)
+    {
+        canAttack = b;
+    }
+
     // Start is called before the first frame update
     void Start()
     {       
@@ -100,6 +106,7 @@ public class Character : MonoBehaviour
 
         resetHP();
         resetMove();
+        setAttack(true);
     }
 
     // Update is called once per frame

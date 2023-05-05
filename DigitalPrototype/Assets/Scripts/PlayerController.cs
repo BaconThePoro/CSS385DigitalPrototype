@@ -143,7 +143,7 @@ public class PlayerController : MonoBehaviour
                             targetEnemy(i);
                         }
                         // ally selected and in range, attack
-                        else if (currTargeted != null && isTargetEnemy == false && inAttackRange(mousePos, currTargeted))
+                        else if (currTargeted != null && isTargetEnemy == false && currTargetedStats.canAttack == true && inAttackRange(mousePos, currTargeted))
                         {
                             beginBattle(i);
                         }
@@ -323,8 +323,6 @@ public class PlayerController : MonoBehaviour
                 attackAreas[unitStats.movLeft + 1].transform.position = unit.transform.position;
             }
         }
-
-
     }
 
     public void hideArea()
@@ -417,8 +415,8 @@ public class PlayerController : MonoBehaviour
     {
         Character unitStats = unit.GetComponent<Character>();
 
-        // sword
-        if (unitStats.weapon == 1)
+        // sword + axe
+        if (unitStats.weapon == 1 || unitStats.weapon == 3)
         {
             Vector3Int distance = mousePos - Vector3Int.FloorToInt(unit.transform.position);
             if ((Mathf.Abs(distance.x) == 1 && distance.y == 0) || (distance.x == 0 && Mathf.Abs(distance.y) == 1))
@@ -446,6 +444,14 @@ public class PlayerController : MonoBehaviour
         for (int i = 0; i < transform.childCount; i++)
         {
             playerStats[i].resetMove();
+        }
+    }
+    
+    public void resetAllAttack()
+    {
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            playerStats[i].setAttack(true);
         }
     }
 
