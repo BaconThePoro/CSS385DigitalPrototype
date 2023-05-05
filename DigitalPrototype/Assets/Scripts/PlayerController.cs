@@ -277,8 +277,8 @@ public class PlayerController : MonoBehaviour
     {
         Character unitStats = unit.GetComponent<Character>();
 
-        // sword
-        if (unitStats.weapon == 1)
+        // sword + axe
+        if (unitStats.weapon == 1 || unitStats.weapon == 3)
         {
             if (unitStats.movLeft < 0 || unitStats.movLeft > moveAreas.Length || unitStats.movLeft >= attackAreas.Length)
             {

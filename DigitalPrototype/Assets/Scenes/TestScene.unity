@@ -1623,6 +1623,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: blankName
+  baseHP: 10
+  baseSTR: 1
+  baseMAG: 1
+  baseDEF: 1
+  baseRES: 1
+  baseSPD: 1
+  baseMOV: 1
   HP: 19
   STR: 2
   MAG: 2
@@ -1768,6 +1775,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: blankName
+  baseHP: 10
+  baseSTR: 1
+  baseMAG: 1
+  baseDEF: 1
+  baseRES: 1
+  baseSPD: 1
+  baseMOV: 1
   HP: 26
   STR: 50
   MAG: 5
@@ -2380,6 +2394,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: 
+  baseHP: 10
+  baseSTR: 1
+  baseMAG: 1
+  baseDEF: 1
+  baseRES: 1
+  baseSPD: 1
+  baseMOV: 1
   HP: 22
   STR: 5
   MAG: 5
@@ -10756,6 +10777,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: blankName
+  baseHP: 10
+  baseSTR: 1
+  baseMAG: 1
+  baseDEF: 1
+  baseRES: 1
+  baseSPD: 1
+  baseMOV: 1
   HP: 25
   STR: 1
   MAG: 1
@@ -12196,6 +12224,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: blankName
+  baseHP: 10
+  baseSTR: 1
+  baseMAG: 1
+  baseDEF: 1
+  baseRES: 1
+  baseSPD: 1
+  baseMOV: 1
   HP: 14
   STR: 3
   MAG: 3
@@ -13607,8 +13642,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 985493063}
   m_LocalRotation: {x: -0, y: -0, z: 0.53560466, w: 0.8444689}
-  m_LocalPosition: {x: 0.38, y: 0.151, z: 0}
-  m_LocalScale: {x: 0.13333336, y: 0.40000004, z: 1}
+  m_LocalPosition: {x: 0.73, y: 0.531, z: 0}
+  m_LocalScale: {x: 0.35, y: 0.40000004, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2115490219}
@@ -17520,6 +17555,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: 
+  baseHP: 10
+  baseSTR: 1
+  baseMAG: 1
+  baseDEF: 1
+  baseRES: 1
+  baseSPD: 1
+  baseMOV: 1
   HP: 22
   STR: 3
   MAG: 3
@@ -29518,6 +29560,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: 
+  baseHP: 10
+  baseSTR: 1
+  baseMAG: 1
+  baseDEF: 1
+  baseRES: 1
+  baseSPD: 1
+  baseMOV: 1
   HP: 12
   STR: 1
   MAG: 1
@@ -34802,6 +34851,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: 
+  baseHP: 10
+  baseSTR: 1
+  baseMAG: 1
+  baseDEF: 1
+  baseRES: 1
+  baseSPD: 1
+  baseMOV: 1
   HP: 15
   STR: 2
   MAG: 2
@@ -34812,7 +34868,7 @@ MonoBehaviour:
   hpLeft: 0
   movLeft: 0
   isDead: 0
-  weapon: 1
+  weapon: 3
   attackRange: 1
 --- !u!1 &2125686809
 GameObject:
