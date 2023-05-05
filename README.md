@@ -27,8 +27,8 @@ Hotkeys:
 
 Hours Breakdown: 
 <ul>
-  <li> Total Hours: ~22 hours </li>
-  <li> Kobe Kamin: 9 hours </li>
+  <li> Total Hours: ~23 hours </li>
+  <li> Kobe Kamin: 10 hours </li>
   <li> Jacob Tea: 4.5 hours </li>
   <li> Sanket Karna: 3 hours </li>
   <li> Krisna Oeurn: 3 hours </li>
@@ -43,7 +43,6 @@ Backlog (ordered by importance):
  <li> Use Djikstras for movement <em><strong>[Sanket + Kobe] (3 hours)</strong></em> </li>
  <li> Move areas up to 6 <em><strong>[Nobody] (30 min)</strong></em> </li>
  <li> Attack areas up to 8 <em><strong>[Nobody] (30 min)</strong></em> </li>
- <li> Rework weapon system to implement +/- stats on weapons <em><strong>[Kobe] (1 hour)</strong></em> </li>
  <li> Rest of the weapons (melee, damaging magic, healing magic) <em><strong>[Nobody] (2 hours)</strong></em> </li>
  <li> Upgrade system/menu <em><strong>[Nobody] (1 hour)</strong></em>  </li>
  <li> Main menu mockup <em><strong>[Jacob] (30min)</strong></em>  </li>
@@ -76,4 +75,5 @@ Completed:
  <li> Move + Attack areas up to 4 <em><strong>[Sanket] (1 hour)</strong></em> </li>
  <li> Create backlog <em><strong>[Krisna] (30 min)</strong></em> </li>
  <li> Rework attack system to work with reworked Speed stat <em><strong>[Kobe] (1 hour)</strong></em> </li>
+  <li> Rework weapon system to implement +/- stats on weapons <em><strong>[Kobe] (1 hour)</strong></em> </li>
 </ul>
