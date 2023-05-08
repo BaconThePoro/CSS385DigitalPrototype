@@ -38,6 +38,7 @@ Tutorial:
    <li> Some weapons can change your characters stats! </li>
   </ul>
  </ul>
+ <br>
  <li> What every Stat does (should you wish to know) </li>
   <ul>
   <li> Health Points [HP]: Makes you not die (and not lose). </li>
