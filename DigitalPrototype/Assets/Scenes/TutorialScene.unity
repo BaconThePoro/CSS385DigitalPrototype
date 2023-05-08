@@ -3366,8 +3366,9 @@ PrefabInstance:
     - target: {fileID: 3343719074604024447, guid: a0d95b2f95805f34ea8c5c53745f30c2, type: 3}
       propertyPath: m_text
       value: 'In combat each participant will take damage. Damage is calculated by
-        taking the strength and subtracting the defense stat. If the HP reaches the
-        character goes down and dissapears but will come back at the end of the level. '
+        taking the strength and subtracting the defense stat. If the HP reaches 0,
+        the character goes down and dissapears but will come back at the end of the
+        level. '
       objectReference: {fileID: 0}
     - target: {fileID: 3343719074604024447, guid: a0d95b2f95805f34ea8c5c53745f30c2, type: 3}
       propertyPath: m_fontSize
@@ -17123,7 +17124,7 @@ GameObject:
   - component: {fileID: 916775849}
   - component: {fileID: 916775850}
   m_Layer: 5
-  m_Name: GameObject
+  m_Name: Tutorial
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44663,8 +44664,10 @@ MonoBehaviour:
   VictoryScreen: {fileID: 1712038203}
   DefeatScreen: {fileID: 2063655661}
   turnPanel: {fileID: 17159737}
+  upgradeMenu: {fileID: 0}
   turnModeTXT: {fileID: 1531606843}
   endTurnButton: {fileID: 1594682870}
+  upgradeButton: {fileID: 0}
   currGrid: {fileID: 879163091}
   currTilemap: {fileID: 1357189901}
   hoverTile: {fileID: 11400000, guid: 7b3c061a8408b9846851c1f644fcee5d, type: 2}
@@ -45019,6 +45022,7 @@ MonoBehaviour:
   gameControllerObj: {fileID: 2073513242}
   enemyControllerObj: {fileID: 1096422116}
   charInfoPanel: {fileID: 839432104}
+  upgradePanel: {fileID: 0}
   ourTurn: 0
   isTargetEnemy: 0
   currGrid: {fileID: 879163091}
