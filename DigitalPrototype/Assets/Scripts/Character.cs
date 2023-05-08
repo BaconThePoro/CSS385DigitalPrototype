@@ -80,29 +80,12 @@ public class Character : MonoBehaviour
     public void setWeaponVisuals()
     {
         GameObject weapon = transform.GetChild(1).gameObject;
+        GameObject weaponPrefab = weaponSprites.transform.GetChild((int)currWeapon).gameObject;
 
         // set weapon sprite based on currently equiped weapon
-        weapon.GetComponent<SpriteRenderer>().sprite = weaponSprites.transform.GetChild((int)currWeapon).GetComponent<SpriteRenderer>().sprite;
-    
-        if (currWeapon == weaponType.Sword)
-        {
-            weapon.transform.localScale = new Vector3(1.33f, 1.33f, 0);
-            weapon.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
-            weapon.transform.localPosition = new Vector3(0.389f, 0.083f, 0);              
-        }
-        else if (currWeapon == weaponType.Bow)
-        {
-            weapon.transform.localScale = new Vector3(1.33f, 1.33f, 0);
-            weapon.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
-            weapon.transform.localPosition = new Vector3(0.138f, 0.022f, 0);                     
-        }
-        else if (currWeapon == weaponType.Axe)
-        {
-            weapon.transform.localScale = new Vector3(1f, 1f, 0);
-            weapon.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
-            weapon.transform.localPosition = new Vector3(0.445f, 0.073f, 0);
-        }
-        
+        weapon.GetComponent<SpriteRenderer>().sprite = weaponPrefab.GetComponent<SpriteRenderer>().sprite;
+        weapon.transform.localScale = weaponPrefab.transform.localScale;
+        weapon.transform.localPosition = weaponPrefab.transform.localPosition;
     }
 
     public void setWeaponStats()

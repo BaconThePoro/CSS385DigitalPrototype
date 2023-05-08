@@ -646,6 +646,7 @@ public class PlayerController : MonoBehaviour
     public void changedName(string s)
     {
         currTargetedStats.charName = s;
+        currTargeted.name = s;
     }
 
     public void changedBody(Dropdown d)

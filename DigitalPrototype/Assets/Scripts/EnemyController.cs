@@ -75,8 +75,6 @@ public class EnemyController : MonoBehaviour
             // if their dead skip them
             if (enemyStats[i].isDead == false)
             {
-
-
                 // turn on target reticle for this unit
                 enemyUnits[i].transform.GetChild(0).gameObject.SetActive(true);
 

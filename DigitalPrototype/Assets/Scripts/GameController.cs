@@ -123,12 +123,11 @@ public class GameController : MonoBehaviour
     float worldLimX = 18f;
     float worldLimY = 11f;
     float camMoveAmount = 0.02f;
-    float panBorderThickness = 30f;
     float targetZoom;
     float sensitivity = 1;
     float camSpeed = 3;
     float maxZoom = 7;
-    float minZoom = 3;
+    float minZoom = 2;
 
     bool isFocused = true; 
 
@@ -241,26 +240,22 @@ public class GameController : MonoBehaviour
         if (currGameMode == gameMode.MapMode)
         {
             // camera move up
-            if (Input.GetKey(KeyCode.W) && mainCamera.transform.position.y < worldLimY
-                || Input.mousePosition.y >= Screen.height - panBorderThickness && mainCamera.transform.position.y < worldLimY)
+            if (Input.GetKey(KeyCode.W) && mainCamera.transform.position.y < worldLimY)
             {
                 mainCamera.transform.position = new Vector3(mainCamera.transform.position.x, mainCamera.transform.position.y + camMoveAmount, mainCamera.transform.position.z);
             }
             // camera move down
-            if (Input.GetKey(KeyCode.S) && mainCamera.transform.position.y > -worldLimY
-                || Input.mousePosition.y <= panBorderThickness && mainCamera.transform.position.y > -worldLimY)
+            if (Input.GetKey(KeyCode.S) && mainCamera.transform.position.y > -worldLimY)
             {
                 mainCamera.transform.position = new Vector3(mainCamera.transform.position.x, mainCamera.transform.position.y - camMoveAmount, mainCamera.transform.position.z);
             }
             // camera move left
-            if (Input.GetKey(KeyCode.A) && mainCamera.transform.position.x > -worldLimX
-                || Input.mousePosition.x <= panBorderThickness && mainCamera.transform.position.x > -worldLimX)
+            if (Input.GetKey(KeyCode.A) && mainCamera.transform.position.x > -worldLimX)
             {
                 mainCamera.transform.position = new Vector3(mainCamera.transform.position.x - camMoveAmount, mainCamera.transform.position.y, mainCamera.transform.position.z);
             }
             // camera move right
-            if (Input.GetKey(KeyCode.D) && mainCamera.transform.position.x < worldLimX
-                || Input.mousePosition.x >= Screen.width - panBorderThickness && mainCamera.transform.position.x < worldLimY)
+            if (Input.GetKey(KeyCode.D) && mainCamera.transform.position.x < worldLimX)
             {
                 mainCamera.transform.position = new Vector3(mainCamera.transform.position.x + camMoveAmount, mainCamera.transform.position.y, mainCamera.transform.position.z);
             }
@@ -690,6 +685,7 @@ public class GameController : MonoBehaviour
         playerController.ourTurn = false;
         changeMode(gameMode.MenuMode);
         upgradeMenu.gameObject.SetActive(true);
+        updateUpgradeMenu(playerController.currTargeted);
     }
 
     public void closeUpgradeMenu()
@@ -710,7 +706,7 @@ public class GameController : MonoBehaviour
         charImage.sprite = character.GetComponent<SpriteRenderer>().sprite;
         weaponIMG.sprite = character.transform.GetChild(1).GetComponent<SpriteRenderer>().sprite;
         weaponIMG.transform.localScale = charStats.transform.GetChild(1).localScale;
-        weaponIMG.transform.rotation = charStats.transform.GetChild(1).rotation;
+        
 
         if (bodyDropdown.options.Count == 0)
         {
