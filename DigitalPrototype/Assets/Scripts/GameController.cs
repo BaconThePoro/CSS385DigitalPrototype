@@ -131,8 +131,11 @@ public class GameController : MonoBehaviour
     private Vector3Int previousMousePos = new Vector3Int(0, 0, -999);
 
     // world limit is limit camera should be movable
-    float worldLimX = 18f;
-    float worldLimY = 11f;
+    public float worldLimPlusX = 18f;
+    public float worldLimPlusY = 11f;
+    public float worldLimMinusX = 18f;
+    public float worldLimMinusY = 11f;
+    public int springAmount = 0;
     float camMoveAmount = 0.02f;
     float targetZoom;
     float sensitivity = 1;
@@ -220,7 +223,7 @@ public class GameController : MonoBehaviour
 
         updateTurnText();
 
-        playerController.setGearNum(999);
+        playerController.setGearNum(springAmount);
     }
 
     // Update is called once per frame
@@ -265,22 +268,22 @@ public class GameController : MonoBehaviour
         if (currGameMode == gameMode.MapMode)
         {
             // camera move up
-            if (Input.GetKey(KeyCode.W) && mainCamera.transform.position.y < worldLimY)
+            if (Input.GetKey(KeyCode.W) && mainCamera.transform.position.y < worldLimPlusY)
             {
                 mainCamera.transform.position = new Vector3(mainCamera.transform.position.x, mainCamera.transform.position.y + camMoveAmount, mainCamera.transform.position.z);
             }
             // camera move down
-            if (Input.GetKey(KeyCode.S) && mainCamera.transform.position.y > -worldLimY)
+            if (Input.GetKey(KeyCode.S) && mainCamera.transform.position.y > worldLimMinusY)
             {
                 mainCamera.transform.position = new Vector3(mainCamera.transform.position.x, mainCamera.transform.position.y - camMoveAmount, mainCamera.transform.position.z);
             }
             // camera move left
-            if (Input.GetKey(KeyCode.A) && mainCamera.transform.position.x > -worldLimX)
+            if (Input.GetKey(KeyCode.A) && mainCamera.transform.position.x > worldLimMinusX)
             {
                 mainCamera.transform.position = new Vector3(mainCamera.transform.position.x - camMoveAmount, mainCamera.transform.position.y, mainCamera.transform.position.z);
             }
             // camera move right
-            if (Input.GetKey(KeyCode.D) && mainCamera.transform.position.x < worldLimX)
+            if (Input.GetKey(KeyCode.D) && mainCamera.transform.position.x < worldLimPlusX)
             {
                 mainCamera.transform.position = new Vector3(mainCamera.transform.position.x + camMoveAmount, mainCamera.transform.position.y, mainCamera.transform.position.z);
             }

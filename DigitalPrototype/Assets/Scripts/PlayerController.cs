@@ -38,10 +38,10 @@ public class PlayerController : MonoBehaviour
     public Tile targetTile = null;
     private Vector3Int prevTarget = Vector3Int.zero; 
 
-    private float mapBoundPlusX = 16f;
-    private float mapBoundPlusY = 10f;
-    private float mapBoundMinusX = -16f;
-    private float mapBoundMinusY = -10f;
+    public float mapBoundPlusX = 16f;
+    public float mapBoundPlusY = 10f;
+    public float mapBoundMinusX = -16f;
+    public float mapBoundMinusY = -10f;
 
     // movement area thingies
     public GameObject moveAreaParent = null;
