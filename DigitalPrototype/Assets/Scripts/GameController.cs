@@ -299,7 +299,7 @@ public class GameController : MonoBehaviour
             }
 
             // if user presses right click, end turn
-            if (Input.GetMouseButtonDown(1) && currTurnMode == turnMode.PlayerTurn)
+            if (Input.GetKey(KeyCode.Q) && currTurnMode == turnMode.PlayerTurn)
             {
                 endTurnButtonPressed();
             }
@@ -888,7 +888,10 @@ public class GameController : MonoBehaviour
         }
 
         if (charStats.baseHP < charStats.getHPMAX())
+        {
+            hpButton.gameObject.SetActive(true);
             hpCOST.text = "x" + charStats.HPCost;
+        }
         else
         {
             hpCOST.text = "MAX";
@@ -897,7 +900,10 @@ public class GameController : MonoBehaviour
 
 
         if (charStats.baseSTR < charStats.getSTRMAX())
+        {
+            strButton.gameObject.SetActive(true);
             strCOST.text = "x" + charStats.STRCost;
+        }        
         else
         {
             strCOST.text = "MAX";
@@ -905,7 +911,10 @@ public class GameController : MonoBehaviour
         }
 
         if (charStats.baseMAG < charStats.getMAGMAX())
+        {
+            magButton.gameObject.SetActive(true);
             magCOST.text = "x" + charStats.MAGCost;
+        }
         else
         {
             magCOST.text = "MAX";
@@ -913,7 +922,10 @@ public class GameController : MonoBehaviour
         }
 
         if (charStats.baseDEF < charStats.getDEFMAX())
+        {
+            defButton.gameObject.SetActive(true);
             defCOST.text = "x" + charStats.DEFCost;
+        }   
         else
         {
             defCOST.text = "MAX";
@@ -921,7 +933,10 @@ public class GameController : MonoBehaviour
         }
 
         if (charStats.baseRES < charStats.getRESMAX())
+        {
+            resButton.gameObject.SetActive(true);
             resCOST.text = "x" + charStats.RESCost;
+        } 
         else
         {
             resCOST.text = "MAX";
@@ -929,7 +944,10 @@ public class GameController : MonoBehaviour
         }
 
         if (charStats.baseSPD < charStats.getSPDMAX())
+        {
+            spdButton.gameObject.SetActive(true);
             spdCOST.text = "x" + charStats.SPDCost;
+        }       
         else
         {
             spdCOST.text = "MAX";
@@ -937,7 +955,10 @@ public class GameController : MonoBehaviour
         }
 
         if (charStats.baseMOV < charStats.getMOVMAX())
+        {
+            movButton.gameObject.SetActive(true);
             movCOST.text = "x" + charStats.MOVCost;
+        }         
         else
         {
             movCOST.text = "MAX";
