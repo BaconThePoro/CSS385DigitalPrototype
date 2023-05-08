@@ -33,19 +33,82 @@ public class Character : MonoBehaviour
     public bool isDead = false;
     public bool canAttack = true; 
 
+    public enum bodyType { Spring, Cog };
+    private bodyType currBody;
     public enum weaponType { Sword, Bow, Axe };
-    public weaponType currWeapon;
+    private weaponType currWeapon;
 
     // number means able to attack at that range and all lower ranges
-    public float attackRange;
+    private float attackRange;
+
+    private GameObject weaponSprites = null;
+    private GameObject bodySprites = null;
+
+    public float getAttackRange()
+    {
+        return attackRange;
+    }
+
+    public bodyType GetBodyType()
+    {
+        return currBody;
+    }
+
+    public weaponType GetWeaponType()
+    {
+        return currWeapon;
+    }
+
+
+    public void changeBody(bodyType choice)
+    {
+        currBody = choice;
+        setBodyVisuals();
+    }
 
     public void changeWeapon(weaponType choice)
     {
         currWeapon = choice;
+        setWeaponStats();
+    }
+
+    public void setBodyVisuals()
+    {
+        GetComponent<SpriteRenderer>().sprite = bodySprites.transform.GetChild((int)currBody).GetComponent<SpriteRenderer>().sprite;
+    }
+
+    public void setWeaponVisuals()
+    {
+        GameObject weapon = transform.GetChild(1).gameObject;
+
+        // set weapon sprite based on currently equiped weapon
+        weapon.GetComponent<SpriteRenderer>().sprite = weaponSprites.transform.GetChild((int)currWeapon).GetComponent<SpriteRenderer>().sprite;
+    
+        if (currWeapon == weaponType.Sword)
+        {
+            weapon.transform.localScale = new Vector3(1.33f, 1.33f, 0);
+            weapon.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+            weapon.transform.localPosition = new Vector3(0.389f, 0.083f, 0);              
+        }
+        else if (currWeapon == weaponType.Bow)
+        {
+            weapon.transform.localScale = new Vector3(1.33f, 1.33f, 0);
+            weapon.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+            weapon.transform.localPosition = new Vector3(0.138f, 0.022f, 0);                     
+        }
+        else if (currWeapon == weaponType.Axe)
+        {
+            weapon.transform.localScale = new Vector3(1f, 1f, 0);
+            weapon.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+            weapon.transform.localPosition = new Vector3(0.445f, 0.073f, 0);
+        }
+        
     }
 
     public void setWeaponStats()
     {
+        setWeaponVisuals();
+
         // sword (no stat change)
         if (currWeapon == weaponType.Sword)
         {
@@ -79,7 +142,7 @@ public class Character : MonoBehaviour
         {
             attackRange = 1;
 
-            // 
+            // (+3 STR, -3 SPD)
             HPMOD = 0;
             STRMOD = 3;
             MAGMOD = 0;
@@ -88,6 +151,8 @@ public class Character : MonoBehaviour
             SPDMOD = -3;
             MOVMOD = 0;
         }
+
+        updateStats();
     }
 
     public void updateStats()
@@ -137,11 +202,16 @@ public class Character : MonoBehaviour
     void Start()
     {       
         charName = gameObject.name;
+        weaponSprites = GameObject.Find("WeaponSprites");
+        bodySprites = GameObject.Find("BodySprites");
 
         updateStats();
         resetHP();
         resetMove();
         setAttack(true);
+        setWeaponStats();
+        setWeaponVisuals();
+        setBodyVisuals();
     }
 
     // Update is called once per frame

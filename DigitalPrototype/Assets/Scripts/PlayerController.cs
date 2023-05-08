@@ -12,8 +12,8 @@ public class PlayerController : MonoBehaviour
     private GameController gameController = null;
     public GameObject enemyControllerObj = null; 
     private EnemyController enemyController = null;
-    private GameObject currTargeted = null;
-    private Character currTargetedStats = null;
+    public GameObject currTargeted = null;
+    public Character currTargetedStats = null;
     public GameObject charInfoPanel = null;
     private GameObject movLeftTXT = null;
     private GameObject movLeftNUMObj = null;
@@ -52,6 +52,8 @@ public class PlayerController : MonoBehaviour
     public GameObject[] playerUnits;
     public Character[] playerStats;
     public Vector3[] allyStartPos;
+    public Character.bodyType[] bodysList;
+    public Character.weaponType[] weaponsList;
 
     // Start is called before the first frame update
     void Start()
@@ -81,6 +83,8 @@ public class PlayerController : MonoBehaviour
             playerUnits[i] = child.gameObject;
             playerStats[i] = playerUnits[i].GetComponent<Character>();          
             playerUnits[i].transform.position = allyStartPos[i];
+            playerStats[i].changeBody(bodysList[i]);
+            playerStats[i].changeWeapon(weaponsList[i]);
 
             i += 1;      
         }
@@ -99,7 +103,7 @@ public class PlayerController : MonoBehaviour
         {
             attackAreas[i] = child.gameObject;
             i += 1;
-        }       
+        }
     }
 
     // Update is called once per frame
@@ -287,7 +291,7 @@ public class PlayerController : MonoBehaviour
         Character unitStats = unit.GetComponent<Character>();
 
         // sword + axe
-        if (unitStats.currWeapon == Character.weaponType.Sword || unitStats.currWeapon == Character.weaponType.Axe)
+        if (unitStats.GetWeaponType() == Character.weaponType.Sword || unitStats.GetWeaponType() == Character.weaponType.Axe)
         {
             if (unitStats.movLeft < 0 || unitStats.movLeft > moveAreas.Length || unitStats.movLeft >= attackAreas.Length)
             {
@@ -309,7 +313,7 @@ public class PlayerController : MonoBehaviour
             }
         }
         // bow
-        else if (unitStats.currWeapon == Character.weaponType.Bow)
+        else if (unitStats.GetWeaponType() == Character.weaponType.Bow)
         {
             if (unitStats.movLeft < 0 || unitStats.movLeft > moveAreas.Length || unitStats.movLeft + 1 >= attackAreas.Length)
             {
@@ -431,14 +435,14 @@ public class PlayerController : MonoBehaviour
         Character unitStats = unit.GetComponent<Character>();
 
         // sword + axe
-        if (unitStats.currWeapon == Character.weaponType.Sword || unitStats.currWeapon == Character.weaponType.Axe)
+        if (unitStats.GetWeaponType() == Character.weaponType.Sword || unitStats.GetWeaponType() == Character.weaponType.Axe)
         {
             Vector3Int distance = mousePos - Vector3Int.FloorToInt(unit.transform.position);
             if ((Mathf.Abs(distance.x) == 1 && distance.y == 0) || (distance.x == 0 && Mathf.Abs(distance.y) == 1))
                 return true;
         }
         // bow
-        else if (unitStats.currWeapon == Character.weaponType.Bow)
+        else if (unitStats.GetWeaponType() == Character.weaponType.Bow)
         {
             Vector3Int distance = mousePos - Vector3Int.FloorToInt(unit.transform.position);
             if ((Mathf.Abs(distance.x) == 2 && distance.y == 0) || (distance.x == 0 && Mathf.Abs(distance.y) == 2) || (Mathf.Abs(distance.x) == 1 && Mathf.Abs(distance.y) == 1)) 
@@ -642,6 +646,20 @@ public class PlayerController : MonoBehaviour
     public void changedName(string s)
     {
         currTargetedStats.charName = s;
+    }
+
+    public void changedBody(Dropdown d)
+    {
+        int val = d.value;
+        currTargetedStats.changeBody((Character.bodyType)val);
+        gameController.updateUpgradeMenu(currTargeted);
+    }
+
+    public void changedWeapon(Dropdown d)
+    {
+        int val = d.value;
+        currTargetedStats.changeWeapon((Character.weaponType)val);
+        gameController.updateUpgradeMenu(currTargeted);
     }
 }
 
