@@ -41998,8 +41998,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3343719074604024447, guid: a0d95b2f95805f34ea8c5c53745f30c2, type: 3}
       propertyPath: m_text
-      value: 'The object for each level is to defeat all enemies to advace. In this
-        tutorial the enemies have reduced stats to let you try out movement. '
+      value: 'The objective for each level is to defeat all enemies to advace. In
+        this tutorial the enemies have reduced stats to let you try out movement. '
       objectReference: {fileID: 0}
     - target: {fileID: 3343719074604024447, guid: a0d95b2f95805f34ea8c5c53745f30c2, type: 3}
       propertyPath: m_fontSize
@@ -46109,11 +46109,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 352707775472765215, guid: a0d95b2f95805f34ea8c5c53745f30c2, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -313.09998
+      value: -317.1
       objectReference: {fileID: 0}
     - target: {fileID: 352707775472765215, guid: a0d95b2f95805f34ea8c5c53745f30c2, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 86.43869
+      value: 147.3
       objectReference: {fileID: 0}
     - target: {fileID: 352707775472765215, guid: a0d95b2f95805f34ea8c5c53745f30c2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -46157,7 +46157,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5041859713559780941, guid: a0d95b2f95805f34ea8c5c53745f30c2, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -39
+      value: -32.3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0d95b2f95805f34ea8c5c53745f30c2, type: 3}
