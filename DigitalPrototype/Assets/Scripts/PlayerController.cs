@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class PlayerController : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class PlayerController : MonoBehaviour
     public GameObject charInfoPanel = null;
     private GameObject movLeftTXT = null;
     private GameObject movLeftNUMObj = null;
+    public GameObject upgradePanel = null;
     private TMPro.TextMeshProUGUI charNameTXT = null;
     private TMPro.TextMeshProUGUI hpNUM = null;
     private TMPro.TextMeshProUGUI strNUM = null;
@@ -108,11 +110,17 @@ public class PlayerController : MonoBehaviour
             // if player left clicks
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
+                if (EventSystem.current.IsPointerOverGameObject())
+                {
+                    Debug.Log("Clicked UI, ignoring");
+                    return;
+                }
+
                 // adjust to z level for units
                 Vector3Int mousePos = GetMousePosition();
                 mousePos = new Vector3Int(mousePos.x, mousePos.y, 0);
 
-                Debug.Log("Clicked here: " + mousePos);
+                //Debug.Log("Clicked here: " + mousePos);
                 //Debug.Log("currTargeted is " + currTargeted.name);
                 //Debug.Log("childCount is " + transform.childCount);
                 for (int i = 0; i < transform.childCount; i++)
@@ -270,6 +278,7 @@ public class PlayerController : MonoBehaviour
         charInfoPanel.gameObject.SetActive(true);
         updateCharInfo();
         showArea(currTargeted);
+        upgradePanel.SetActive(true);
 
     }
 
@@ -344,6 +353,12 @@ public class PlayerController : MonoBehaviour
         currTargetedStats = null;
         charInfoPanel.gameObject.SetActive(false);
         hideArea();
+
+        if (isTargetEnemy == false)
+        {
+            upgradePanel.SetActive(false);
+        }
+
     }
 
     void moveAlly(Vector3Int mousePos)
