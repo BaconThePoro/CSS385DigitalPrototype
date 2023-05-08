@@ -10,12 +10,19 @@ EditorUserSettings:
       flags: 0
     RecentlyUsedSceneGuid-1:
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
       value: 52535755000659580e585b7b167659444f4e4b29297d76347b794e31b3b16060
       flags: 0
     RecentlyUsedSceneGuid-2:
+=======
+>>>>>>> Stashed changes
       value: 5702015500560b0f0f5f087b44715d4410164c7b757d763678284835b3e5626a
       flags: 0
+    RecentlyUsedSceneGuid-2:
+      value: 5b520d0503545b0d0c0c0a2715770748154f4d2c7d7d7e627a7d4a35b4e1646a
+      flags: 0
     RecentlyUsedSceneGuid-3:
+<<<<<<< Updated upstream
       value: 55000c5604075b03590f5e7615755c44444f4b29287971607d7a4530bbe36560
       flags: 0
     RecentlyUsedSceneGuid-4:
@@ -26,8 +33,21 @@ EditorUserSettings:
       flags: 0
     RecentlyUsedSceneGuid-6:
       value: 550100075353085a0e0b082342745a44174f4d7c7d2e25602b70456ab0b03261
+=======
+      value: 5206510055530f035b08097612710844454f4d792e7923662c2a4a30b4b33668
+>>>>>>> Stashed changes
+      flags: 0
+    RecentlyUsedSceneGuid-4:
+      value: 5b54505301050d0e5b5d087a15200f44154f1e7e7c7b25672f2d1f37b1b0636f
+      flags: 0
+    RecentlyUsedSceneGuid-5:
+      value: 55000c5604075b03590f5e7615755c44444f4b29287971607d7a4530bbe36560
+      flags: 0
+    RecentlyUsedSceneGuid-6:
+      value: 0504575756565803090f587714705e44414f402c7b7d71312e2b186abae16269
       flags: 0
     RecentlyUsedSceneGuid-7:
+<<<<<<< Updated upstream
       value: 5b01565201040b020c0a5f7447760f444e154e297a79763229791f32b6b43139
 =======
       value: 5206510055530f035b08097612710844454f4d792e7923662c2a4a30b4b33668
@@ -46,6 +66,15 @@ EditorUserSettings:
       flags: 0
     RecentlyUsedSceneGuid-6:
       value: 52535755000659580e585b7b167659444f4e4b29297d76347b794e31b3b16060
+>>>>>>> Stashed changes
+=======
+      value: 550100075353085a0e0b082342745a44174f4d7c7d2e25602b70456ab0b03261
+      flags: 0
+    RecentlyUsedSceneGuid-8:
+      value: 52535755000659580e585b7b167659444f4e4b29297d76347b794e31b3b16060
+      flags: 0
+    RecentlyUsedSceneGuid-9:
+      value: 56000c0752015f0d0f575a7212255a44444f4e2f2a7171617f2c4f32b0e56d3c
 >>>>>>> Stashed changes
       flags: 0
     vcSharedLogLevel:
