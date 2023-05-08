@@ -12,12 +12,12 @@ public class PlayerController : MonoBehaviour
     private GameController gameController = null;
     public GameObject enemyControllerObj = null; 
     private EnemyController enemyController = null;
-    private GameObject currTargeted = null;
-    private Character currTargetedStats = null;
+    public GameObject currTargeted = null;
+    public Character currTargetedStats = null;
     public GameObject charInfoPanel = null;
+    public GameObject upgradePanel = null;
     private GameObject movLeftTXT = null;
     private GameObject movLeftNUMObj = null;
-    public GameObject upgradePanel = null;
     private TMPro.TextMeshProUGUI charNameTXT = null;
     private TMPro.TextMeshProUGUI hpNUM = null;
     private TMPro.TextMeshProUGUI strNUM = null;
@@ -48,10 +48,13 @@ public class PlayerController : MonoBehaviour
     public GameObject attackAreaParent = null;
     private GameObject[] moveAreas;
     private GameObject[] attackAreas;
-
     public GameObject[] playerUnits;
     public Character[] playerStats;
     public Vector3[] allyStartPos;
+    public Character.bodyType[] bodysList;
+    public Character.weaponType[] weaponsList;
+
+    private int gearAmount = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -81,6 +84,8 @@ public class PlayerController : MonoBehaviour
             playerUnits[i] = child.gameObject;
             playerStats[i] = playerUnits[i].GetComponent<Character>();          
             playerUnits[i].transform.position = allyStartPos[i];
+            playerStats[i].changeBody(bodysList[i]);
+            playerStats[i].changeWeapon(weaponsList[i]);
 
             i += 1;      
         }
@@ -99,7 +104,7 @@ public class PlayerController : MonoBehaviour
         {
             attackAreas[i] = child.gameObject;
             i += 1;
-        }       
+        }
     }
 
     // Update is called once per frame
@@ -126,7 +131,7 @@ public class PlayerController : MonoBehaviour
                 for (int i = 0; i < transform.childCount; i++)
                 {
                     // clicked ally 
-                    if (mousePos == playerUnits[i].transform.position && playerStats[i].isDead == false)
+                    if (mousePos == playerUnits[i].transform.position && playerStats[i].getIsDead() == false)
                     {
                         // target ally 
                         if (currTargeted == null)
@@ -143,7 +148,7 @@ public class PlayerController : MonoBehaviour
                         return;
                     }
                     // clicked enemy 
-                    else if (mousePos == enemyController.enemyUnits[i].transform.position && enemyController.enemyStats[i].isDead == false)
+                    else if (mousePos == enemyController.enemyUnits[i].transform.position && enemyController.enemyStats[i].getIsDead() == false)
                     {
                         // no ally selected target the enemy
                         if (currTargeted == null)
@@ -151,7 +156,7 @@ public class PlayerController : MonoBehaviour
                             targetEnemy(i);
                         }
                         // ally selected and in range, attack
-                        else if (currTargeted != null && isTargetEnemy == false && currTargetedStats.canAttack == true && inAttackRange(mousePos, currTargeted))
+                        else if (currTargeted != null && isTargetEnemy == false && currTargetedStats.getCanAttack() == true && inAttackRange(mousePos, currTargeted))
                         {
                             beginBattle(i);
                         }
@@ -178,6 +183,23 @@ public class PlayerController : MonoBehaviour
                 }                            
             }
         }
+    }
+
+    public int getGearNum()
+    {
+        return gearAmount;
+    }
+
+    public void setGearNum(int i)
+    {
+        gearAmount = i;
+        gameController.updateGearNumPanel();
+    }
+
+    public void giveGearNum(int i)
+    {
+        gearAmount = gearAmount + i;
+        gameController.updateGearNumPanel();
     }
 
     void beginBattle(int i)
@@ -245,7 +267,7 @@ public class PlayerController : MonoBehaviour
     {
         for (int i = 0; i < transform.childCount; i++)
         {
-            if (playerUnits[i].transform.position == pos && playerStats[i].isDead == false)
+            if (playerUnits[i].transform.position == pos && playerStats[i].getIsDead() == false)
             {
                 return true;
             }
@@ -264,7 +286,7 @@ public class PlayerController : MonoBehaviour
         //Debug.Log("Clicked ally");
         //Debug.Log("i: " + i);
         //Debug.Log("playerUnit @ " + i + " is " + playerUnits[i].transform.name);
-        if (playerStats[i].isDead == true)
+        if (playerStats[i].getIsDead() == true)
             return;
 
         currTargeted = playerUnits[i];
@@ -286,8 +308,8 @@ public class PlayerController : MonoBehaviour
     {
         Character unitStats = unit.GetComponent<Character>();
 
-        // sword + axe
-        if (unitStats.weapon == 1 || unitStats.weapon == 3)
+        // 1 Range
+        if (unitStats.getAttackRange() == 1)
         {
             if (unitStats.movLeft < 0 || unitStats.movLeft > moveAreas.Length || unitStats.movLeft >= attackAreas.Length)
             {
@@ -308,10 +330,10 @@ public class PlayerController : MonoBehaviour
                 attackAreas[unitStats.movLeft].transform.position = unit.transform.position;
             }
         }
-        // bow
-        else if (unitStats.weapon == 2)
+        // 2 Range
+        else if (unitStats.getAttackRange() == 2)
         {
-            if (unitStats.movLeft < 0 || unitStats.movLeft > moveAreas.Length || unitStats.movLeft + 1 >= attackAreas.Length)
+            if (unitStats.movLeft > moveAreas.Length || unitStats.movLeft + 1 >= attackAreas.Length)
             {
                 Debug.Log("movLeft out of range in showArea!!!");
                 hideArea();
@@ -321,6 +343,8 @@ public class PlayerController : MonoBehaviour
                 hideArea();
                 attackAreas[unitStats.movLeft + 1].SetActive(true);
                 attackAreas[unitStats.movLeft + 1].transform.position = unit.transform.position;
+                attackAreas[unitStats.movLeft].SetActive(true);
+                attackAreas[unitStats.movLeft].transform.position = unit.transform.position;
             }
             else
             {
@@ -430,18 +454,18 @@ public class PlayerController : MonoBehaviour
     {
         Character unitStats = unit.GetComponent<Character>();
 
-        // sword + axe
-        if (unitStats.weapon == 1 || unitStats.weapon == 3)
+        // 1 Range
+        if (unitStats.getAttackRange() == 1)
         {
             Vector3Int distance = mousePos - Vector3Int.FloorToInt(unit.transform.position);
             if ((Mathf.Abs(distance.x) == 1 && distance.y == 0) || (distance.x == 0 && Mathf.Abs(distance.y) == 1))
                 return true;
         }
-        // bow
-        else if (unitStats.weapon == 2)
+        // 2 Range
+        else if (unitStats.getAttackRange() == 2)
         {
             Vector3Int distance = mousePos - Vector3Int.FloorToInt(unit.transform.position);
-            if ((Mathf.Abs(distance.x) == 2 && distance.y == 0) || (distance.x == 0 && Mathf.Abs(distance.y) == 2) || (Mathf.Abs(distance.x) == 1 && Mathf.Abs(distance.y) == 1)) 
+            if ((Mathf.Abs(distance.x) <= 2 && distance.y == 0) || (distance.x == 0 && Mathf.Abs(distance.y) <= 2) || (Mathf.Abs(distance.x) == 1 && Mathf.Abs(distance.y) == 1)) 
                 return true;
         }
 
@@ -507,7 +531,7 @@ public class PlayerController : MonoBehaviour
     {
         for (int i = 0; i < transform.childCount; i++)
         {
-            if (playerStats[i].isDead == false)
+            if (playerStats[i].getIsDead() == false)
                 playerUnits[i].gameObject.SetActive(true);
         }
     }
@@ -516,7 +540,7 @@ public class PlayerController : MonoBehaviour
     {
         for (int i = 0; i < transform.childCount; i++)
         {
-            playerStats[i].isDead = false;
+            playerStats[i].undie();
         }
     }
 
@@ -524,7 +548,7 @@ public class PlayerController : MonoBehaviour
     {
         for (int i = 0; i < playerStats.Length; i++)
         {
-            if (playerStats[i].isDead == false)
+            if (playerStats[i].getIsDead() == false)
                 return false;
         }
 
@@ -637,6 +661,109 @@ public class PlayerController : MonoBehaviour
         }
 
         beginBattle(i);
+    }
+
+    public void changedName(string s)
+    {
+        currTargetedStats.charName = s;
+        currTargeted.name = s;
+    }
+
+    public void changedBody(Dropdown d)
+    {
+        int val = d.value;
+        currTargetedStats.changeBody((Character.bodyType)val);
+        gameController.updateUpgradeMenu(currTargeted);
+    }
+
+    public void changedWeapon(Dropdown d)
+    {
+        hideArea();
+        int val = d.value;
+        currTargetedStats.changeWeapon((Character.weaponType)val);
+        gameController.updateUpgradeMenu(currTargeted);
+        showArea(currTargeted);
+    }
+
+    public void hpButtonPressed()
+    {
+        if (getGearNum() >= currTargetedStats.HPCost && currTargetedStats.baseHP < currTargetedStats.getHPMAX())
+        {
+            giveGearNum(-currTargetedStats.HPCost);
+            currTargetedStats.baseHP = currTargetedStats.baseHP + 1;
+            currTargetedStats.hpLeft = currTargetedStats.hpLeft + 1;
+            gameController.updateUpgradeMenu(currTargeted);
+            currTargetedStats.updateStats();
+        }
+    }
+
+    public void strButtonPressed()
+    {
+        if (getGearNum() >= currTargetedStats.STRCost && currTargetedStats.baseSTR < currTargetedStats.getSTRMAX())
+        {
+            giveGearNum(-currTargetedStats.STRCost);
+            currTargetedStats.baseSTR = currTargetedStats.baseSTR + 1;
+            gameController.updateUpgradeMenu(currTargeted);
+            currTargetedStats.updateStats();
+        }
+    }
+
+    public void magButtonPressed()
+    {
+        if (getGearNum() >= currTargetedStats.MAGCost && currTargetedStats.baseMAG < currTargetedStats.getMAGMAX())
+        {
+            giveGearNum(-currTargetedStats.MAGCost);
+            currTargetedStats.baseMAG = currTargetedStats.baseMAG + 1;
+            gameController.updateUpgradeMenu(currTargeted);
+            currTargetedStats.updateStats();
+        }
+    }
+
+    public void defButtonPressed()
+    {
+        if (getGearNum() >= currTargetedStats.DEFCost && currTargetedStats.baseDEF < currTargetedStats.getDEFMAX())
+        {
+            giveGearNum(-currTargetedStats.DEFCost);
+            currTargetedStats.baseDEF = currTargetedStats.baseDEF + 1;
+            gameController.updateUpgradeMenu(currTargeted);
+            currTargetedStats.updateStats();
+        }
+    }
+
+    public void resButtonPressed()
+    {
+        if (getGearNum() >= currTargetedStats.RESCost && currTargetedStats.baseRES < currTargetedStats.getRESMAX())
+        {
+            giveGearNum(-currTargetedStats.RESCost);
+            currTargetedStats.baseRES = currTargetedStats.baseRES + 1;
+            gameController.updateUpgradeMenu(currTargeted);
+            currTargetedStats.updateStats();
+        }
+    }
+
+    public void spdButtonPressed()
+    {
+        if (getGearNum() >= currTargetedStats.SPDCost && currTargetedStats.baseSPD < currTargetedStats.getSPDMAX())
+        {
+            giveGearNum(-currTargetedStats.SPDCost);
+            currTargetedStats.baseSPD = currTargetedStats.baseSPD + 1;
+            gameController.updateUpgradeMenu(currTargeted);
+            currTargetedStats.updateStats();
+        }
+    }
+
+    public void movButtonPressed()
+    {
+        if (getGearNum() >= currTargetedStats.MOVCost && currTargetedStats.baseMOV < currTargetedStats.getMOVMAX())
+        {
+            giveGearNum(-currTargetedStats.MOVCost);
+            hideArea();
+            currTargetedStats.baseMOV = currTargetedStats.baseMOV + 1;
+            currTargetedStats.movLeft = currTargetedStats.movLeft + 1;
+            showArea(currTargeted);
+            gameController.updateUpgradeMenu(currTargeted);
+            currTargetedStats.updateStats();            
+        }
     }
 }
 

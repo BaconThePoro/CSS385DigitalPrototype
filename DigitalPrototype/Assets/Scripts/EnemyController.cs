@@ -14,6 +14,8 @@ public class EnemyController : MonoBehaviour
     public GameObject[] enemyUnits;
     public Character[] enemyStats;
     public Vector3[] enemyStartPos;
+    public Character.bodyType[] bodysList;
+    public Character.weaponType[] weaponsList;
     public Tilemap currTilemap = null;
     public float inBetweenDelay = .3f;
     public bool battleDone = false;
@@ -34,6 +36,9 @@ public class EnemyController : MonoBehaviour
             enemyUnits[i] = child.gameObject;
             enemyStats[i] = enemyUnits[i].GetComponent<Character>();      
             enemyUnits[i].transform.position = enemyStartPos[i];
+            enemyStats[i].setEnemy();
+            enemyStats[i].changeBody(bodysList[i]);
+            enemyStats[i].changeWeapon(weaponsList[i]);
 
             i += 1;
         }
@@ -51,7 +56,7 @@ public class EnemyController : MonoBehaviour
     {
         for (int i = 0; i < enemyStats.Length; i++)
         {
-            if (enemyStats[i].isDead == false)
+            if (enemyStats[i].getIsDead() == false)
                 return false; 
         }
 
@@ -73,10 +78,8 @@ public class EnemyController : MonoBehaviour
         for (int i = 0; i < enemyUnits.Length; i++)
         {
             // if their dead skip them
-            if (enemyStats[i].isDead == false)
+            if (enemyStats[i].getIsDead() == false)
             {
-
-
                 // turn on target reticle for this unit
                 enemyUnits[i].transform.GetChild(0).gameObject.SetActive(true);
 
@@ -86,7 +89,7 @@ public class EnemyController : MonoBehaviour
 
                 for (int j = 0; j < playerController.playerUnits.Length; j++)
                 {
-                    if (playerController.playerStats[j].isDead == false)
+                    if (playerController.playerStats[j].getIsDead() == false)
                     {
                         Vector3 distanceVector = playerController.playerUnits[j].transform.position - enemyUnits[i].transform.position;
 
@@ -201,14 +204,14 @@ public class EnemyController : MonoBehaviour
         Character unitStats = unit.GetComponent<Character>();
 
         // sword
-        if (unitStats.weapon == 1)
+        if (unitStats.GetWeaponType() == Character.weaponType.Sword || unitStats.GetWeaponType() == Character.weaponType.Axe)
         {
             Vector3Int distance = targetPos - Vector3Int.FloorToInt(unit.transform.position);
             if ((Mathf.Abs(distance.x) == 1 && distance.y == 0) || (distance.x == 0 && Mathf.Abs(distance.y) == 1))
                 return true;
         }
         // bow
-        else if (unitStats.weapon == 2)
+        else if (unitStats.GetWeaponType() == Character.weaponType.Bow)
         {
             Vector3Int distance = targetPos - Vector3Int.FloorToInt(unit.transform.position);
             if ((Mathf.Abs(distance.x) == 2 && distance.y == 0) || (distance.x == 0 && Mathf.Abs(distance.y) == 2) || (Mathf.Abs(distance.x) == 1 && Mathf.Abs(distance.y) == 1))
@@ -262,7 +265,7 @@ public class EnemyController : MonoBehaviour
     {
         for (int i = 0; i < transform.childCount; i++)
         {
-            if (enemyUnits[i].transform.position == pos && enemyStats[i].isDead == false)
+            if (enemyUnits[i].transform.position == pos && enemyStats[i].getIsDead() == false)
             {
                 return true;
             }
@@ -301,7 +304,7 @@ public class EnemyController : MonoBehaviour
     {
         for (int i = 0; i < transform.childCount; i++)
         {
-            if (enemyUnits[i].GetComponent<Character>().isDead == false)
+            if (enemyUnits[i].GetComponent<Character>().getIsDead() == false)
                 enemyUnits[i].gameObject.SetActive(true);
         }
     }
@@ -310,7 +313,7 @@ public class EnemyController : MonoBehaviour
     {
         for (int i = 0; i < transform.childCount; i++)
         {
-            enemyStats[i].isDead = false;
+            enemyStats[i].undie();
         }
     }
 }

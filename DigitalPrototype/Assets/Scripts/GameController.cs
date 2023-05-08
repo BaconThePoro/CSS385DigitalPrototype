@@ -9,6 +9,7 @@ using UnityEngine.Tilemaps;
 using Quaternion = UnityEngine.Quaternion;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
+using System;
 
 public class GameController : MonoBehaviour
 {
@@ -29,6 +30,8 @@ public class GameController : MonoBehaviour
     public GameObject VictoryScreen = null;
     public GameObject DefeatScreen = null;
     public GameObject turnPanel = null;
+    public GameObject gearNumPanel = null;
+    private GameObject gearNumPlus = null;
     public GameObject upgradeMenu = null;
     public TMPro.TMP_Text turnModeTXT = null;
     public Button endTurnButton = null;
@@ -80,8 +83,8 @@ public class GameController : MonoBehaviour
     // upgrade panel stuff
     private TMPro.TMP_InputField charName = null;
     private Image charImage = null;
-    private Dropdown body = null;
-    private Dropdown weapon = null;
+    private Dropdown bodyDropdown = null;
+    private Dropdown weaponDropdown = null;
     private TMPro.TextMeshProUGUI hpNUM = null;
     private TMPro.TextMeshProUGUI strNUM = null;
     private TMPro.TextMeshProUGUI magNUM = null;
@@ -103,8 +106,18 @@ public class GameController : MonoBehaviour
     private TMPro.TextMeshProUGUI defCOST = null;
     private TMPro.TextMeshProUGUI resCOST = null;
     private TMPro.TextMeshProUGUI movCOST = null;
-
-
+    private Image weaponIMG = null;
+    private Button hpButton = null;
+    private Button strButton = null;
+    private Button magButton = null;
+    private Button defButton = null;
+    private Button resButton = null;
+    private Button spdButton = null;
+    private Button movButton = null;
+    private GameObject weaponStatsPanel = null;
+    private TMPro.TextMeshProUGUI weaponStats1 = null;
+    private TMPro.TextMeshProUGUI weaponStats2 = null;
+    private TMPro.TextMeshProUGUI weaponRange = null;
 
     // enum for whose turn it is currently, the players or the enemies.
     public enum turnMode { PlayerTurn, EnemyTurn };
@@ -121,12 +134,11 @@ public class GameController : MonoBehaviour
     float worldLimX = 18f;
     float worldLimY = 11f;
     float camMoveAmount = 0.02f;
-    float panBorderThickness = 30f;
     float targetZoom;
     float sensitivity = 1;
     float camSpeed = 3;
     float maxZoom = 7;
-    float minZoom = 3;
+    float minZoom = 2;
 
     bool isFocused = true; 
 
@@ -161,24 +173,25 @@ public class GameController : MonoBehaviour
         RmovNUM = charInfoPanelR.transform.GetChild(16).GetComponent<TMPro.TextMeshProUGUI>();
         RmovLeftNUMObj = charInfoPanelR.transform.GetChild(17).gameObject;
         RmovLeftNUM = RmovLeftNUMObj.GetComponent<TMPro.TextMeshProUGUI>();
+        gearNumPlus = gearNumPanel.transform.GetChild(2).gameObject;
         //
         charName = upgradeMenu.transform.GetChild(0).transform.GetChild(3).GetComponent<TMPro.TMP_InputField>();
         charImage = upgradeMenu.transform.GetChild(0).transform.GetChild(6).GetComponent<Image>();
-        body = upgradeMenu.transform.GetChild(0).transform.GetChild(6).GetComponent<Dropdown>();
-        weapon = upgradeMenu.transform.GetChild(0).transform.GetChild(8).GetComponent<Dropdown>();
+        bodyDropdown = upgradeMenu.transform.GetChild(0).transform.GetChild(8).GetComponent<Dropdown>();
+        weaponDropdown = upgradeMenu.transform.GetChild(0).transform.GetChild(10).GetComponent<Dropdown>();
         hpNUM = upgradeMenu.transform.GetChild(0).transform.GetChild(18).GetComponent<TMPro.TextMeshProUGUI>();
         strNUM = upgradeMenu.transform.GetChild(0).transform.GetChild(19).GetComponent<TMPro.TextMeshProUGUI>();
         magNUM = upgradeMenu.transform.GetChild(0).transform.GetChild(20).GetComponent<TMPro.TextMeshProUGUI>();
-        defNUM = upgradeMenu.transform.GetChild(0).transform.GetChild(21).GetComponent<TMPro.TextMeshProUGUI>();
-        resNUM = upgradeMenu.transform.GetChild(0).transform.GetChild(22).GetComponent<TMPro.TextMeshProUGUI>();
-        spdNUM = upgradeMenu.transform.GetChild(0).transform.GetChild(23).GetComponent<TMPro.TextMeshProUGUI>();
+        spdNUM = upgradeMenu.transform.GetChild(0).transform.GetChild(21).GetComponent<TMPro.TextMeshProUGUI>();
+        defNUM = upgradeMenu.transform.GetChild(0).transform.GetChild(22).GetComponent<TMPro.TextMeshProUGUI>();
+        resNUM = upgradeMenu.transform.GetChild(0).transform.GetChild(23).GetComponent<TMPro.TextMeshProUGUI>();     
         movNUM = upgradeMenu.transform.GetChild(0).transform.GetChild(24).GetComponent<TMPro.TextMeshProUGUI>();
         hpMOD = upgradeMenu.transform.GetChild(0).transform.GetChild(25).GetComponent<TMPro.TextMeshProUGUI>();
         strMOD = upgradeMenu.transform.GetChild(0).transform.GetChild(26).GetComponent<TMPro.TextMeshProUGUI>();
         magMOD = upgradeMenu.transform.GetChild(0).transform.GetChild(27).GetComponent<TMPro.TextMeshProUGUI>();
-        defMOD = upgradeMenu.transform.GetChild(0).transform.GetChild(28).GetComponent<TMPro.TextMeshProUGUI>();
-        resMOD = upgradeMenu.transform.GetChild(0).transform.GetChild(29).GetComponent<TMPro.TextMeshProUGUI>();
-        spdMOD = upgradeMenu.transform.GetChild(0).transform.GetChild(30).GetComponent<TMPro.TextMeshProUGUI>();
+        spdMOD = upgradeMenu.transform.GetChild(0).transform.GetChild(28).GetComponent<TMPro.TextMeshProUGUI>();
+        defMOD = upgradeMenu.transform.GetChild(0).transform.GetChild(29).GetComponent<TMPro.TextMeshProUGUI>();
+        resMOD = upgradeMenu.transform.GetChild(0).transform.GetChild(30).GetComponent<TMPro.TextMeshProUGUI>();
         movMOD = upgradeMenu.transform.GetChild(0).transform.GetChild(31).GetComponent<TMPro.TextMeshProUGUI>();
         hpCOST = upgradeMenu.transform.GetChild(0).transform.GetChild(34).GetComponent<TMPro.TextMeshProUGUI>();
         strCOST = upgradeMenu.transform.GetChild(0).transform.GetChild(36).GetComponent<TMPro.TextMeshProUGUI>(); 
@@ -187,8 +200,18 @@ public class GameController : MonoBehaviour
         resCOST = upgradeMenu.transform.GetChild(0).transform.GetChild(42).GetComponent<TMPro.TextMeshProUGUI>();
         spdCOST = upgradeMenu.transform.GetChild(0).transform.GetChild(44).GetComponent<TMPro.TextMeshProUGUI>();
         movCOST = upgradeMenu.transform.GetChild(0).transform.GetChild(46).GetComponent<TMPro.TextMeshProUGUI>();
-
-
+        weaponIMG = upgradeMenu.transform.GetChild(0).transform.GetChild(47).GetComponent<Image>();
+        hpButton = upgradeMenu.transform.GetChild(0).transform.GetChild(32).GetComponent<Button>();
+        strButton = upgradeMenu.transform.GetChild(0).transform.GetChild(35).GetComponent<Button>();
+        magButton = upgradeMenu.transform.GetChild(0).transform.GetChild(37).GetComponent<Button>();
+        defButton = upgradeMenu.transform.GetChild(0).transform.GetChild(39).GetComponent<Button>();
+        resButton = upgradeMenu.transform.GetChild(0).transform.GetChild(41).GetComponent<Button>();
+        spdButton = upgradeMenu.transform.GetChild(0).transform.GetChild(43).GetComponent<Button>();
+        movButton = upgradeMenu.transform.GetChild(0).transform.GetChild(45).GetComponent<Button>();
+        weaponStatsPanel = upgradeMenu.transform.GetChild(0).transform.GetChild(48).gameObject;
+        weaponStats1 = weaponStatsPanel.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>();
+        weaponStats2 = weaponStatsPanel.transform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>();
+        weaponRange = weaponStatsPanel.transform.GetChild(3).GetComponent<TMPro.TextMeshProUGUI>();
 
         targetZoom = mainCamera.orthographicSize;
 
@@ -196,6 +219,8 @@ public class GameController : MonoBehaviour
         changeMode(gameMode.MapMode);
 
         updateTurnText();
+
+        playerController.setGearNum(999);
     }
 
     // Update is called once per frame
@@ -240,26 +265,22 @@ public class GameController : MonoBehaviour
         if (currGameMode == gameMode.MapMode)
         {
             // camera move up
-            if (Input.GetKey(KeyCode.W) && mainCamera.transform.position.y < worldLimY
-                || Input.mousePosition.y >= Screen.height - panBorderThickness && mainCamera.transform.position.y < worldLimY)
+            if (Input.GetKey(KeyCode.W) && mainCamera.transform.position.y < worldLimY)
             {
                 mainCamera.transform.position = new Vector3(mainCamera.transform.position.x, mainCamera.transform.position.y + camMoveAmount, mainCamera.transform.position.z);
             }
             // camera move down
-            if (Input.GetKey(KeyCode.S) && mainCamera.transform.position.y > -worldLimY
-                || Input.mousePosition.y <= panBorderThickness && mainCamera.transform.position.y > -worldLimY)
+            if (Input.GetKey(KeyCode.S) && mainCamera.transform.position.y > -worldLimY)
             {
                 mainCamera.transform.position = new Vector3(mainCamera.transform.position.x, mainCamera.transform.position.y - camMoveAmount, mainCamera.transform.position.z);
             }
             // camera move left
-            if (Input.GetKey(KeyCode.A) && mainCamera.transform.position.x > -worldLimX
-                || Input.mousePosition.x <= panBorderThickness && mainCamera.transform.position.x > -worldLimX)
+            if (Input.GetKey(KeyCode.A) && mainCamera.transform.position.x > -worldLimX)
             {
                 mainCamera.transform.position = new Vector3(mainCamera.transform.position.x - camMoveAmount, mainCamera.transform.position.y, mainCamera.transform.position.z);
             }
             // camera move right
-            if (Input.GetKey(KeyCode.D) && mainCamera.transform.position.x < worldLimX
-                || Input.mousePosition.x >= Screen.width - panBorderThickness && mainCamera.transform.position.x < worldLimY)
+            if (Input.GetKey(KeyCode.D) && mainCamera.transform.position.x < worldLimX)
             {
                 mainCamera.transform.position = new Vector3(mainCamera.transform.position.x + camMoveAmount, mainCamera.transform.position.y, mainCamera.transform.position.z);
             }
@@ -285,13 +306,17 @@ public class GameController : MonoBehaviour
             }
 
             // if user presses right click, end turn
-            if (Input.GetMouseButtonDown(1) && currTurnMode == turnMode.PlayerTurn)
+            if (Input.GetKey(KeyCode.Q) && currTurnMode == turnMode.PlayerTurn)
             {
                 endTurnButtonPressed();
             }
         }
     }
 
+    public void updateGearNumPanel()
+    {
+        gearNumPanel.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "" + playerController.getGearNum();
+    }
 
     // playerSide = FALSE, player is on the left
     // playerSide = TRUE, player is on the right
@@ -307,6 +332,7 @@ public class GameController : MonoBehaviour
         Character rightStats = rightChar.GetComponent<Character>();
         // go to battlemode
         turnPanel.SetActive(false);
+        gearNumPanel.SetActive(false);
         playerController.deselectTarget();
         playerController.deactivateChildren();
         enemyController.deactivateChildren();
@@ -362,7 +388,7 @@ public class GameController : MonoBehaviour
         else if (leftStats.SPD == rightStats.SPD)
         {
             // coin flip who goes first
-            if (Random.value >= 0.5)
+            if (UnityEngine.Random.value >= 0.5)
             {
                 firstAttacker = leftChar;
                 secondAttacker = rightChar;
@@ -387,7 +413,7 @@ public class GameController : MonoBehaviour
         }
 
         // first attacks
-        if (firstStats.attackRange == battleRange)
+        if (firstStats.getAttackRange() >= battleRange)
         {
             StartCoroutine(LerpPosition(firstAttacker, firstAttacker.transform.position + firstAttacker.transform.right, animationDuration));
             yield return new WaitForSeconds(.5f);
@@ -399,7 +425,7 @@ public class GameController : MonoBehaviour
         yield return new WaitForSeconds(inbetweenAttackDelay);
 
         // second attack
-        if (secondStats.attackRange == battleRange)
+        if (secondStats.getAttackRange() >= battleRange)
         {
             StartCoroutine(LerpPosition(secondAttacker, secondAttacker.transform.position + secondAttacker.transform.right, animationDuration));
             yield return new WaitForSeconds(.5f);
@@ -421,6 +447,7 @@ public class GameController : MonoBehaviour
         charInfoPanelL.SetActive(false);
         charInfoPanelR.SetActive(false);
         turnPanel.SetActive(true);
+        gearNumPanel.SetActive(true);
         playerController.activateChildren();
         enemyController.activateChildren();
         Mapmode.SetActive(true);
@@ -439,6 +466,38 @@ public class GameController : MonoBehaviour
         {
             playerController.ourTurn = false;
         }
+
+        // see if player gets some gears for killing something
+        if (firstStats.getIsDead() == true && firstStats.getIsEnemy() == true
+            || secondStats.getIsDead() == true && secondStats.getIsEnemy() == true)
+        {
+            playerController.giveGearNum(4);
+
+            
+            StartCoroutine(plusAnimation());
+        }
+    }
+
+    public IEnumerator plusAnimation()
+    {
+        float time = 0;
+        RawImage rI = gearNumPlus.GetComponent<RawImage>();
+        Vector3 originalPos = gearNumPlus.transform.position;
+
+        gearNumPlus.SetActive(true);
+        while (time <= 0.2f)
+        {
+            gearNumPlus.transform.position = gearNumPlus.transform.position + new Vector3(0, 0.25f, 0);
+            if (time > 0.1f)
+                rI.color = new Color(1, 1, 1, rI.color.a * 0.80f);
+            yield return new WaitForSeconds(0.01f);
+            time = time + Time.deltaTime;
+            //Debug.Log("time: " + time);
+        }
+
+        gearNumPlus.transform.position = originalPos;
+        rI.color = new Color(1, 1, 1, 1);
+        gearNumPlus.SetActive(false);
     }
 
     public void resetDelay()
@@ -463,10 +522,10 @@ public class GameController : MonoBehaviour
             yield return new WaitForSeconds(0.75f);
 
             damageTXT.text = "";
-            damageTXT.color = Color.red;
         }
         else
         {
+            damageTXT.color = Color.red;
             damageTXT.text = "(-" + damageNum + ")";
 
             yield return new WaitForSeconds(0.75f);
@@ -508,18 +567,29 @@ public class GameController : MonoBehaviour
 
     public int Attack(Character attacker, Character damageTaker)
     {
-        if (attacker.isDead == true || damageTaker.isDead == true)
+        if (attacker.getIsDead() == true || damageTaker.getIsDead() == true)
             return -999;
 
         int damageMinusDefense = -1;
         // if attacker has a physical weapon
-        if (attacker.weapon == 1 || attacker.weapon == 2 || attacker.weapon == 3)
+        if (attacker.GetWeaponType() == Character.weaponType.Sword || attacker.GetWeaponType() == Character.weaponType.Bow 
+            || attacker.GetWeaponType() == Character.weaponType.Axe)
         {
             damageMinusDefense = attacker.STR - damageTaker.DEF;
             // make sure you cant do negative damage
             if (damageMinusDefense < 0)
                 damageMinusDefense = 0;
             
+            damageTaker.takeDamage(damageMinusDefense);
+        }
+        // attacker has magic weapon
+        else
+        {
+            damageMinusDefense = attacker.MAG - damageTaker.RES;
+            // make sure you cant do negative damage
+            if (damageMinusDefense < 0)
+                damageMinusDefense = 0;
+
             damageTaker.takeDamage(damageMinusDefense);
         }
 
@@ -545,6 +615,7 @@ public class GameController : MonoBehaviour
         VictoryScreen.SetActive(true);
         Mapmode.SetActive(false);
         turnPanel.SetActive(false);
+        gearNumPanel.SetActive(false);
         charInfoPanelL.SetActive(false);
         charInfoPanelR.SetActive(false);
         playerControllerObj.SetActive(false);
@@ -557,6 +628,7 @@ public class GameController : MonoBehaviour
         DefeatScreen.SetActive(true);
         Mapmode.SetActive(false);
         turnPanel.SetActive(false);
+        gearNumPanel.SetActive(false);
         charInfoPanelL.SetActive(false);
         charInfoPanelR.SetActive(false);
         playerControllerObj.SetActive(false);
@@ -688,6 +760,7 @@ public class GameController : MonoBehaviour
         playerController.ourTurn = false;
         changeMode(gameMode.MenuMode);
         upgradeMenu.gameObject.SetActive(true);
+        updateUpgradeMenu(playerController.currTargeted);
     }
 
     public void closeUpgradeMenu()
@@ -697,6 +770,7 @@ public class GameController : MonoBehaviour
             playerController.ourTurn = true;
             changeMode(gameMode.MapMode);
             upgradeMenu.gameObject.SetActive(false);
+            playerController.updateCharInfo();
         }
     }
 
@@ -705,8 +779,32 @@ public class GameController : MonoBehaviour
         Character charStats = character.GetComponent<Character>();
         charName.text = charStats.name;
         charImage.sprite = character.GetComponent<SpriteRenderer>().sprite;
-        //body
-        //weapon
+        weaponIMG.sprite = character.transform.GetChild(1).GetComponent<SpriteRenderer>().sprite;
+        weaponIMG.transform.localScale = charStats.transform.GetChild(1).localScale;
+        charStats.updateCosts();
+
+        if (bodyDropdown.options.Count == 0)
+        {
+            string[] bodyNames = Enum.GetNames(typeof(Character.bodyType));
+            List<string> body = new List<string>(bodyNames);
+            bodyDropdown.AddOptions(body);
+        }
+        else
+        {
+            bodyDropdown.value = (int)charStats.GetBodyType();
+        }
+
+        if (weaponDropdown.options.Count == 0)
+        {
+            string[] weaponNames = Enum.GetNames(typeof(Character.weaponType));
+            List<string> weapons = new List<string>(weaponNames);
+            weaponDropdown.AddOptions(weapons);
+        }
+        else
+        {
+            weaponDropdown.value = (int)charStats.GetWeaponType();
+        }
+
         hpNUM.text = "" + charStats.baseHP;
         strNUM.text = "" + charStats.baseSTR;
         magNUM.text = "" + charStats.baseMAG;
@@ -715,17 +813,70 @@ public class GameController : MonoBehaviour
         spdNUM.text = "" + charStats.baseSPD;
         movNUM.text = "" + charStats.baseMOV;
 
+        weaponRange.text = "RNG: " + charStats.getAttackRange();
+        weaponStats1.text = "";
+        weaponStats2.text = "";
+
+        if (charStats.HPMOD == 0 && charStats.STRMOD == 0 && charStats.MAGMOD == 0 && charStats.DEFMOD == 0
+            && charStats.RESMOD == 0 && charStats.SPDMOD == 0 && charStats.MOVMOD == 0)
+        {
+            //weaponStatsPanel.gameObject.SetActive(false);
+            weaponStats1.text = "";
+            weaponStats2.text = "";
+        }
+
+        if (charStats.HPMOD == 0)
+            hpMOD.text = "";
+        else if (charStats.HPMOD > 0)
+        {
+            hpMOD.color = Color.green;
+            hpMOD.text = "+ " + charStats.HPMOD;
+            weaponStatsPanel.gameObject.SetActive(true);
+            weaponStats1.color = Color.green;
+            weaponStats1.text = "+" + charStats.HPMOD + " HP";
+        }
+        else
+        {
+            hpMOD.color = Color.red;
+            hpMOD.text = "- " + Mathf.Abs(charStats.HPMOD);
+            weaponStatsPanel.gameObject.SetActive(true);
+            weaponStats1.color = Color.red;
+            weaponStats1.text = "-" + Mathf.Abs(charStats.HPMOD) + " HP";
+        }
+
         if (charStats.STRMOD == 0)
             strMOD.text = "";
         else if (charStats.STRMOD > 0)
         {
             strMOD.color = Color.green;
-            strMOD.text = "" + charStats.STRMOD;
+            strMOD.text = "+ " + charStats.STRMOD;
+            weaponStatsPanel.gameObject.SetActive(true);
+            if (weaponStats1.text == "")
+            {
+                weaponStats1.color = Color.green;
+                weaponStats1.text = "+" + charStats.STRMOD + " STR";
+            }
+            else
+            {
+                weaponStats2.color = Color.green;
+                weaponStats2.text = "+" + charStats.STRMOD + " STR";
+            }
         }
         else
         {
             strMOD.color = Color.red;
-            strMOD.text = "" + charStats.STRMOD;
+            strMOD.text = "- " + Mathf.Abs(charStats.STRMOD);
+            weaponStatsPanel.gameObject.SetActive(true);
+            if (weaponStats1.text == "")
+            {
+                weaponStats1.color = Color.red;
+                weaponStats1.text = "-" + Mathf.Abs(charStats.STRMOD) + " STR";
+            }
+            else
+            {
+                weaponStats2.color = Color.red;
+                weaponStats2.text = "-" + Mathf.Abs(charStats.STRMOD) + " STR";
+            }
         }
 
         if (charStats.MAGMOD == 0)
@@ -733,12 +884,34 @@ public class GameController : MonoBehaviour
         else if (charStats.MAGMOD > 0)
         {
             magMOD.color = Color.green;
-            magMOD.text = "" + charStats.MAGMOD;
+            magMOD.text = "+ " + charStats.MAGMOD;
+            weaponStatsPanel.gameObject.SetActive(true);
+            if (weaponStats1.text == "")
+            {
+                weaponStats1.color = Color.green;
+                weaponStats1.text = "+" + charStats.MAGMOD + " MAG";
+            }
+            else
+            {
+                weaponStats2.color = Color.green;
+                weaponStats2.text = "+" + charStats.MAGMOD + " MAG";
+            }
         }
         else
         {
             magMOD.color = Color.red;
-            magMOD.text = "" + charStats.MAGMOD;
+            magMOD.text = "- " + Mathf.Abs(charStats.MAGMOD);
+            weaponStatsPanel.gameObject.SetActive(true);
+            if (weaponStats1.text == "")
+            {
+                weaponStats1.color = Color.red;
+                weaponStats1.text = "-" + Mathf.Abs(charStats.MAGMOD) + " MAG";
+            }
+            else
+            {
+                weaponStats2.color = Color.red;
+                weaponStats2.text = "-" + Mathf.Abs(charStats.MAGMOD) + " MAG";
+            }
         }
 
         if (charStats.DEFMOD == 0)
@@ -746,12 +919,34 @@ public class GameController : MonoBehaviour
         else if (charStats.DEFMOD > 0)
         {
             defMOD.color = Color.green;
-            defMOD.text = "" + charStats.DEFMOD;
+            defMOD.text = "+ " + charStats.DEFMOD;
+            weaponStatsPanel.gameObject.SetActive(true);
+            if (weaponStats1.text == "")
+            {
+                weaponStats1.color = Color.green;
+                weaponStats1.text = "+" + charStats.DEFMOD + " DEF";
+            }
+            else
+            {
+                weaponStats2.color = Color.green;
+                weaponStats2.text = "+" + charStats.DEFMOD + " DEF";
+            }
         }
         else
         {
             defMOD.color = Color.red;
-            defMOD.text = "" + charStats.DEFMOD;
+            defMOD.text = "- " + Mathf.Abs(charStats.DEFMOD);
+            weaponStatsPanel.gameObject.SetActive(true);
+            if (weaponStats1.text == "")
+            {
+                weaponStats1.color = Color.red;
+                weaponStats1.text = "-" + Mathf.Abs(charStats.DEFMOD) + " DEF";
+            }
+            else
+            {
+                weaponStats2.color = Color.red;
+                weaponStats2.text = "-" + Mathf.Abs(charStats.DEFMOD) + " DEF";
+            }
         }
 
         if (charStats.RESMOD == 0)
@@ -759,12 +954,34 @@ public class GameController : MonoBehaviour
         else if (charStats.RESMOD > 0)
         {
             resMOD.color = Color.green;
-            resMOD.text = "" + charStats.RESMOD;
+            resMOD.text = "+ " + charStats.RESMOD;
+            weaponStatsPanel.gameObject.SetActive(true);
+            if (weaponStats1.text == "")
+            {
+                weaponStats1.color = Color.green;
+                weaponStats1.text = "+" + charStats.RESMOD + " RES";
+            }
+            else
+            {
+                weaponStats2.color = Color.green;
+                weaponStats2.text = "+" + charStats.RESMOD + " RES";
+            }
         }
         else
         {
             resMOD.color = Color.red;
-            resMOD.text = "" + charStats.RESMOD;
+            resMOD.text = "- " + Mathf.Abs(charStats.RESMOD);
+            weaponStatsPanel.gameObject.SetActive(true);
+            if (weaponStats1.text == "")
+            {
+                weaponStats1.color = Color.red;
+                weaponStats1.text = "-" + Mathf.Abs(charStats.RESMOD) + " RES";
+            }
+            else
+            {
+                weaponStats2.color = Color.red;
+                weaponStats2.text = "-" + Mathf.Abs(charStats.RESMOD) + " RES";
+            }
         }
 
         if (charStats.SPDMOD == 0)
@@ -772,12 +989,34 @@ public class GameController : MonoBehaviour
         else if (charStats.SPDMOD > 0)
         {
             spdMOD.color = Color.green;
-            spdMOD.text = "" + charStats.SPDMOD;
+            spdMOD.text = "+ " + charStats.SPDMOD;
+            weaponStatsPanel.gameObject.SetActive(true);
+            if (weaponStats1.text == "")
+            {
+                weaponStats1.color = Color.green;
+                weaponStats1.text = "+" + charStats.SPDMOD + " SPD";
+            }
+            else
+            {
+                weaponStats2.color = Color.green;
+                weaponStats2.text = "+" + charStats.SPDMOD + " SPD";
+            }
         }
         else
         {
             spdMOD.color = Color.red;
-            spdMOD.text = "" + charStats.SPDMOD;
+            spdMOD.text = "- " + Mathf.Abs(charStats.SPDMOD);
+            weaponStatsPanel.gameObject.SetActive(true);
+            if (weaponStats1.text == "")
+            {
+                weaponStats1.color = Color.red;
+                weaponStats1.text = "-" + Mathf.Abs(charStats.SPDMOD) + " SPD";
+            }
+            else
+            {
+                weaponStats2.color = Color.red;
+                weaponStats2.text = "-" + Mathf.Abs(charStats.SPDMOD) + " SPD";
+            }
         }
 
         if (charStats.MOVMOD == 0)
@@ -785,19 +1024,112 @@ public class GameController : MonoBehaviour
         else if (charStats.MOVMOD > 0)
         {
             movMOD.color = Color.green;
-            movMOD.text = "" + charStats.MOVMOD;
+            movMOD.text = "+ " + charStats.MOVMOD;
+            weaponStatsPanel.gameObject.SetActive(true);
+            if (weaponStats1.text == "")
+            {
+                weaponStats1.color = Color.green;
+                weaponStats1.text = "+" + charStats.MOVMOD + " MOV";
+            }
+            else
+            {
+                weaponStats2.color = Color.green;
+                weaponStats2.text = "+" + charStats.MOVMOD + " MOV";
+            }
         }
         else
         {
             movMOD.color = Color.red;
-            movMOD.text = "" + charStats.MOVMOD;
+            movMOD.text = "- " + Mathf.Abs(charStats.MOVMOD);
+            weaponStatsPanel.gameObject.SetActive(true);
+            if (weaponStats1.text == "")
+            {
+                weaponStats1.color = Color.red;
+                weaponStats1.text = "-" + Mathf.Abs(charStats.MOVMOD) + " MOV";
+            }
+            else
+            {
+                weaponStats2.color = Color.red;
+                weaponStats2.text = "-" + Mathf.Abs(charStats.MOVMOD) + " MOV";
+            }
         }
 
-        strCOST.text = "";
-        magCOST.text = "";
-        defCOST.text = "";
-        resCOST.text = "";
-        spdCOST.text = "";
-        movCOST.text = "";
+        if (charStats.baseHP < charStats.getHPMAX())
+        {
+            hpButton.gameObject.SetActive(true);
+            hpCOST.text = "x" + charStats.HPCost;
+        }
+        else
+        {
+            hpCOST.text = "MAX";
+            hpButton.gameObject.SetActive(false);
+        }
+
+
+        if (charStats.baseSTR < charStats.getSTRMAX())
+        {
+            strButton.gameObject.SetActive(true);
+            strCOST.text = "x" + charStats.STRCost;
+        }        
+        else
+        {
+            strCOST.text = "MAX";
+            strButton.gameObject.SetActive(false);
+        }
+
+        if (charStats.baseMAG < charStats.getMAGMAX())
+        {
+            magButton.gameObject.SetActive(true);
+            magCOST.text = "x" + charStats.MAGCost;
+        }
+        else
+        {
+            magCOST.text = "MAX";
+            magButton.gameObject.SetActive(false);
+        }
+
+        if (charStats.baseDEF < charStats.getDEFMAX())
+        {
+            defButton.gameObject.SetActive(true);
+            defCOST.text = "x" + charStats.DEFCost;
+        }   
+        else
+        {
+            defCOST.text = "MAX";
+            defButton.gameObject.SetActive(false);
+        }
+
+        if (charStats.baseRES < charStats.getRESMAX())
+        {
+            resButton.gameObject.SetActive(true);
+            resCOST.text = "x" + charStats.RESCost;
+        } 
+        else
+        {
+            resCOST.text = "MAX";
+            resButton.gameObject.SetActive(false);
+        }
+
+        if (charStats.baseSPD < charStats.getSPDMAX())
+        {
+            spdButton.gameObject.SetActive(true);
+            spdCOST.text = "x" + charStats.SPDCost;
+        }       
+        else
+        {
+            spdCOST.text = "MAX";
+            spdButton.gameObject.SetActive(false);
+        }
+
+        if (charStats.baseMOV < charStats.getMOVMAX())
+        {
+            movButton.gameObject.SetActive(true);
+            movCOST.text = "x" + charStats.MOVCost;
+        }         
+        else
+        {
+            movCOST.text = "MAX";
+            movButton.gameObject.SetActive(false);
+        }
     }
 }

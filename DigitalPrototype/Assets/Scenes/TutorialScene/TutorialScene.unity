@@ -2158,6 +2158,13 @@ MonoBehaviour:
   baseRES: 2
   baseSPD: 2
   baseMOV: 2
+  HPMOD: 0
+  STRMOD: 0
+  MAGMOD: 0
+  DEFMOD: 0
+  RESMOD: 0
+  SPDMOD: 0
+  MOVMOD: 0
   HP: 19
   STR: 2
   MAG: 2
@@ -2398,6 +2405,13 @@ MonoBehaviour:
   baseRES: 5
   baseSPD: 5
   baseMOV: 4
+  HPMOD: 0
+  STRMOD: 0
+  MAGMOD: 0
+  DEFMOD: 0
+  RESMOD: 0
+  SPDMOD: 0
+  MOVMOD: 0
   HP: 26
   STR: 50
   MAG: 5
@@ -2934,6 +2948,13 @@ MonoBehaviour:
   baseRES: 5
   baseSPD: 5
   baseMOV: 5
+  HPMOD: 0
+  STRMOD: 0
+  MAGMOD: 0
+  DEFMOD: 0
+  RESMOD: 0
+  SPDMOD: 0
+  MOVMOD: 0
   HP: 22
   STR: 5
   MAG: 5
@@ -13959,6 +13980,13 @@ MonoBehaviour:
   baseRES: 1
   baseSPD: 1
   baseMOV: 1
+  HPMOD: 0
+  STRMOD: 0
+  MAGMOD: 0
+  DEFMOD: 0
+  RESMOD: 0
+  SPDMOD: 0
+  MOVMOD: 0
   HP: 25
   STR: 1
   MAG: 1
@@ -16227,6 +16255,13 @@ MonoBehaviour:
   baseRES: 3
   baseSPD: 3
   baseMOV: 3
+  HPMOD: 0
+  STRMOD: 0
+  MAGMOD: 0
+  DEFMOD: 0
+  RESMOD: 0
+  SPDMOD: 0
+  MOVMOD: 0
   HP: 14
   STR: 3
   MAG: 3
@@ -23361,6 +23396,13 @@ MonoBehaviour:
   baseRES: 3
   baseSPD: 3
   baseMOV: 3
+  HPMOD: 0
+  STRMOD: 0
+  MAGMOD: 0
+  DEFMOD: 0
+  RESMOD: 0
+  SPDMOD: 0
+  MOVMOD: 0
   HP: 22
   STR: 3
   MAG: 3
@@ -38367,6 +38409,13 @@ MonoBehaviour:
   baseRES: 1
   baseSPD: 1
   baseMOV: 1
+  HPMOD: 0
+  STRMOD: 0
+  MAGMOD: 0
+  DEFMOD: 0
+  RESMOD: 0
+  SPDMOD: 0
+  MOVMOD: 0
   HP: 12
   STR: 1
   MAG: 1
@@ -44663,8 +44712,10 @@ MonoBehaviour:
   VictoryScreen: {fileID: 1712038203}
   DefeatScreen: {fileID: 2063655661}
   turnPanel: {fileID: 17159737}
+  upgradeMenu: {fileID: 0}
   turnModeTXT: {fileID: 1531606843}
   endTurnButton: {fileID: 1594682870}
+  upgradeButton: {fileID: 0}
   currGrid: {fileID: 879163091}
   currTilemap: {fileID: 1357189901}
   hoverTile: {fileID: 11400000, guid: 7b3c061a8408b9846851c1f644fcee5d, type: 2}
@@ -45019,6 +45070,7 @@ MonoBehaviour:
   gameControllerObj: {fileID: 2073513242}
   enemyControllerObj: {fileID: 1096422116}
   charInfoPanel: {fileID: 839432104}
+  upgradePanel: {fileID: 0}
   ourTurn: 0
   isTargetEnemy: 0
   currGrid: {fileID: 879163091}
@@ -45758,6 +45810,13 @@ MonoBehaviour:
   baseRES: 2
   baseSPD: 2
   baseMOV: 2
+  HPMOD: 0
+  STRMOD: 0
+  MAGMOD: 0
+  DEFMOD: 0
+  RESMOD: 0
+  SPDMOD: 0
+  MOVMOD: 0
   HP: 15
   STR: 2
   MAG: 2
