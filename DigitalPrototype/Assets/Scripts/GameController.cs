@@ -461,8 +461,8 @@ public class GameController : MonoBehaviour
         }
 
         // see if player gets some gears for killing something
-        if (firstStats.isDead == true && firstStats.isEnemy == true
-            || secondStats.isDead == true && secondStats.isEnemy == true)
+        if (firstStats.getIsDead() == true && firstStats.getIsEnemy() == true
+            || secondStats.getIsDead() == true && secondStats.getIsEnemy() == true)
         {
             playerController.giveGearNum(4);
 
@@ -560,7 +560,7 @@ public class GameController : MonoBehaviour
 
     public int Attack(Character attacker, Character damageTaker)
     {
-        if (attacker.isDead == true || damageTaker.isDead == true)
+        if (attacker.getIsDead() == true || damageTaker.getIsDead() == true)
             return -999;
 
         int damageMinusDefense = -1;

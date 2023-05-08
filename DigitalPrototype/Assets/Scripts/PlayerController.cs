@@ -131,7 +131,7 @@ public class PlayerController : MonoBehaviour
                 for (int i = 0; i < transform.childCount; i++)
                 {
                     // clicked ally 
-                    if (mousePos == playerUnits[i].transform.position && playerStats[i].isDead == false)
+                    if (mousePos == playerUnits[i].transform.position && playerStats[i].getIsDead() == false)
                     {
                         // target ally 
                         if (currTargeted == null)
@@ -148,7 +148,7 @@ public class PlayerController : MonoBehaviour
                         return;
                     }
                     // clicked enemy 
-                    else if (mousePos == enemyController.enemyUnits[i].transform.position && enemyController.enemyStats[i].isDead == false)
+                    else if (mousePos == enemyController.enemyUnits[i].transform.position && enemyController.enemyStats[i].getIsDead() == false)
                     {
                         // no ally selected target the enemy
                         if (currTargeted == null)
@@ -156,7 +156,7 @@ public class PlayerController : MonoBehaviour
                             targetEnemy(i);
                         }
                         // ally selected and in range, attack
-                        else if (currTargeted != null && isTargetEnemy == false && currTargetedStats.canAttack == true && inAttackRange(mousePos, currTargeted))
+                        else if (currTargeted != null && isTargetEnemy == false && currTargetedStats.getCanAttack() == true && inAttackRange(mousePos, currTargeted))
                         {
                             beginBattle(i);
                         }
@@ -267,7 +267,7 @@ public class PlayerController : MonoBehaviour
     {
         for (int i = 0; i < transform.childCount; i++)
         {
-            if (playerUnits[i].transform.position == pos && playerStats[i].isDead == false)
+            if (playerUnits[i].transform.position == pos && playerStats[i].getIsDead() == false)
             {
                 return true;
             }
@@ -286,7 +286,7 @@ public class PlayerController : MonoBehaviour
         //Debug.Log("Clicked ally");
         //Debug.Log("i: " + i);
         //Debug.Log("playerUnit @ " + i + " is " + playerUnits[i].transform.name);
-        if (playerStats[i].isDead == true)
+        if (playerStats[i].getIsDead() == true)
             return;
 
         currTargeted = playerUnits[i];
@@ -529,7 +529,7 @@ public class PlayerController : MonoBehaviour
     {
         for (int i = 0; i < transform.childCount; i++)
         {
-            if (playerStats[i].isDead == false)
+            if (playerStats[i].getIsDead() == false)
                 playerUnits[i].gameObject.SetActive(true);
         }
     }
@@ -538,7 +538,7 @@ public class PlayerController : MonoBehaviour
     {
         for (int i = 0; i < transform.childCount; i++)
         {
-            playerStats[i].isDead = false;
+            playerStats[i].undie();
         }
     }
 
@@ -546,7 +546,7 @@ public class PlayerController : MonoBehaviour
     {
         for (int i = 0; i < playerStats.Length; i++)
         {
-            if (playerStats[i].isDead == false)
+            if (playerStats[i].getIsDead() == false)
                 return false;
         }
 
@@ -676,9 +676,11 @@ public class PlayerController : MonoBehaviour
 
     public void changedWeapon(Dropdown d)
     {
+        hideArea();
         int val = d.value;
         currTargetedStats.changeWeapon((Character.weaponType)val);
         gameController.updateUpgradeMenu(currTargeted);
+        showArea(currTargeted);
     }
 
     public void hpButtonPressed()

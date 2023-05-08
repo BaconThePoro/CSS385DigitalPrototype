@@ -2336,9 +2336,6 @@ MonoBehaviour:
   MOV: 2
   hpLeft: 0
   movLeft: 0
-  isDead: 0
-  canAttack: 1
-  isEnemy: 0
   HPCost: 0
   STRCost: 0
   MAGCost: 0
@@ -2585,9 +2582,6 @@ MonoBehaviour:
   MOV: 3
   hpLeft: 0
   movLeft: 0
-  isDead: 0
-  canAttack: 1
-  isEnemy: 0
   HPCost: 0
   STRCost: 0
   MAGCost: 0
@@ -3642,9 +3636,6 @@ MonoBehaviour:
   MOV: 2
   hpLeft: 0
   movLeft: 0
-  isDead: 0
-  canAttack: 1
-  isEnemy: 0
   HPCost: 0
   STRCost: 0
   MAGCost: 0
@@ -19085,9 +19076,6 @@ MonoBehaviour:
   MOV: 1
   hpLeft: 0
   movLeft: 0
-  isDead: 0
-  canAttack: 1
-  isEnemy: 0
   HPCost: 0
   STRCost: 0
   MAGCost: 0
@@ -21846,9 +21834,6 @@ MonoBehaviour:
   MOV: 3
   hpLeft: 0
   movLeft: 0
-  isDead: 0
-  canAttack: 1
-  isEnemy: 0
   HPCost: 0
   STRCost: 0
   MAGCost: 0
@@ -27988,6 +27973,8 @@ MonoBehaviour:
   - {x: -8, y: -4, z: 0}
   - {x: 8, y: 2, z: 0}
   - {x: 8, y: -4, z: 0}
+  bodysList: 00000000010000000000000001000000
+  weaponsList: 01000000020000000000000002000000
   currTilemap: {fileID: 1357189901}
   inBetweenDelay: 0.25
   battleDone: 0
@@ -31534,9 +31521,6 @@ MonoBehaviour:
   MOV: 3
   hpLeft: 0
   movLeft: 0
-  isDead: 0
-  canAttack: 1
-  isEnemy: 0
   HPCost: 0
   STRCost: 0
   MAGCost: 0
@@ -47226,8 +47210,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -44.4, y: -31}
-  m_SizeDelta: {x: 93, y: 50}
+  m_AnchoredPosition: {x: -45.949707, y: -27.7768}
+  m_SizeDelta: {x: 89.9005, y: 43.5527}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1639798629
 MonoBehaviour:
@@ -47312,7 +47296,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 40.467735, w: 7.401886}
+  m_margin: {x: 0.82659155, y: 0, z: 1.0008183, w: 2.649353}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -49948,9 +49932,6 @@ MonoBehaviour:
   MOV: 1
   hpLeft: 0
   movLeft: 0
-  isDead: 0
-  canAttack: 1
-  isEnemy: 0
   HPCost: 0
   STRCost: 0
   MAGCost: 0
@@ -59925,9 +59906,6 @@ MonoBehaviour:
   MOV: 4
   hpLeft: 0
   movLeft: 0
-  isDead: 0
-  canAttack: 1
-  isEnemy: 0
   HPCost: 0
   STRCost: 0
   MAGCost: 0
