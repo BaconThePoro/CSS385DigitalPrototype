@@ -30,9 +30,9 @@ Tutorial:
 <ul> 
  <li> Left Click a character to select them and view their stats </li>
  <ul>
-  <li> A selected characters movement range will be highlighted in <span style="color:blue"> blue </span>. Left click a highlighted tile to move them there! </li> 
-  <li> A selected characters maximum attack range will be highlighted in <span style="color:red"> red </span>. Left click an enemy within your attack range to battle them! </li> 
-  <li> A selected character can be customized through the <span style="color:green"> Upgrade! </span> button at the cost of Springs. </li> 
+  <li> A selected characters movement range will be highlighted in <span style="color:blue"> blue</span>. Left click a highlighted tile to move them there! </li> 
+  <li> A selected characters maximum attack range will be highlighted in <span style="color:red"> red</span>. Left click an enemy within your attack range to battle them! </li> 
+  <li> A selected character can be customized through the <span style="color:green"> Upgrade!</span> button at the cost of Springs. </li> 
   <ul>
    <li> Body types only affect your characters appearance, so pick whichever you like. </li>
    <li> Some weapons can change your characters stats! </li>
