@@ -753,10 +753,12 @@ public class PlayerController : MonoBehaviour
         if (getGearNum() >= currTargetedStats.MOVCost && currTargetedStats.baseMOV < currTargetedStats.getMOVMAX())
         {
             giveGearNum(-currTargetedStats.MOVCost);
+            hideArea();
             currTargetedStats.baseMOV = currTargetedStats.baseMOV + 1;
             currTargetedStats.movLeft = currTargetedStats.movLeft + 1;
+            showArea(currTargeted);
             gameController.updateUpgradeMenu(currTargeted);
-            currTargetedStats.updateStats();
+            currTargetedStats.updateStats();            
         }
     }
 }
