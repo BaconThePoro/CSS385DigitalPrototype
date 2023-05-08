@@ -6,6 +6,14 @@ public class Character : MonoBehaviour
 {
 
     public string charName = "blankName";
+    // base stats are stats before being affected by weapon stats
+    public int baseHP = 10;
+    public int baseSTR = 1;
+    public int baseMAG = 1;
+    public int baseDEF = 1;
+    public int baseRES = 1;
+    public int baseSPD = 1;
+    public int baseMOV = 1;
     public int HP = 10;
     public int STR = 1;
     public int MAG = 1;
@@ -15,11 +23,12 @@ public class Character : MonoBehaviour
     public int MOV = 1;
     public int hpLeft;
     public int movLeft;
-    public bool isDead = false; 
+    public bool isDead = false;
+    public bool canAttack = true; 
 
     public int weapon = 1;
     // 1. Sword
-    // 2. 
+    // 2. Bow
     // 3. 
     // 4. 
 
@@ -31,10 +40,24 @@ public class Character : MonoBehaviour
     {
         weapon = choice;
 
+        // sword (no stat change)
         if (weapon == 1)
+        {
             attackRange = 1;
+        }
+        // bow (no stat change)
         else if (weapon == 2)
+        {
             attackRange = 2;
+        }
+        // axe (+3 STR, -3 SPD)
+        else if (weapon == 3)
+        {
+            attackRange = 2;
+            STR = baseSTR + 3;
+            SPD = baseSPD - 3;
+        }
+
     }
 
     public void takeDamage(int amount)
@@ -64,12 +87,26 @@ public class Character : MonoBehaviour
         hpLeft = HP;
     }
 
+    public void setAttack(bool b)
+    {
+        canAttack = b;
+    }
+
     // Start is called before the first frame update
     void Start()
     {       
         charName = gameObject.name;
+        HP = baseHP;
+        STR = baseSTR;
+        MAG = baseMAG;
+        DEF = baseDEF;
+        RES = baseRES;
+        SPD = baseSPD;
+        MOV = baseMOV;
+
         resetHP();
         resetMove();
+        setAttack(true);
     }
 
     // Update is called once per frame

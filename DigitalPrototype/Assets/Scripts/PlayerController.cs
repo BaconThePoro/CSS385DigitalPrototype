@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
-    // Must be connected via unity editor
+    // most public stuff needs to be connected through unity editor
     public GameObject gameControllerObj = null;
     private GameController gameController = null;
     public GameObject enemyControllerObj = null; 
@@ -36,9 +36,6 @@ public class PlayerController : MonoBehaviour
     public Tile targetTile = null;
     private Vector3Int prevTarget = Vector3Int.zero; 
 
-    // dont set in here, they grab value from GameController
-    private float tileX = 0;
-    private float tileY = 0;
     private float mapBoundPlusX = 16f;
     private float mapBoundPlusY = 10f;
     private float mapBoundMinusX = -16f;
@@ -71,9 +68,6 @@ public class PlayerController : MonoBehaviour
         movNUM = charInfoPanel.transform.GetChild(16).GetComponent<TMPro.TextMeshProUGUI>();
         movLeftNUMObj = charInfoPanel.transform.GetChild(17).gameObject;
         movLeftNUM = movLeftNUMObj.GetComponent<TMPro.TextMeshProUGUI>();
-        
-        tileX = gameController.tileX;
-        tileY = gameController.tileY;
 
         // get a handle on each child for PlayerController
         playerUnits = new GameObject[transform.childCount];
@@ -85,7 +79,7 @@ public class PlayerController : MonoBehaviour
             playerUnits[i] = child.gameObject;
             playerStats[i] = playerUnits[i].GetComponent<Character>();          
             playerUnits[i].transform.position = allyStartPos[i];
-           
+
             i += 1;      
         }
 
@@ -149,7 +143,7 @@ public class PlayerController : MonoBehaviour
                             targetEnemy(i);
                         }
                         // ally selected and in range, attack
-                        else if (currTargeted != null && isTargetEnemy == false && inAttackRange(mousePos, currTargeted))
+                        else if (currTargeted != null && isTargetEnemy == false && currTargetedStats.canAttack == true && inAttackRange(mousePos, currTargeted))
                         {
                             beginBattle(i);
                         }
@@ -208,10 +202,10 @@ public class PlayerController : MonoBehaviour
 
         // if facing to the right or down then put ally on the left 
         if (battleDirection == direction.right || battleDirection == direction.down)
-            StartCoroutine(gameController.startBattle(currTargeted, enemyController.enemyUnits[i], false, true, battleRange));
+            StartCoroutine(gameController.startBattle(currTargeted, enemyController.enemyUnits[i], true, battleRange));
         // else put ally on the right
         else
-            StartCoroutine(gameController.startBattle(enemyController.enemyUnits[i], currTargeted, true, true, battleRange));
+            StartCoroutine(gameController.startBattle(enemyController.enemyUnits[i], currTargeted, true, battleRange));
     }
 
     IEnumerator waitBattle(int i)
@@ -283,8 +277,8 @@ public class PlayerController : MonoBehaviour
     {
         Character unitStats = unit.GetComponent<Character>();
 
-        // sword
-        if (unitStats.weapon == 1)
+        // sword + axe
+        if (unitStats.weapon == 1 || unitStats.weapon == 3)
         {
             if (unitStats.movLeft < 0 || unitStats.movLeft > moveAreas.Length || unitStats.movLeft >= attackAreas.Length)
             {
@@ -329,8 +323,6 @@ public class PlayerController : MonoBehaviour
                 attackAreas[unitStats.movLeft + 1].transform.position = unit.transform.position;
             }
         }
-
-
     }
 
     public void hideArea()
@@ -423,8 +415,8 @@ public class PlayerController : MonoBehaviour
     {
         Character unitStats = unit.GetComponent<Character>();
 
-        // sword
-        if (unitStats.weapon == 1)
+        // sword + axe
+        if (unitStats.weapon == 1 || unitStats.weapon == 3)
         {
             Vector3Int distance = mousePos - Vector3Int.FloorToInt(unit.transform.position);
             if ((Mathf.Abs(distance.x) == 1 && distance.y == 0) || (distance.x == 0 && Mathf.Abs(distance.y) == 1))
@@ -452,6 +444,14 @@ public class PlayerController : MonoBehaviour
         for (int i = 0; i < transform.childCount; i++)
         {
             playerStats[i].resetMove();
+        }
+    }
+    
+    public void resetAllAttack()
+    {
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            playerStats[i].setAttack(true);
         }
     }
 

@@ -21,4 +21,13 @@ public class StartScript : MonoBehaviour
     {
         SceneManager.LoadScene("TestScene");
     }
+
+    public void loadTutorial(){
+        SceneManager.LoadScene("Tutorial");
+
+    }
+
+    public void loadCredits(){
+        SceneManager.LoadScene("Credits");
+    }
 }
