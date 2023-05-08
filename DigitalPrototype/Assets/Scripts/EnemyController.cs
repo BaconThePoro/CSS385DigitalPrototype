@@ -34,6 +34,7 @@ public class EnemyController : MonoBehaviour
             enemyUnits[i] = child.gameObject;
             enemyStats[i] = enemyUnits[i].GetComponent<Character>();      
             enemyUnits[i].transform.position = enemyStartPos[i];
+            enemyStats[i].setEnemy();
 
             i += 1;
         }

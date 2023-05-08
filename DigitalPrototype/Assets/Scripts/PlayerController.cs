@@ -15,9 +15,9 @@ public class PlayerController : MonoBehaviour
     public GameObject currTargeted = null;
     public Character currTargetedStats = null;
     public GameObject charInfoPanel = null;
+    public GameObject upgradePanel = null;
     private GameObject movLeftTXT = null;
     private GameObject movLeftNUMObj = null;
-    public GameObject upgradePanel = null;
     private TMPro.TextMeshProUGUI charNameTXT = null;
     private TMPro.TextMeshProUGUI hpNUM = null;
     private TMPro.TextMeshProUGUI strNUM = null;
@@ -48,12 +48,13 @@ public class PlayerController : MonoBehaviour
     public GameObject attackAreaParent = null;
     private GameObject[] moveAreas;
     private GameObject[] attackAreas;
-
     public GameObject[] playerUnits;
     public Character[] playerStats;
     public Vector3[] allyStartPos;
     public Character.bodyType[] bodysList;
     public Character.weaponType[] weaponsList;
+
+    private int gearAmount = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -182,6 +183,23 @@ public class PlayerController : MonoBehaviour
                 }                            
             }
         }
+    }
+
+    public int getGearNum()
+    {
+        return gearAmount;
+    }
+
+    public void setGearNum(int i)
+    {
+        gearAmount = i;
+        gameController.updateGearNumPanel();
+    }
+
+    public void giveGearNum(int i)
+    {
+        gearAmount = gearAmount + i;
+        gameController.updateGearNumPanel();
     }
 
     void beginBattle(int i)

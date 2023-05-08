@@ -30,6 +30,8 @@ public class GameController : MonoBehaviour
     public GameObject VictoryScreen = null;
     public GameObject DefeatScreen = null;
     public GameObject turnPanel = null;
+    public GameObject gearNumPanel = null;
+    private GameObject gearNumPlus = null;
     public GameObject upgradeMenu = null;
     public TMPro.TMP_Text turnModeTXT = null;
     public Button endTurnButton = null;
@@ -106,8 +108,6 @@ public class GameController : MonoBehaviour
     private TMPro.TextMeshProUGUI movCOST = null;
     private Image weaponIMG = null;
 
-
-
     // enum for whose turn it is currently, the players or the enemies.
     public enum turnMode { PlayerTurn, EnemyTurn };
     private turnMode currTurnMode;
@@ -162,6 +162,7 @@ public class GameController : MonoBehaviour
         RmovNUM = charInfoPanelR.transform.GetChild(16).GetComponent<TMPro.TextMeshProUGUI>();
         RmovLeftNUMObj = charInfoPanelR.transform.GetChild(17).gameObject;
         RmovLeftNUM = RmovLeftNUMObj.GetComponent<TMPro.TextMeshProUGUI>();
+        gearNumPlus = gearNumPanel.transform.GetChild(2).gameObject;
         //
         charName = upgradeMenu.transform.GetChild(0).transform.GetChild(3).GetComponent<TMPro.TMP_InputField>();
         charImage = upgradeMenu.transform.GetChild(0).transform.GetChild(6).GetComponent<Image>();
@@ -196,6 +197,8 @@ public class GameController : MonoBehaviour
         changeMode(gameMode.MapMode);
 
         updateTurnText();
+
+        playerController.setGearNum(20);
     }
 
     // Update is called once per frame
@@ -288,6 +291,10 @@ public class GameController : MonoBehaviour
         }
     }
 
+    public void updateGearNumPanel()
+    {
+        gearNumPanel.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "" + playerController.getGearNum();
+    }
 
     // playerSide = FALSE, player is on the left
     // playerSide = TRUE, player is on the right
@@ -303,6 +310,7 @@ public class GameController : MonoBehaviour
         Character rightStats = rightChar.GetComponent<Character>();
         // go to battlemode
         turnPanel.SetActive(false);
+        gearNumPanel.SetActive(false);
         playerController.deselectTarget();
         playerController.deactivateChildren();
         enemyController.deactivateChildren();
@@ -417,6 +425,7 @@ public class GameController : MonoBehaviour
         charInfoPanelL.SetActive(false);
         charInfoPanelR.SetActive(false);
         turnPanel.SetActive(true);
+        gearNumPanel.SetActive(true);
         playerController.activateChildren();
         enemyController.activateChildren();
         Mapmode.SetActive(true);
@@ -435,6 +444,32 @@ public class GameController : MonoBehaviour
         {
             playerController.ourTurn = false;
         }
+
+        // see if player gets some gears for killing something
+        if (firstStats.isDead == true && firstStats.isEnemy == true
+            || secondStats.isDead == true && secondStats.isEnemy == true)
+        {
+            playerController.giveGearNum(4);
+
+            
+            StartCoroutine(plusAnimation());
+        }
+    }
+
+    public IEnumerator plusAnimation()
+    {
+        float time = 0;
+
+        gearNumPlus.SetActive(true);
+        while (time <= 0.05f)
+        {
+            gearNumPlus.transform.position = gearNumPlus.transform.position + new Vector3(0, 3f, 0);
+            yield return new WaitForSeconds(0.1f);
+
+            time = time + Time.deltaTime;
+            //Debug.Log("time: " + time);
+        }
+        gearNumPlus.SetActive(false);
     }
 
     public void resetDelay()
@@ -459,10 +494,10 @@ public class GameController : MonoBehaviour
             yield return new WaitForSeconds(0.75f);
 
             damageTXT.text = "";
-            damageTXT.color = Color.red;
         }
         else
         {
+            damageTXT.color = Color.red;
             damageTXT.text = "(-" + damageNum + ")";
 
             yield return new WaitForSeconds(0.75f);
@@ -542,6 +577,7 @@ public class GameController : MonoBehaviour
         VictoryScreen.SetActive(true);
         Mapmode.SetActive(false);
         turnPanel.SetActive(false);
+        gearNumPanel.SetActive(false);
         charInfoPanelL.SetActive(false);
         charInfoPanelR.SetActive(false);
         playerControllerObj.SetActive(false);
@@ -554,6 +590,7 @@ public class GameController : MonoBehaviour
         DefeatScreen.SetActive(true);
         Mapmode.SetActive(false);
         turnPanel.SetActive(false);
+        gearNumPanel.SetActive(false);
         charInfoPanelL.SetActive(false);
         charInfoPanelR.SetActive(false);
         playerControllerObj.SetActive(false);

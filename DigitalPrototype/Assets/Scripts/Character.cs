@@ -31,7 +31,8 @@ public class Character : MonoBehaviour
     public int hpLeft;
     public int movLeft;
     public bool isDead = false;
-    public bool canAttack = true; 
+    public bool canAttack = true;
+    public bool isEnemy = false;
 
     public enum bodyType { Spring, Cog };
     private bodyType currBody;
@@ -40,9 +41,13 @@ public class Character : MonoBehaviour
 
     // number means able to attack at that range and all lower ranges
     private float attackRange;
-
     private GameObject weaponSprites = null;
     private GameObject bodySprites = null;
+
+    public void setEnemy()
+    {
+        isEnemy = true;
+    }
 
     public float getAttackRange()
     {
