@@ -114,6 +114,9 @@ public class GameController : MonoBehaviour
     private Button resButton = null;
     private Button spdButton = null;
     private Button movButton = null;
+    private GameObject weaponStatsPanel = null;
+    private TMPro.TextMeshProUGUI weaponStats1 = null;
+    private TMPro.TextMeshProUGUI weaponStats2 = null;
 
     // enum for whose turn it is currently, the players or the enemies.
     public enum turnMode { PlayerTurn, EnemyTurn };
@@ -204,7 +207,9 @@ public class GameController : MonoBehaviour
         resButton = upgradeMenu.transform.GetChild(0).transform.GetChild(41).GetComponent<Button>();
         spdButton = upgradeMenu.transform.GetChild(0).transform.GetChild(43).GetComponent<Button>();
         movButton = upgradeMenu.transform.GetChild(0).transform.GetChild(45).GetComponent<Button>();
-
+        weaponStatsPanel = upgradeMenu.transform.GetChild(0).transform.GetChild(48).gameObject;
+        weaponStats1 = weaponStatsPanel.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>();
+        weaponStats2 = weaponStatsPanel.transform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>();
 
         targetZoom = mainCamera.orthographicSize;
 
@@ -796,17 +801,31 @@ public class GameController : MonoBehaviour
         spdNUM.text = "" + charStats.baseSPD;
         movNUM.text = "" + charStats.baseMOV;
 
+        if (charStats.HPMOD == 0 && charStats.STRMOD == 0 && charStats.MAGMOD == 0 && charStats.DEFMOD == 0
+            && charStats.RESMOD == 0 && charStats.SPDMOD == 0 && charStats.MOVMOD == 0)
+        {
+            weaponStatsPanel.gameObject.SetActive(false);
+            weaponStats1.text = "";
+            weaponStats2.text = "";
+        }
+
         if (charStats.HPMOD == 0)
             hpMOD.text = "";
         else if (charStats.HPMOD > 0)
         {
             hpMOD.color = Color.green;
             hpMOD.text = "+ " + charStats.HPMOD;
+            weaponStatsPanel.gameObject.SetActive(true);
+            weaponStats1.color = Color.green;
+            weaponStats1.text = "+" + charStats.HPMOD + " HP";
         }
         else
         {
             hpMOD.color = Color.red;
             hpMOD.text = "- " + Mathf.Abs(charStats.HPMOD);
+            weaponStatsPanel.gameObject.SetActive(true);
+            weaponStats1.color = Color.red;
+            weaponStats1.text = "-" + Mathf.Abs(charStats.HPMOD) + " HP";
         }
 
         if (charStats.STRMOD == 0)
@@ -815,11 +834,33 @@ public class GameController : MonoBehaviour
         {
             strMOD.color = Color.green;
             strMOD.text = "+ " + charStats.STRMOD;
+            weaponStatsPanel.gameObject.SetActive(true);
+            if (weaponStats1.text == "")
+            {
+                weaponStats1.color = Color.green;
+                weaponStats1.text = "+" + charStats.STRMOD + " STR";
+            }
+            else
+            {
+                weaponStats2.color = Color.green;
+                weaponStats2.text = "+" + charStats.STRMOD + " STR";
+            }
         }
         else
         {
             strMOD.color = Color.red;
             strMOD.text = "- " + Mathf.Abs(charStats.STRMOD);
+            weaponStatsPanel.gameObject.SetActive(true);
+            if (weaponStats1.text == "")
+            {
+                weaponStats1.color = Color.red;
+                weaponStats1.text = "-" + Mathf.Abs(charStats.STRMOD) + " STR";
+            }
+            else
+            {
+                weaponStats2.color = Color.red;
+                weaponStats2.text = "-" + Mathf.Abs(charStats.STRMOD) + " STR";
+            }
         }
 
         if (charStats.MAGMOD == 0)
@@ -828,11 +869,33 @@ public class GameController : MonoBehaviour
         {
             magMOD.color = Color.green;
             magMOD.text = "+ " + charStats.MAGMOD;
+            weaponStatsPanel.gameObject.SetActive(true);
+            if (weaponStats1.text == "")
+            {
+                weaponStats1.color = Color.green;
+                weaponStats1.text = "+" + charStats.MAGMOD + " MAG";
+            }
+            else
+            {
+                weaponStats2.color = Color.green;
+                weaponStats2.text = "+" + charStats.MAGMOD + " MAG";
+            }
         }
         else
         {
             magMOD.color = Color.red;
             magMOD.text = "- " + Mathf.Abs(charStats.MAGMOD);
+            weaponStatsPanel.gameObject.SetActive(true);
+            if (weaponStats1.text == "")
+            {
+                weaponStats1.color = Color.red;
+                weaponStats1.text = "-" + Mathf.Abs(charStats.MAGMOD) + " MAG";
+            }
+            else
+            {
+                weaponStats2.color = Color.red;
+                weaponStats2.text = "-" + Mathf.Abs(charStats.MAGMOD) + " MAG";
+            }
         }
 
         if (charStats.DEFMOD == 0)
@@ -841,11 +904,33 @@ public class GameController : MonoBehaviour
         {
             defMOD.color = Color.green;
             defMOD.text = "+ " + charStats.DEFMOD;
+            weaponStatsPanel.gameObject.SetActive(true);
+            if (weaponStats1.text == "")
+            {
+                weaponStats1.color = Color.green;
+                weaponStats1.text = "+" + charStats.DEFMOD + " DEF";
+            }
+            else
+            {
+                weaponStats2.color = Color.green;
+                weaponStats2.text = "+" + charStats.DEFMOD + " DEF";
+            }
         }
         else
         {
             defMOD.color = Color.red;
             defMOD.text = "- " + Mathf.Abs(charStats.DEFMOD);
+            weaponStatsPanel.gameObject.SetActive(true);
+            if (weaponStats1.text == "")
+            {
+                weaponStats1.color = Color.red;
+                weaponStats1.text = "-" + Mathf.Abs(charStats.DEFMOD) + " DEF";
+            }
+            else
+            {
+                weaponStats2.color = Color.red;
+                weaponStats2.text = "-" + Mathf.Abs(charStats.DEFMOD) + " DEF";
+            }
         }
 
         if (charStats.RESMOD == 0)
@@ -854,11 +939,33 @@ public class GameController : MonoBehaviour
         {
             resMOD.color = Color.green;
             resMOD.text = "+ " + charStats.RESMOD;
+            weaponStatsPanel.gameObject.SetActive(true);
+            if (weaponStats1.text == "")
+            {
+                weaponStats1.color = Color.green;
+                weaponStats1.text = "+" + charStats.RESMOD + " RES";
+            }
+            else
+            {
+                weaponStats2.color = Color.green;
+                weaponStats2.text = "+" + charStats.RESMOD + " RES";
+            }
         }
         else
         {
             resMOD.color = Color.red;
             resMOD.text = "- " + Mathf.Abs(charStats.RESMOD);
+            weaponStatsPanel.gameObject.SetActive(true);
+            if (weaponStats1.text == "")
+            {
+                weaponStats1.color = Color.red;
+                weaponStats1.text = "-" + Mathf.Abs(charStats.RESMOD) + " RES";
+            }
+            else
+            {
+                weaponStats2.color = Color.red;
+                weaponStats2.text = "-" + Mathf.Abs(charStats.RESMOD) + " RES";
+            }
         }
 
         if (charStats.SPDMOD == 0)
@@ -867,11 +974,33 @@ public class GameController : MonoBehaviour
         {
             spdMOD.color = Color.green;
             spdMOD.text = "+ " + charStats.SPDMOD;
+            weaponStatsPanel.gameObject.SetActive(true);
+            if (weaponStats1.text == "")
+            {
+                weaponStats1.color = Color.green;
+                weaponStats1.text = "+" + charStats.SPDMOD + " SPD";
+            }
+            else
+            {
+                weaponStats2.color = Color.green;
+                weaponStats2.text = "+" + charStats.SPDMOD + " SPD";
+            }
         }
         else
         {
             spdMOD.color = Color.red;
             spdMOD.text = "- " + Mathf.Abs(charStats.SPDMOD);
+            weaponStatsPanel.gameObject.SetActive(true);
+            if (weaponStats1.text == "")
+            {
+                weaponStats1.color = Color.red;
+                weaponStats1.text = "-" + Mathf.Abs(charStats.SPDMOD) + " SPD";
+            }
+            else
+            {
+                weaponStats2.color = Color.red;
+                weaponStats2.text = "-" + Mathf.Abs(charStats.SPDMOD) + " SPD";
+            }
         }
 
         if (charStats.MOVMOD == 0)
@@ -880,11 +1009,33 @@ public class GameController : MonoBehaviour
         {
             movMOD.color = Color.green;
             movMOD.text = "+ " + charStats.MOVMOD;
+            weaponStatsPanel.gameObject.SetActive(true);
+            if (weaponStats1.text == "")
+            {
+                weaponStats1.color = Color.green;
+                weaponStats1.text = "+" + charStats.MOVMOD + " MOV";
+            }
+            else
+            {
+                weaponStats2.color = Color.green;
+                weaponStats2.text = "+" + charStats.MOVMOD + " MOV";
+            }
         }
         else
         {
             movMOD.color = Color.red;
             movMOD.text = "- " + Mathf.Abs(charStats.MOVMOD);
+            weaponStatsPanel.gameObject.SetActive(true);
+            if (weaponStats1.text == "")
+            {
+                weaponStats1.color = Color.red;
+                weaponStats1.text = "-" + Mathf.Abs(charStats.MOVMOD) + " MOV";
+            }
+            else
+            {
+                weaponStats2.color = Color.red;
+                weaponStats2.text = "-" + Mathf.Abs(charStats.MOVMOD) + " MOV";
+            }
         }
 
         if (charStats.baseHP < charStats.getHPMAX())
