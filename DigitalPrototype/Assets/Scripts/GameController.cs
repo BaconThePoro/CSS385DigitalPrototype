@@ -820,7 +820,7 @@ public class GameController : MonoBehaviour
         if (charStats.HPMOD == 0 && charStats.STRMOD == 0 && charStats.MAGMOD == 0 && charStats.DEFMOD == 0
             && charStats.RESMOD == 0 && charStats.SPDMOD == 0 && charStats.MOVMOD == 0)
         {
-            weaponStatsPanel.gameObject.SetActive(false);
+            //weaponStatsPanel.gameObject.SetActive(false);
             weaponStats1.text = "";
             weaponStats2.text = "";
         }
