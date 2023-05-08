@@ -687,7 +687,6 @@ public class GameController : MonoBehaviour
             {
                 if (playerController.ourTurn == false)
                 {
-                    playerController.resetAllMove();
                     playerController.ourTurn = true;
                 }
 
