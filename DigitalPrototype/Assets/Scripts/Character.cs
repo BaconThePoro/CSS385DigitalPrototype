@@ -14,6 +14,13 @@ public class Character : MonoBehaviour
     public int baseRES = 1;
     public int baseSPD = 1;
     public int baseMOV = 1;
+    public int HPMOD = 0;
+    public int STRMOD = 0;
+    public int MAGMOD = 0;
+    public int DEFMOD = 0;
+    public int RESMOD = 0;
+    public int SPDMOD = 0;
+    public int MOVMOD = 0;
     public int HP = 10;
     public int STR = 1;
     public int MAG = 1;
@@ -44,18 +51,43 @@ public class Character : MonoBehaviour
         if (weapon == 1)
         {
             attackRange = 1;
-        }
+
+            // 0 all mods
+            HPMOD = 0;
+            STRMOD = 0;
+            MAGMOD = 0;
+            DEFMOD = 0;
+            RESMOD = 0;
+            SPDMOD = 0;
+            MOVMOD = 0;
+}
         // bow (no stat change)
         else if (weapon == 2)
         {
             attackRange = 2;
+
+            // 0 all mods
+            HPMOD = 0;
+            STRMOD = 0;
+            MAGMOD = 0;
+            DEFMOD = 0;
+            RESMOD = 0;
+            SPDMOD = 0;
+            MOVMOD = 0;
         }
         // axe (+3 STR, -3 SPD)
         else if (weapon == 3)
         {
             attackRange = 2;
-            STR = baseSTR + 3;
-            SPD = baseSPD - 3;
+
+            // 
+            HPMOD = 0;
+            STRMOD = 3;
+            MAGMOD = 0;
+            DEFMOD = 0;
+            RESMOD = 0;
+            SPDMOD = -3;
+            MOVMOD = 0;
         }
 
     }
@@ -96,13 +128,13 @@ public class Character : MonoBehaviour
     void Start()
     {       
         charName = gameObject.name;
-        HP = baseHP;
-        STR = baseSTR;
-        MAG = baseMAG;
-        DEF = baseDEF;
-        RES = baseRES;
-        SPD = baseSPD;
-        MOV = baseMOV;
+        HP = baseHP + HPMOD;
+        STR = baseSTR + STRMOD;
+        MAG = baseMAG + MAGMOD;
+        DEF = baseDEF + DEFMOD;
+        RES = baseRES + RESMOD;
+        SPD = baseSPD + SPDMOD;
+        MOV = baseMOV + MOVMOD;
 
         resetHP();
         resetMove();

@@ -279,7 +279,7 @@ public class PlayerController : MonoBehaviour
         updateCharInfo();
         showArea(currTargeted);
         upgradePanel.SetActive(true);
-
+        gameController.updateUpgradeMenu(currTargeted);
     }
 
     public void showArea(GameObject unit)

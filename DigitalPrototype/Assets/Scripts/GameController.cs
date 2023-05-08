@@ -54,7 +54,7 @@ public class GameController : MonoBehaviour
     private float inbetweenAttackDelay = 0.75f;
     private float animationDuration = 0.25f;
     private Vector3 damageTextOffset = new Vector3(0, 0.5f, 0);
-    // panel stuff
+    // stat panel stuff
     private GameObject LmovLeftTXT = null;
     private GameObject LmovLeftNUMObj = null;
     private TMPro.TextMeshProUGUI LcharNameTXT = null;
@@ -77,6 +77,34 @@ public class GameController : MonoBehaviour
     private TMPro.TextMeshProUGUI RresNUM = null;
     private TMPro.TextMeshProUGUI RmovNUM = null;
     private TMPro.TextMeshProUGUI RmovLeftNUM = null;
+    // upgrade panel stuff
+    private TMPro.TMP_InputField charName = null;
+    private Image charImage = null;
+    private Dropdown body = null;
+    private Dropdown weapon = null;
+    private TMPro.TextMeshProUGUI hpNUM = null;
+    private TMPro.TextMeshProUGUI strNUM = null;
+    private TMPro.TextMeshProUGUI magNUM = null;
+    private TMPro.TextMeshProUGUI spdNUM = null;
+    private TMPro.TextMeshProUGUI defNUM = null;
+    private TMPro.TextMeshProUGUI resNUM = null;
+    private TMPro.TextMeshProUGUI movNUM = null;
+    private TMPro.TextMeshProUGUI hpMOD = null;
+    private TMPro.TextMeshProUGUI strMOD = null;
+    private TMPro.TextMeshProUGUI magMOD = null;
+    private TMPro.TextMeshProUGUI spdMOD = null;
+    private TMPro.TextMeshProUGUI defMOD = null;
+    private TMPro.TextMeshProUGUI resMOD = null;
+    private TMPro.TextMeshProUGUI movMOD = null;
+    private TMPro.TextMeshProUGUI hpCOST = null;
+    private TMPro.TextMeshProUGUI strCOST = null;
+    private TMPro.TextMeshProUGUI magCOST = null;
+    private TMPro.TextMeshProUGUI spdCOST = null;
+    private TMPro.TextMeshProUGUI defCOST = null;
+    private TMPro.TextMeshProUGUI resCOST = null;
+    private TMPro.TextMeshProUGUI movCOST = null;
+
+
 
     // enum for whose turn it is currently, the players or the enemies.
     public enum turnMode { PlayerTurn, EnemyTurn };
@@ -133,6 +161,34 @@ public class GameController : MonoBehaviour
         RmovNUM = charInfoPanelR.transform.GetChild(16).GetComponent<TMPro.TextMeshProUGUI>();
         RmovLeftNUMObj = charInfoPanelR.transform.GetChild(17).gameObject;
         RmovLeftNUM = RmovLeftNUMObj.GetComponent<TMPro.TextMeshProUGUI>();
+        //
+        charName = upgradeMenu.transform.GetChild(0).transform.GetChild(3).GetComponent<TMPro.TMP_InputField>();
+        charImage = upgradeMenu.transform.GetChild(0).transform.GetChild(6).GetComponent<Image>();
+        body = upgradeMenu.transform.GetChild(0).transform.GetChild(6).GetComponent<Dropdown>();
+        weapon = upgradeMenu.transform.GetChild(0).transform.GetChild(8).GetComponent<Dropdown>();
+        hpNUM = upgradeMenu.transform.GetChild(0).transform.GetChild(18).GetComponent<TMPro.TextMeshProUGUI>();
+        strNUM = upgradeMenu.transform.GetChild(0).transform.GetChild(19).GetComponent<TMPro.TextMeshProUGUI>();
+        magNUM = upgradeMenu.transform.GetChild(0).transform.GetChild(20).GetComponent<TMPro.TextMeshProUGUI>();
+        defNUM = upgradeMenu.transform.GetChild(0).transform.GetChild(21).GetComponent<TMPro.TextMeshProUGUI>();
+        resNUM = upgradeMenu.transform.GetChild(0).transform.GetChild(22).GetComponent<TMPro.TextMeshProUGUI>();
+        spdNUM = upgradeMenu.transform.GetChild(0).transform.GetChild(23).GetComponent<TMPro.TextMeshProUGUI>();
+        movNUM = upgradeMenu.transform.GetChild(0).transform.GetChild(24).GetComponent<TMPro.TextMeshProUGUI>();
+        hpMOD = upgradeMenu.transform.GetChild(0).transform.GetChild(25).GetComponent<TMPro.TextMeshProUGUI>();
+        strMOD = upgradeMenu.transform.GetChild(0).transform.GetChild(26).GetComponent<TMPro.TextMeshProUGUI>();
+        magMOD = upgradeMenu.transform.GetChild(0).transform.GetChild(27).GetComponent<TMPro.TextMeshProUGUI>();
+        defMOD = upgradeMenu.transform.GetChild(0).transform.GetChild(28).GetComponent<TMPro.TextMeshProUGUI>();
+        resMOD = upgradeMenu.transform.GetChild(0).transform.GetChild(29).GetComponent<TMPro.TextMeshProUGUI>();
+        spdMOD = upgradeMenu.transform.GetChild(0).transform.GetChild(30).GetComponent<TMPro.TextMeshProUGUI>();
+        movMOD = upgradeMenu.transform.GetChild(0).transform.GetChild(31).GetComponent<TMPro.TextMeshProUGUI>();
+        hpCOST = upgradeMenu.transform.GetChild(0).transform.GetChild(34).GetComponent<TMPro.TextMeshProUGUI>();
+        strCOST = upgradeMenu.transform.GetChild(0).transform.GetChild(36).GetComponent<TMPro.TextMeshProUGUI>(); 
+        magCOST = upgradeMenu.transform.GetChild(0).transform.GetChild(38).GetComponent<TMPro.TextMeshProUGUI>();
+        defCOST = upgradeMenu.transform.GetChild(0).transform.GetChild(40).GetComponent<TMPro.TextMeshProUGUI>();
+        resCOST = upgradeMenu.transform.GetChild(0).transform.GetChild(42).GetComponent<TMPro.TextMeshProUGUI>();
+        spdCOST = upgradeMenu.transform.GetChild(0).transform.GetChild(44).GetComponent<TMPro.TextMeshProUGUI>();
+        movCOST = upgradeMenu.transform.GetChild(0).transform.GetChild(46).GetComponent<TMPro.TextMeshProUGUI>();
+
+
 
         targetZoom = mainCamera.orthographicSize;
 
@@ -632,9 +688,6 @@ public class GameController : MonoBehaviour
         playerController.ourTurn = false;
         changeMode(gameMode.MenuMode);
         upgradeMenu.gameObject.SetActive(true);
-
-        
-        
     }
 
     public void closeUpgradeMenu()
@@ -645,5 +698,106 @@ public class GameController : MonoBehaviour
             changeMode(gameMode.MapMode);
             upgradeMenu.gameObject.SetActive(false);
         }
+    }
+
+    public void updateUpgradeMenu(GameObject character)
+    {
+        Character charStats = character.GetComponent<Character>();
+        charName.text = charStats.name;
+        charImage.sprite = character.GetComponent<SpriteRenderer>().sprite;
+        //body
+        //weapon
+        hpNUM.text = "" + charStats.baseHP;
+        strNUM.text = "" + charStats.baseSTR;
+        magNUM.text = "" + charStats.baseMAG;
+        defNUM.text = "" + charStats.baseDEF;
+        resNUM.text = "" + charStats.baseRES;
+        spdNUM.text = "" + charStats.baseSPD;
+        movNUM.text = "" + charStats.baseMOV;
+
+        if (charStats.STRMOD == 0)
+            strMOD.text = "";
+        else if (charStats.STRMOD > 0)
+        {
+            strMOD.color = Color.green;
+            strMOD.text = "" + charStats.STRMOD;
+        }
+        else
+        {
+            strMOD.color = Color.red;
+            strMOD.text = "" + charStats.STRMOD;
+        }
+
+        if (charStats.MAGMOD == 0)
+            magMOD.text = "";
+        else if (charStats.MAGMOD > 0)
+        {
+            magMOD.color = Color.green;
+            magMOD.text = "" + charStats.MAGMOD;
+        }
+        else
+        {
+            magMOD.color = Color.red;
+            magMOD.text = "" + charStats.MAGMOD;
+        }
+
+        if (charStats.DEFMOD == 0)
+            defMOD.text = "";
+        else if (charStats.DEFMOD > 0)
+        {
+            defMOD.color = Color.green;
+            defMOD.text = "" + charStats.DEFMOD;
+        }
+        else
+        {
+            defMOD.color = Color.red;
+            defMOD.text = "" + charStats.DEFMOD;
+        }
+
+        if (charStats.RESMOD == 0)
+            resMOD.text = "";
+        else if (charStats.RESMOD > 0)
+        {
+            resMOD.color = Color.green;
+            resMOD.text = "" + charStats.RESMOD;
+        }
+        else
+        {
+            resMOD.color = Color.red;
+            resMOD.text = "" + charStats.RESMOD;
+        }
+
+        if (charStats.SPDMOD == 0)
+            spdMOD.text = "";
+        else if (charStats.SPDMOD > 0)
+        {
+            spdMOD.color = Color.green;
+            spdMOD.text = "" + charStats.SPDMOD;
+        }
+        else
+        {
+            spdMOD.color = Color.red;
+            spdMOD.text = "" + charStats.SPDMOD;
+        }
+
+        if (charStats.MOVMOD == 0)
+            movMOD.text = "";
+        else if (charStats.MOVMOD > 0)
+        {
+            movMOD.color = Color.green;
+            movMOD.text = "" + charStats.MOVMOD;
+        }
+        else
+        {
+            movMOD.color = Color.red;
+            movMOD.text = "" + charStats.MOVMOD;
+        }
+
+        strCOST.text = "";
+        magCOST.text = "";
+        defCOST.text = "";
+        resCOST.text = "";
+        spdCOST.text = "";
+        movCOST.text = "";
     }
 }
