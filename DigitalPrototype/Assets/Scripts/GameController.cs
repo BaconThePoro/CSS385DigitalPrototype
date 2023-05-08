@@ -107,6 +107,13 @@ public class GameController : MonoBehaviour
     private TMPro.TextMeshProUGUI resCOST = null;
     private TMPro.TextMeshProUGUI movCOST = null;
     private Image weaponIMG = null;
+    private Button hpButton = null;
+    private Button strButton = null;
+    private Button magButton = null;
+    private Button defButton = null;
+    private Button resButton = null;
+    private Button spdButton = null;
+    private Button movButton = null;
 
     // enum for whose turn it is currently, the players or the enemies.
     public enum turnMode { PlayerTurn, EnemyTurn };
@@ -190,6 +197,14 @@ public class GameController : MonoBehaviour
         spdCOST = upgradeMenu.transform.GetChild(0).transform.GetChild(44).GetComponent<TMPro.TextMeshProUGUI>();
         movCOST = upgradeMenu.transform.GetChild(0).transform.GetChild(46).GetComponent<TMPro.TextMeshProUGUI>();
         weaponIMG = upgradeMenu.transform.GetChild(0).transform.GetChild(47).GetComponent<Image>();
+        hpButton = upgradeMenu.transform.GetChild(0).transform.GetChild(32).GetComponent<Button>();
+        strButton = upgradeMenu.transform.GetChild(0).transform.GetChild(35).GetComponent<Button>();
+        magButton = upgradeMenu.transform.GetChild(0).transform.GetChild(37).GetComponent<Button>();
+        defButton = upgradeMenu.transform.GetChild(0).transform.GetChild(39).GetComponent<Button>();
+        resButton = upgradeMenu.transform.GetChild(0).transform.GetChild(41).GetComponent<Button>();
+        spdButton = upgradeMenu.transform.GetChild(0).transform.GetChild(43).GetComponent<Button>();
+        movButton = upgradeMenu.transform.GetChild(0).transform.GetChild(45).GetComponent<Button>();
+
 
         targetZoom = mainCamera.orthographicSize;
 
@@ -198,7 +213,7 @@ public class GameController : MonoBehaviour
 
         updateTurnText();
 
-        playerController.setGearNum(20);
+        playerController.setGearNum(999);
     }
 
     // Update is called once per frame
@@ -459,16 +474,22 @@ public class GameController : MonoBehaviour
     public IEnumerator plusAnimation()
     {
         float time = 0;
+        RawImage rI = gearNumPlus.GetComponent<RawImage>();
+        Vector3 originalPos = gearNumPlus.transform.position;
 
         gearNumPlus.SetActive(true);
-        while (time <= 0.05f)
+        while (time <= 0.2f)
         {
-            gearNumPlus.transform.position = gearNumPlus.transform.position + new Vector3(0, 3f, 0);
-            yield return new WaitForSeconds(0.1f);
-
+            gearNumPlus.transform.position = gearNumPlus.transform.position + new Vector3(0, 0.25f, 0);
+            if (time > 0.1f)
+                rI.color = new Color(1, 1, 1, rI.color.a * 0.80f);
+            yield return new WaitForSeconds(0.01f);
             time = time + Time.deltaTime;
             //Debug.Log("time: " + time);
         }
+
+        gearNumPlus.transform.position = originalPos;
+        rI.color = new Color(1, 1, 1, 1);
         gearNumPlus.SetActive(false);
     }
 
@@ -743,7 +764,7 @@ public class GameController : MonoBehaviour
         charImage.sprite = character.GetComponent<SpriteRenderer>().sprite;
         weaponIMG.sprite = character.transform.GetChild(1).GetComponent<SpriteRenderer>().sprite;
         weaponIMG.transform.localScale = charStats.transform.GetChild(1).localScale;
-        
+        charStats.updateCosts();
 
         if (bodyDropdown.options.Count == 0)
         {
@@ -866,11 +887,61 @@ public class GameController : MonoBehaviour
             movMOD.text = "- " + Mathf.Abs(charStats.MOVMOD);
         }
 
-        strCOST.text = "";
-        magCOST.text = "";
-        defCOST.text = "";
-        resCOST.text = "";
-        spdCOST.text = "";
-        movCOST.text = "";
+        if (charStats.baseHP < charStats.getHPMAX())
+            hpCOST.text = "x" + charStats.HPCost;
+        else
+        {
+            hpCOST.text = "MAX";
+            hpButton.gameObject.SetActive(false);
+        }
+
+
+        if (charStats.baseSTR < charStats.getSTRMAX())
+            strCOST.text = "x" + charStats.STRCost;
+        else
+        {
+            strCOST.text = "MAX";
+            strButton.gameObject.SetActive(false);
+        }
+
+        if (charStats.baseMAG < charStats.getMAGMAX())
+            magCOST.text = "x" + charStats.MAGCost;
+        else
+        {
+            magCOST.text = "MAX";
+            magButton.gameObject.SetActive(false);
+        }
+
+        if (charStats.baseDEF < charStats.getDEFMAX())
+            defCOST.text = "x" + charStats.DEFCost;
+        else
+        {
+            defCOST.text = "MAX";
+            defButton.gameObject.SetActive(false);
+        }
+
+        if (charStats.baseRES < charStats.getRESMAX())
+            resCOST.text = "x" + charStats.RESCost;
+        else
+        {
+            resCOST.text = "MAX";
+            resButton.gameObject.SetActive(false);
+        }
+
+        if (charStats.baseSPD < charStats.getSPDMAX())
+            spdCOST.text = "x" + charStats.SPDCost;
+        else
+        {
+            spdCOST.text = "MAX";
+            spdButton.gameObject.SetActive(false);
+        }
+
+        if (charStats.baseMOV < charStats.getMOVMAX())
+            movCOST.text = "x" + charStats.MOVCost;
+        else
+        {
+            movCOST.text = "MAX";
+            movButton.gameObject.SetActive(false);
+        }
     }
 }

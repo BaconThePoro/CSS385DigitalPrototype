@@ -33,6 +33,20 @@ public class Character : MonoBehaviour
     public bool isDead = false;
     public bool canAttack = true;
     public bool isEnemy = false;
+    public int HPCost = 0;
+    public int STRCost = 0;
+    public int MAGCost = 0;
+    public int DEFCost = 0;
+    public int RESCost = 0;
+    public int SPDCost = 0;
+    public int MOVCost = 0;
+    private int HPMAX = 40;
+    private int STRMAX = 20;
+    private int MAGMAX = 20;
+    private int DEFMAX = 20;
+    private int RESMAX = 20;
+    private int SPDMAX = 20;
+    private int MOVMAX = 6;
 
     public enum bodyType { Spring, Cog };
     private bodyType currBody;
@@ -43,6 +57,52 @@ public class Character : MonoBehaviour
     private float attackRange;
     private GameObject weaponSprites = null;
     private GameObject bodySprites = null;
+
+    public int getHPMAX()
+    {
+        return HPMAX;
+    }
+
+    public int getSTRMAX()
+    {
+        return STRMAX;
+    }
+
+    public int getMAGMAX()
+    {
+        return MAGMAX;
+    }
+
+    public int getDEFMAX()
+    {
+        return DEFMAX;
+    }
+
+    public int getRESMAX()
+    {
+        return RESMAX;
+    }
+
+    public int getSPDMAX()
+    {
+        return SPDMAX;
+    }
+
+    public int getMOVMAX()
+    {
+        return MOVMAX;
+    }
+
+    public void updateCosts()
+    {
+        HPCost = Mathf.CeilToInt(baseHP / 2);
+        STRCost = Mathf.CeilToInt(baseSTR / 2);
+        MAGCost = Mathf.CeilToInt(baseMAG / 2);
+        DEFCost = Mathf.CeilToInt(baseDEF / 2);
+        RESCost = Mathf.CeilToInt(baseRES / 2);
+        SPDCost = Mathf.CeilToInt(baseSPD / 2);
+        MOVCost = Mathf.CeilToInt(baseMOV / 2);
+    }
 
     public void setEnemy()
     {
@@ -200,6 +260,7 @@ public class Character : MonoBehaviour
         setWeaponStats();
         setWeaponVisuals();
         setBodyVisuals();
+        updateCosts();
     }
 
     // Update is called once per frame

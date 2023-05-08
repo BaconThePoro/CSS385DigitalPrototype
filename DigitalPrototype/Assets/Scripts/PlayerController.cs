@@ -680,5 +680,84 @@ public class PlayerController : MonoBehaviour
         currTargetedStats.changeWeapon((Character.weaponType)val);
         gameController.updateUpgradeMenu(currTargeted);
     }
+
+    public void hpButtonPressed()
+    {
+        if (getGearNum() >= currTargetedStats.HPCost && currTargetedStats.baseHP < currTargetedStats.getHPMAX())
+        {
+            giveGearNum(-currTargetedStats.HPCost);
+            currTargetedStats.baseHP = currTargetedStats.baseHP + 1;
+            currTargetedStats.hpLeft = currTargetedStats.hpLeft + 1;
+            gameController.updateUpgradeMenu(currTargeted);
+            currTargetedStats.updateStats();
+        }
+    }
+
+    public void strButtonPressed()
+    {
+        if (getGearNum() >= currTargetedStats.STRCost && currTargetedStats.baseSTR < currTargetedStats.getSTRMAX())
+        {
+            giveGearNum(-currTargetedStats.STRCost);
+            currTargetedStats.baseSTR = currTargetedStats.baseSTR + 1;
+            gameController.updateUpgradeMenu(currTargeted);
+            currTargetedStats.updateStats();
+        }
+    }
+
+    public void magButtonPressed()
+    {
+        if (getGearNum() >= currTargetedStats.MAGCost && currTargetedStats.baseMAG < currTargetedStats.getMAGMAX())
+        {
+            giveGearNum(-currTargetedStats.MAGCost);
+            currTargetedStats.baseMAG = currTargetedStats.baseMAG + 1;
+            gameController.updateUpgradeMenu(currTargeted);
+            currTargetedStats.updateStats();
+        }
+    }
+
+    public void defButtonPressed()
+    {
+        if (getGearNum() >= currTargetedStats.DEFCost && currTargetedStats.baseDEF < currTargetedStats.getDEFMAX())
+        {
+            giveGearNum(-currTargetedStats.DEFCost);
+            currTargetedStats.baseDEF = currTargetedStats.baseDEF + 1;
+            gameController.updateUpgradeMenu(currTargeted);
+            currTargetedStats.updateStats();
+        }
+    }
+
+    public void resButtonPressed()
+    {
+        if (getGearNum() >= currTargetedStats.RESCost && currTargetedStats.baseRES < currTargetedStats.getRESMAX())
+        {
+            giveGearNum(-currTargetedStats.RESCost);
+            currTargetedStats.baseRES = currTargetedStats.baseRES + 1;
+            gameController.updateUpgradeMenu(currTargeted);
+            currTargetedStats.updateStats();
+        }
+    }
+
+    public void spdButtonPressed()
+    {
+        if (getGearNum() >= currTargetedStats.SPDCost && currTargetedStats.baseSPD < currTargetedStats.getSPDMAX())
+        {
+            giveGearNum(-currTargetedStats.SPDCost);
+            currTargetedStats.baseSPD = currTargetedStats.baseSPD + 1;
+            gameController.updateUpgradeMenu(currTargeted);
+            currTargetedStats.updateStats();
+        }
+    }
+
+    public void movButtonPressed()
+    {
+        if (getGearNum() >= currTargetedStats.MOVCost && currTargetedStats.baseMOV < currTargetedStats.getMOVMAX())
+        {
+            giveGearNum(-currTargetedStats.MOVCost);
+            currTargetedStats.baseMOV = currTargetedStats.baseMOV + 1;
+            currTargetedStats.movLeft = currTargetedStats.movLeft + 1;
+            gameController.updateUpgradeMenu(currTargeted);
+            currTargetedStats.updateStats();
+        }
+    }
 }
 
