@@ -8,8 +8,8 @@ Hotkeys:
  <li> Player Turn (Map): </li>
  <ul>
   <li> Left Click: Select hovered unit, move a selected unit, attack with selected unit </li>
-  <li> Right Click: clicks end turn button </li>
-  <li> WASD/Hover edge of screen: moves camera in pointed direction </li>
+  <li> Q: clicks end turn button </li>
+  <li> WASD: moves camera in pointed direction </li>
   <li> Scroll Wheel: changes camera zoom </li>
  </ul>
  <br>
@@ -21,6 +21,17 @@ Hotkeys:
  <li> Battlemode: </li>
  <ul>
   <li> Left Click: Speeds up battle </li>
+ </ul>
+</ul>
+
+***
+
+Tutorial:
+<ul> 
+ <li> Left Click a character to select them and view their stats </li>
+ <ul>
+  <li> A selected characters movement range will be highlighted in <span style="color:blue">blue</span>. Left click a highlighted tile to move them there!
+  <li> A selected characters maximum attack range will be highlighted in <span style="color:red">red</span>. 
  </ul>
 </ul>
 
