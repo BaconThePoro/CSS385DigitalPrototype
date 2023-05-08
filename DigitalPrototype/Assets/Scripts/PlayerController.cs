@@ -308,8 +308,8 @@ public class PlayerController : MonoBehaviour
     {
         Character unitStats = unit.GetComponent<Character>();
 
-        // sword + axe
-        if (unitStats.GetWeaponType() == Character.weaponType.Sword || unitStats.GetWeaponType() == Character.weaponType.Axe)
+        // 1 Range
+        if (unitStats.getAttackRange() == 1)
         {
             if (unitStats.movLeft < 0 || unitStats.movLeft > moveAreas.Length || unitStats.movLeft >= attackAreas.Length)
             {
@@ -330,10 +330,10 @@ public class PlayerController : MonoBehaviour
                 attackAreas[unitStats.movLeft].transform.position = unit.transform.position;
             }
         }
-        // bow
-        else if (unitStats.GetWeaponType() == Character.weaponType.Bow)
+        // 2 Range
+        else if (unitStats.getAttackRange() == 2)
         {
-            if (unitStats.movLeft < 0 || unitStats.movLeft > moveAreas.Length || unitStats.movLeft + 1 >= attackAreas.Length)
+            if (unitStats.movLeft > moveAreas.Length || unitStats.movLeft + 1 >= attackAreas.Length)
             {
                 Debug.Log("movLeft out of range in showArea!!!");
                 hideArea();
@@ -343,6 +343,8 @@ public class PlayerController : MonoBehaviour
                 hideArea();
                 attackAreas[unitStats.movLeft + 1].SetActive(true);
                 attackAreas[unitStats.movLeft + 1].transform.position = unit.transform.position;
+                attackAreas[unitStats.movLeft].SetActive(true);
+                attackAreas[unitStats.movLeft].transform.position = unit.transform.position;
             }
             else
             {
@@ -452,18 +454,18 @@ public class PlayerController : MonoBehaviour
     {
         Character unitStats = unit.GetComponent<Character>();
 
-        // sword + axe
+        // 1 Range
         if (unitStats.GetWeaponType() == Character.weaponType.Sword || unitStats.GetWeaponType() == Character.weaponType.Axe)
         {
             Vector3Int distance = mousePos - Vector3Int.FloorToInt(unit.transform.position);
             if ((Mathf.Abs(distance.x) == 1 && distance.y == 0) || (distance.x == 0 && Mathf.Abs(distance.y) == 1))
                 return true;
         }
-        // bow
+        // 2 Range
         else if (unitStats.GetWeaponType() == Character.weaponType.Bow)
         {
             Vector3Int distance = mousePos - Vector3Int.FloorToInt(unit.transform.position);
-            if ((Mathf.Abs(distance.x) == 2 && distance.y == 0) || (distance.x == 0 && Mathf.Abs(distance.y) == 2) || (Mathf.Abs(distance.x) == 1 && Mathf.Abs(distance.y) == 1)) 
+            if ((Mathf.Abs(distance.x) <= 2 && distance.y == 0) || (distance.x == 0 && Mathf.Abs(distance.y) <= 2) || (Mathf.Abs(distance.x) == 1 && Mathf.Abs(distance.y) == 1)) 
                 return true;
         }
 

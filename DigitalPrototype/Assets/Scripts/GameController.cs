@@ -411,7 +411,7 @@ public class GameController : MonoBehaviour
         }
 
         // first attacks
-        if (firstStats.getAttackRange() == battleRange)
+        if (firstStats.getAttackRange() >= battleRange)
         {
             StartCoroutine(LerpPosition(firstAttacker, firstAttacker.transform.position + firstAttacker.transform.right, animationDuration));
             yield return new WaitForSeconds(.5f);
@@ -423,7 +423,7 @@ public class GameController : MonoBehaviour
         yield return new WaitForSeconds(inbetweenAttackDelay);
 
         // second attack
-        if (secondStats.getAttackRange() == battleRange)
+        if (secondStats.getAttackRange() >= battleRange)
         {
             StartCoroutine(LerpPosition(secondAttacker, secondAttacker.transform.position + secondAttacker.transform.right, animationDuration));
             yield return new WaitForSeconds(.5f);
@@ -579,6 +579,11 @@ public class GameController : MonoBehaviour
                 damageMinusDefense = 0;
             
             damageTaker.takeDamage(damageMinusDefense);
+        }
+        // attacker has magic weapon
+        else
+        {
+
         }
 
         // all player characters dead

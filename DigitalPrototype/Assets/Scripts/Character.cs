@@ -50,7 +50,7 @@ public class Character : MonoBehaviour
 
     public enum bodyType { Spring, Cog };
     private bodyType currBody;
-    public enum weaponType { Sword, Bow, Axe };
+    public enum weaponType { Sword, Bow, Axe, FireTome, HealingTome };
     private weaponType currWeapon;
 
     // number means able to attack at that range and all lower ranges
