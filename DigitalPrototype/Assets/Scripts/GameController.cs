@@ -44,7 +44,7 @@ public class GameController : MonoBehaviour
     private Vector3 rightBattlePos1 = new Vector3(1.5f, 0, -1);
     private Vector3 leftBattlePos2 = new Vector3(-3, 0, -1);
     private Vector3 rightBattlePos2 = new Vector3(3, 0, -1);
-    private Vector3 camBattlePos = new Vector3(0, 0.5f, -50);
+    private Vector3 camBattlePos = new Vector3(0, 1.25f, -50);
     private float camBattleSize = 2;
     private Quaternion leftBattleQua = new Quaternion();
     private Quaternion rightBattleQua = new Quaternion(0, 180, 0, 1);
