@@ -120,7 +120,7 @@ public class PlayerController : MonoBehaviour
                 Vector3Int mousePos = GetMousePosition();
                 mousePos = new Vector3Int(mousePos.x, mousePos.y, 0);
 
-                //Debug.Log("Clicked here: " + mousePos);
+                Debug.Log("Clicked here: " + mousePos);
                 //Debug.Log("currTargeted is " + currTargeted.name);
                 //Debug.Log("childCount is " + transform.childCount);
                 for (int i = 0; i < transform.childCount; i++)
