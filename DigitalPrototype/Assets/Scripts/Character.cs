@@ -50,7 +50,7 @@ public class Character : MonoBehaviour
 
     public enum bodyType { Spring, Cog };
     private bodyType currBody;
-    public enum weaponType { Sword, Bow, Axe, FireTome, HealingTome };
+    public enum weaponType { Sword, Bow, Axe, FireTome, LightningTome };
     private weaponType currWeapon;
 
     // number means able to attack at that range and all lower ranges
@@ -188,20 +188,6 @@ public class Character : MonoBehaviour
             RESMOD = 0;
             SPDMOD = 0;
             MOVMOD = 0;
-}
-        // bow (no stat change)
-        else if (currWeapon == weaponType.Bow)
-        {
-            attackRange = 2;
-
-            // 0 all mods
-            HPMOD = 0;
-            STRMOD = 0;
-            MAGMOD = 0;
-            DEFMOD = 0;
-            RESMOD = 0;
-            SPDMOD = 0;
-            MOVMOD = 0;
         }
         // axe (+3 STR, -3 SPD)
         else if (currWeapon == weaponType.Axe)
@@ -217,6 +203,34 @@ public class Character : MonoBehaviour
             SPDMOD = -3;
             MOVMOD = 0;
         }
+        // bow + fire tome + healing tome (no stat change)
+        else if (currWeapon == weaponType.Bow || currWeapon == weaponType.FireTome)
+        {
+            attackRange = 2;
+
+            // 0 all mods
+            HPMOD = 0;
+            STRMOD = 0;
+            MAGMOD = 0;
+            DEFMOD = 0;
+            RESMOD = 0;
+            SPDMOD = 0;
+            MOVMOD = 0;
+        }
+        else if (currWeapon == weaponType.LightningTome)
+        {
+            attackRange = 2;
+
+            // -3 STR, +3 SPD
+            HPMOD = 0;
+            STRMOD = -3;
+            MAGMOD = 0;
+            DEFMOD = 0;
+            RESMOD = 0;
+            SPDMOD = 3;
+            MOVMOD = 0;
+        }
+
 
         updateStats();
     }

@@ -455,14 +455,14 @@ public class PlayerController : MonoBehaviour
         Character unitStats = unit.GetComponent<Character>();
 
         // 1 Range
-        if (unitStats.GetWeaponType() == Character.weaponType.Sword || unitStats.GetWeaponType() == Character.weaponType.Axe)
+        if (unitStats.getAttackRange() == 1)
         {
             Vector3Int distance = mousePos - Vector3Int.FloorToInt(unit.transform.position);
             if ((Mathf.Abs(distance.x) == 1 && distance.y == 0) || (distance.x == 0 && Mathf.Abs(distance.y) == 1))
                 return true;
         }
         // 2 Range
-        else if (unitStats.GetWeaponType() == Character.weaponType.Bow)
+        else if (unitStats.getAttackRange() == 2)
         {
             Vector3Int distance = mousePos - Vector3Int.FloorToInt(unit.transform.position);
             if ((Mathf.Abs(distance.x) <= 2 && distance.y == 0) || (distance.x == 0 && Mathf.Abs(distance.y) <= 2) || (Mathf.Abs(distance.x) == 1 && Mathf.Abs(distance.y) == 1)) 

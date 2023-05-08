@@ -117,6 +117,7 @@ public class GameController : MonoBehaviour
     private GameObject weaponStatsPanel = null;
     private TMPro.TextMeshProUGUI weaponStats1 = null;
     private TMPro.TextMeshProUGUI weaponStats2 = null;
+    private TMPro.TextMeshProUGUI weaponRange = null;
 
     // enum for whose turn it is currently, the players or the enemies.
     public enum turnMode { PlayerTurn, EnemyTurn };
@@ -210,6 +211,7 @@ public class GameController : MonoBehaviour
         weaponStatsPanel = upgradeMenu.transform.GetChild(0).transform.GetChild(48).gameObject;
         weaponStats1 = weaponStatsPanel.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>();
         weaponStats2 = weaponStatsPanel.transform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>();
+        weaponRange = weaponStatsPanel.transform.GetChild(3).GetComponent<TMPro.TextMeshProUGUI>();
 
         targetZoom = mainCamera.orthographicSize;
 
@@ -583,7 +585,12 @@ public class GameController : MonoBehaviour
         // attacker has magic weapon
         else
         {
+            damageMinusDefense = attacker.MAG - damageTaker.RES;
+            // make sure you cant do negative damage
+            if (damageMinusDefense < 0)
+                damageMinusDefense = 0;
 
+            damageTaker.takeDamage(damageMinusDefense);
         }
 
         // all player characters dead
@@ -805,6 +812,10 @@ public class GameController : MonoBehaviour
         resNUM.text = "" + charStats.baseRES;
         spdNUM.text = "" + charStats.baseSPD;
         movNUM.text = "" + charStats.baseMOV;
+
+        weaponRange.text = "RNG: " + charStats.getAttackRange();
+        weaponStats1.text = "";
+        weaponStats2.text = "";
 
         if (charStats.HPMOD == 0 && charStats.STRMOD == 0 && charStats.MAGMOD == 0 && charStats.DEFMOD == 0
             && charStats.RESMOD == 0 && charStats.SPDMOD == 0 && charStats.MOVMOD == 0)
