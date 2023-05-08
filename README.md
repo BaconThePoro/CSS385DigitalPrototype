@@ -8,8 +8,8 @@ Hotkeys:
  <li> Player Turn (Map): </li>
  <ul>
   <li> Left Click: Select hovered unit, move a selected unit, attack with selected unit </li>
-  <li> Right Click: clicks end turn button </li>
-  <li> WASD/Hover edge of screen: moves camera in pointed direction </li>
+  <li> Q: clicks end turn button </li>
+  <li> WASD: moves camera in pointed direction </li>
   <li> Scroll Wheel: changes camera zoom </li>
  </ul>
  <br>
@@ -21,6 +21,34 @@ Hotkeys:
  <li> Battlemode: </li>
  <ul>
   <li> Left Click: Speeds up battle </li>
+ </ul>
+</ul>
+
+***
+
+Tutorial:
+<ul> 
+ <li> Left Click a character to select them and view their stats </li>
+ <ul>
+  <li> A selected characters movement range will be highlighted in <span style="color:blue"> blue</span>. Left click a highlighted tile to move them there! </li> 
+  <li> A selected characters maximum attack range will be highlighted in <span style="color:red"> red</span>. Left click an enemy within your attack range to battle them! </li> 
+  <li> A selected character can be customized through the <span style="color:green"> Upgrade!</span> button at the cost of Springs. </li> 
+  <ul>
+   <li> Body types only affect your characters appearance, so pick whichever you like. </li>
+   <li> Some weapons can change your characters stats! </li>
+  </ul>
+ </ul>
+ <br>
+ <li> What every Stat does (should you wish to know) </li>
+  <ul>
+  <li> Health Points [HP]: Makes you not die (and not lose). </li>
+  <li> Strength [STR]: Increases damage with physical weapons (Swords, Axes, and Bows) by a flat amount. </li>
+  <li> Defense [DEF]: Reduces physical damage by a flat amount. </li>
+  <li> Magic [MAG]: Increases damage with magic weapons (Tomes!) by a flat amount. </li>
+  <li> Resistance [RES]: Reduces magic damage by a flat amount. </li>
+  <li> Speed [SPD]: Determines who attacks first in a battle. Speed ties are a coin toss. </li>
+  <li> Movement [MOV]: Determines how far a character can move in one turn </li>
+  <li> Weapon Range [RNG]: Determines how far a character can attack from and whether or not they can retaliate at a given battle range. </li>
  </ul>
 </ul>
 
