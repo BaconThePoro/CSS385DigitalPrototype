@@ -691,7 +691,7 @@ public class GameController : MonoBehaviour
                     playerController.ourTurn = true;
                 }
 
-                playerController.resetAllAttack();
+                
                 // give player back their end turn button
                 endTurnButton.gameObject.SetActive(true);
             }

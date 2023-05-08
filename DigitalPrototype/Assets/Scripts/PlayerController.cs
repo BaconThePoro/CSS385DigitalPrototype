@@ -48,8 +48,8 @@ public class PlayerController : MonoBehaviour
     public GameObject attackAreaParent = null;
     private GameObject[] moveAreas;
     private GameObject[] attackAreas;
-    public GameObject[] playerUnits;
-    public Character[] playerStats;
+    [System.NonSerialized] public GameObject[] playerUnits;
+    [System.NonSerialized] public Character[] playerStats;
     public Vector3[] allyStartPos;
     public Character.bodyType[] bodysList;
     public Character.weaponType[] weaponsList;

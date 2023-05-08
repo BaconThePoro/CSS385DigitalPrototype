@@ -2225,7 +2225,7 @@ GameObject:
   - component: {fileID: 64489060}
   - component: {fileID: 64489061}
   m_Layer: 0
-  m_Name: TwosEnemy
+  m_Name: Barbarian
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2313,12 +2313,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: blankName
-  baseHP: 10
+  baseHP: 20
   baseSTR: 2
-  baseMAG: 2
-  baseDEF: 2
-  baseRES: 2
-  baseSPD: 2
+  baseMAG: 1
+  baseDEF: 4
+  baseRES: 0
+  baseSPD: 3
   baseMOV: 2
   HPMOD: 0
   STRMOD: 0
@@ -2523,7 +2523,7 @@ GameObject:
   - component: {fileID: 78047838}
   - component: {fileID: 78047837}
   m_Layer: 0
-  m_Name: FivesEnemy
+  m_Name: Lightning Mage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2559,12 +2559,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: blankName
-  baseHP: 10
-  baseSTR: 5
-  baseMAG: 5
-  baseDEF: 5
-  baseRES: 12
-  baseSPD: 5
+  baseHP: 15
+  baseSTR: 1
+  baseMAG: 4
+  baseDEF: 1
+  baseRES: 4
+  baseSPD: 2
   baseMOV: 4
   HPMOD: 0
   STRMOD: 0
@@ -3577,7 +3577,7 @@ GameObject:
   - component: {fileID: 109972521}
   - component: {fileID: 109972520}
   m_Layer: 0
-  m_Name: FivesAlly
+  m_Name: Fire Mage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3613,13 +3613,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: 
-  baseHP: 10
-  baseSTR: 20
-  baseMAG: 5
-  baseDEF: 5
-  baseRES: 5
-  baseSPD: 5
-  baseMOV: 5
+  baseHP: 12
+  baseSTR: 1
+  baseMAG: 3
+  baseDEF: 1
+  baseRES: 1
+  baseSPD: 1
+  baseMOV: 3
   HPMOD: 0
   STRMOD: 0
   MAGMOD: 0
@@ -19268,7 +19268,7 @@ GameObject:
   - component: {fileID: 792725627}
   - component: {fileID: 792725628}
   m_Layer: 0
-  m_Name: OnesEnemy
+  m_Name: Swordsman
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19357,12 +19357,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   charName: blankName
   baseHP: 10
-  baseSTR: 1
+  baseSTR: 3
   baseMAG: 1
-  baseDEF: 1
-  baseRES: 1
-  baseSPD: 1
-  baseMOV: 1
+  baseDEF: 2
+  baseRES: 2
+  baseSPD: 2
+  baseMOV: 3
   HPMOD: 0
   STRMOD: 0
   MAGMOD: 0
@@ -22079,7 +22079,7 @@ GameObject:
   - component: {fileID: 873049991}
   - component: {fileID: 873049990}
   m_Layer: 0
-  m_Name: ThreesEnemy
+  m_Name: Archer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22115,12 +22115,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: blankName
-  baseHP: 10
-  baseSTR: 3
-  baseMAG: 3
-  baseDEF: 3
-  baseRES: 3
-  baseSPD: 3
+  baseHP: 8
+  baseSTR: 4
+  baseMAG: 1
+  baseDEF: 0
+  baseRES: 0
+  baseSPD: 5
   baseMOV: 3
   HPMOD: 0
   STRMOD: 0
@@ -28350,15 +28350,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameControllerObj: {fileID: 2073513242}
   playerControllerObj: {fileID: 2084973102}
-  enemyUnits: []
-  enemyStats: []
   enemyStartPos:
-  - {x: -6, y: 0, z: 0}
-  - {x: -6, y: 1, z: 0}
-  - {x: -6, y: 2, z: 0}
-  - {x: -6, y: 3, z: 0}
+  - {x: -6, y: -4, z: 0}
+  - {x: -7, y: -1, z: 0}
+  - {x: -7, y: 2, z: 0}
+  - {x: -6, y: 5, z: 0}
   bodysList: 00000000010000000000000001000000
-  weaponsList: 01000000020000000000000002000000
+  weaponsList: 00000000020000000100000004000000
   currTilemap: {fileID: 1357189901}
   inBetweenDelay: 0.25
   battleDone: 0
@@ -31981,7 +31979,7 @@ GameObject:
   - component: {fileID: 1290101965}
   - component: {fileID: 1290101964}
   m_Layer: 0
-  m_Name: ThreesAlly
+  m_Name: Bower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32019,11 +32017,11 @@ MonoBehaviour:
   charName: 
   baseHP: 10
   baseSTR: 3
-  baseMAG: 3
-  baseDEF: 3
-  baseRES: 3
+  baseMAG: 1
+  baseDEF: 1
+  baseRES: 1
   baseSPD: 3
-  baseMOV: 3
+  baseMOV: 2
   HPMOD: 0
   STRMOD: 0
   MAGMOD: 0
@@ -50340,7 +50338,7 @@ GameObject:
   - component: {fileID: 1737337941}
   - component: {fileID: 1737337942}
   m_Layer: 0
-  m_Name: OnesAlly
+  m_Name: Knight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -50428,13 +50426,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: 
-  baseHP: 10
-  baseSTR: 1
+  baseHP: 16
+  baseSTR: 2
   baseMAG: 1
-  baseDEF: 1
+  baseDEF: 4
   baseRES: 1
-  baseSPD: 1
-  baseMOV: 1
+  baseSPD: 2
+  baseMOV: 3
   HPMOD: 0
   STRMOD: 0
   MAGMOD: 0
@@ -59263,6 +59261,11 @@ MonoBehaviour:
   currGrid: {fileID: 879163091}
   currTilemap: {fileID: 1357189901}
   hoverTile: {fileID: 11400000, guid: 7b3c061a8408b9846851c1f644fcee5d, type: 2}
+  worldLimPlusX: 18
+  worldLimPlusY: 11
+  worldLimMinusX: -18
+  worldLimMinusY: -11
+  springAmount: 20
 --- !u!4 &2073513244
 Transform:
   m_ObjectHideFlags: 0
@@ -59858,17 +59861,19 @@ MonoBehaviour:
   currGrid: {fileID: 879163091}
   currTilemap: {fileID: 0}
   targetTile: {fileID: 11400000, guid: 1eddbeb7c178dda42b31ca200f4c0a46, type: 2}
+  mapBoundPlusX: 16
+  mapBoundPlusY: 10
+  mapBoundMinusX: -16
+  mapBoundMinusY: -10
   moveAreaParent: {fileID: 880176732}
   attackAreaParent: {fileID: 652705634}
-  playerUnits: []
-  playerStats: []
   allyStartPos:
+  - {x: 6, y: -2, z: 0}
+  - {x: 6, y: -1, z: 0}
   - {x: 6, y: 0, z: 0}
   - {x: 6, y: 1, z: 0}
-  - {x: 6, y: 2, z: 0}
-  - {x: 6, y: 3, z: 0}
   bodysList: 00000000010000000000000001000000
-  weaponsList: 02000000010000000100000000000000
+  weaponsList: 00000000020000000100000003000000
 --- !u!1 &2085740318
 GameObject:
   m_ObjectHideFlags: 0
@@ -60527,7 +60532,7 @@ GameObject:
   - component: {fileID: 2115490220}
   - component: {fileID: 2115490221}
   m_Layer: 0
-  m_Name: TwosAlly
+  m_Name: Axeman
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -60615,12 +60620,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: 
-  baseHP: 10
-  baseSTR: 2
-  baseMAG: 2
+  baseHP: 14
+  baseSTR: 4
+  baseMAG: 1
   baseDEF: 2
   baseRES: 2
-  baseSPD: 2
+  baseSPD: 3
   baseMOV: 2
   HPMOD: 0
   STRMOD: 0
@@ -60628,7 +60633,7 @@ MonoBehaviour:
   DEFMOD: 0
   RESMOD: 0
   SPDMOD: 0
-  MOVMOD: 0
+  MOVMOD: 2
   HP: 15
   STR: 2
   MAG: 2

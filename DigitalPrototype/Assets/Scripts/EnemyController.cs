@@ -11,7 +11,9 @@ public class EnemyController : MonoBehaviour
     private GameController gameController = null;
     public GameObject playerControllerObj = null;
     private PlayerController playerController = null;
+    [System.NonSerialized]
     public GameObject[] enemyUnits;
+    [System.NonSerialized]
     public Character[] enemyStats;
     public Vector3[] enemyStartPos;
     public Character.bodyType[] bodysList;
@@ -203,6 +205,8 @@ public class EnemyController : MonoBehaviour
         resetAllMove();
         gameController.changeTurn(GameController.turnMode.PlayerTurn);
         Debug.Log("Enemy turn end");
+        playerController.resetAllAttack();
+        playerController.resetAllMove();
     }
 
     bool inAttackRange(Vector3Int targetPos, GameObject unit)
