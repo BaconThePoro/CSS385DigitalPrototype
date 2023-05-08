@@ -12,27 +12,20 @@ public class TutorialScript : MonoBehaviour
   
   public void NextButton()
   {
-      if (counter == 0)
-      {
-          toKobeActive = tutorial.transform.GetChild(counter).gameObject;
-          toKobeActive.SetActive(true);
-          counter++;
-      }
-      else
-      {
-          toKobeActive = tutorial.transform.GetChild(counter).gameObject;
-          toKobePrevious = tutorial.transform.GetChild(counter-1).gameObject;
-          toKobePrevious.SetActive(false);
-          toKobeActive.SetActive(true);
-          counter++;
-
-      }
-
-
-     if (counter == 5)
-     {
+    counter++;
+    
+    if (counter == 5)
+    {
          toKobeActive.SetActive(false);
 
-     }
+    }
+     
+    else {
+        toKobeActive = tutorial.transform.GetChild(counter).gameObject;
+        toKobePrevious = tutorial.transform.GetChild(counter-1).gameObject;
+        toKobePrevious.SetActive(false);
+        toKobeActive.SetActive(true);
+    }
+    
   }
 }
