@@ -1934,7 +1934,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 33.20001, y: -133.29999}
+  m_AnchoredPosition: {x: 50.89997, y: -133.29999}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &50288446
@@ -1957,7 +1957,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: +  1
+  m_text: + 1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2144,6 +2144,13 @@ MonoBehaviour:
   baseRES: 2
   baseSPD: 2
   baseMOV: 2
+  HPMOD: 0
+  STRMOD: 0
+  MAGMOD: 0
+  DEFMOD: 0
+  RESMOD: 0
+  SPDMOD: 0
+  MOVMOD: 0
   HP: 19
   STR: 2
   MAG: 2
@@ -2155,7 +2162,7 @@ MonoBehaviour:
   movLeft: 0
   isDead: 0
   canAttack: 1
-  weapon: 2
+  currWeapon: 0
   attackRange: 2
 --- !u!1 &68622372
 GameObject:
@@ -2384,6 +2391,13 @@ MonoBehaviour:
   baseRES: 5
   baseSPD: 5
   baseMOV: 4
+  HPMOD: 0
+  STRMOD: 0
+  MAGMOD: 0
+  DEFMOD: 0
+  RESMOD: 0
+  SPDMOD: 0
+  MOVMOD: 0
   HP: 26
   STR: 50
   MAG: 5
@@ -2395,7 +2409,7 @@ MonoBehaviour:
   movLeft: 0
   isDead: 0
   canAttack: 1
-  weapon: 1
+  currWeapon: 0
   attackRange: 1
 --- !u!212 &78047838
 SpriteRenderer:
@@ -2920,6 +2934,13 @@ MonoBehaviour:
   baseRES: 5
   baseSPD: 5
   baseMOV: 5
+  HPMOD: 0
+  STRMOD: 0
+  MAGMOD: 0
+  DEFMOD: 0
+  RESMOD: 0
+  SPDMOD: 0
+  MOVMOD: 0
   HP: 22
   STR: 5
   MAG: 5
@@ -2931,7 +2952,7 @@ MonoBehaviour:
   movLeft: 0
   isDead: 0
   canAttack: 1
-  weapon: 2
+  currWeapon: 0
   attackRange: 2
 --- !u!212 &109972521
 SpriteRenderer:
@@ -6711,7 +6732,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 33.2, y: -59.399998}
+  m_AnchoredPosition: {x: 50.899963, y: -59.399998}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &395661404
@@ -6734,7 +6755,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: +  1
+  m_text: + 1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -7989,7 +8010,19 @@ MonoBehaviour:
       m_Calls: []
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2084973104}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: changedName
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnTouchScreenKeyboardStatusChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -8678,9 +8711,7 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
-    - m_Text: Option A
-      m_Image: {fileID: 0}
-    - m_Text: Option B
+    - m_Text: Sword
       m_Image: {fileID: 0}
     - m_Text: Option C
       m_Image: {fileID: 0}
@@ -12528,7 +12559,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 33.20001, y: -203.3}
+  m_AnchoredPosition: {x: 50.9, y: -203.3}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &751663794
@@ -12551,7 +12582,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: +  1
+  m_text: + 1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -13644,6 +13675,13 @@ MonoBehaviour:
   baseRES: 1
   baseSPD: 1
   baseMOV: 1
+  HPMOD: 0
+  STRMOD: 0
+  MAGMOD: 0
+  DEFMOD: 0
+  RESMOD: 0
+  SPDMOD: 0
+  MOVMOD: 0
   HP: 25
   STR: 1
   MAG: 1
@@ -13655,7 +13693,7 @@ MonoBehaviour:
   movLeft: 0
   isDead: 0
   canAttack: 1
-  weapon: 1
+  currWeapon: 0
   attackRange: 1
 --- !u!1 &800302453
 GameObject:
@@ -14272,7 +14310,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 33.20001, y: -238.80002}
+  m_AnchoredPosition: {x: 50.89997, y: -238.80002}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &816331665
@@ -14295,7 +14333,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: +  1
+  m_text: + 1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -15904,6 +15942,13 @@ MonoBehaviour:
   baseRES: 3
   baseSPD: 3
   baseMOV: 3
+  HPMOD: 0
+  STRMOD: 0
+  MAGMOD: 0
+  DEFMOD: 0
+  RESMOD: 0
+  SPDMOD: 0
+  MOVMOD: 0
   HP: 14
   STR: 3
   MAG: 3
@@ -15915,7 +15960,7 @@ MonoBehaviour:
   movLeft: 0
   isDead: 0
   canAttack: 1
-  weapon: 1
+  currWeapon: 0
   attackRange: 1
 --- !u!212 &873049991
 SpriteRenderer:
@@ -22532,6 +22577,13 @@ MonoBehaviour:
   baseRES: 3
   baseSPD: 3
   baseMOV: 3
+  HPMOD: 0
+  STRMOD: 0
+  MAGMOD: 0
+  DEFMOD: 0
+  RESMOD: 0
+  SPDMOD: 0
+  MOVMOD: 0
   HP: 22
   STR: 3
   MAG: 3
@@ -22543,7 +22595,7 @@ MonoBehaviour:
   movLeft: 0
   isDead: 0
   canAttack: 1
-  weapon: 1
+  currWeapon: 0
   attackRange: 1
 --- !u!212 &1290101965
 SpriteRenderer:
@@ -33593,7 +33645,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 33.200047, y: -96.200005}
+  m_AnchoredPosition: {x: 50.90001, y: -96.200005}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1565018343
@@ -33616,7 +33668,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: +  1
+  m_text: + 1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -37046,6 +37098,13 @@ MonoBehaviour:
   baseRES: 1
   baseSPD: 1
   baseMOV: 1
+  HPMOD: 0
+  STRMOD: 0
+  MAGMOD: 0
+  DEFMOD: 0
+  RESMOD: 0
+  SPDMOD: 0
+  MOVMOD: 0
   HP: 12
   STR: 1
   MAG: 1
@@ -37057,7 +37116,7 @@ MonoBehaviour:
   movLeft: 0
   isDead: 0
   canAttack: 1
-  weapon: 1
+  currWeapon: 0
   attackRange: 1
 --- !u!111 &1737337942
 Animation:
@@ -39564,7 +39623,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 33.20001, y: -12.900042}
+  m_AnchoredPosition: {x: 50.89997, y: -12.900042}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1873519397
@@ -39587,7 +39646,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: +  1
+  m_text: + 1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -40257,7 +40316,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 33.20001, y: -169.1}
+  m_AnchoredPosition: {x: 50.89997, y: -169.1}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1916208132
@@ -40280,7 +40339,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: +  1
+  m_text: + 1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -43962,11 +44021,11 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
-    - m_Text: Option A
+    - m_Text: Sword
       m_Image: {fileID: 0}
-    - m_Text: Option B
+    - m_Text: Bow
       m_Image: {fileID: 0}
-    - m_Text: Option C
+    - m_Text: Axe
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
@@ -44511,6 +44570,13 @@ MonoBehaviour:
   baseRES: 2
   baseSPD: 2
   baseMOV: 2
+  HPMOD: 0
+  STRMOD: 0
+  MAGMOD: 0
+  DEFMOD: 0
+  RESMOD: 0
+  SPDMOD: 0
+  MOVMOD: 0
   HP: 15
   STR: 2
   MAG: 2
@@ -44522,7 +44588,7 @@ MonoBehaviour:
   movLeft: 0
   isDead: 0
   canAttack: 1
-  weapon: 3
+  currWeapon: 0
   attackRange: 1
 --- !u!1 &2125686809
 GameObject:

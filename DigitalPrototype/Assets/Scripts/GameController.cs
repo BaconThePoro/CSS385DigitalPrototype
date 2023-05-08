@@ -513,7 +513,8 @@ public class GameController : MonoBehaviour
 
         int damageMinusDefense = -1;
         // if attacker has a physical weapon
-        if (attacker.weapon == 1 || attacker.weapon == 2 || attacker.weapon == 3)
+        if (attacker.currWeapon == Character.weaponType.Sword || attacker.currWeapon == Character.weaponType.Bow 
+            || attacker.currWeapon == Character.weaponType.Axe)
         {
             damageMinusDefense = attacker.STR - damageTaker.DEF;
             // make sure you cant do negative damage
@@ -697,6 +698,7 @@ public class GameController : MonoBehaviour
             playerController.ourTurn = true;
             changeMode(gameMode.MapMode);
             upgradeMenu.gameObject.SetActive(false);
+            playerController.updateCharInfo();
         }
     }
 
@@ -714,6 +716,19 @@ public class GameController : MonoBehaviour
         resNUM.text = "" + charStats.baseRES;
         spdNUM.text = "" + charStats.baseSPD;
         movNUM.text = "" + charStats.baseMOV;
+
+        if (charStats.HPMOD == 0)
+            hpMOD.text = "";
+        else if (charStats.HPMOD > 0)
+        {
+            hpMOD.color = Color.green;
+            hpMOD.text = "" + charStats.HPMOD;
+        }
+        else
+        {
+            hpMOD.color = Color.red;
+            hpMOD.text = "" + charStats.HPMOD;
+        }
 
         if (charStats.STRMOD == 0)
             strMOD.text = "";

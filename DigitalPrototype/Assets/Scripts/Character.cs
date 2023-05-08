@@ -33,22 +33,21 @@ public class Character : MonoBehaviour
     public bool isDead = false;
     public bool canAttack = true; 
 
-    public int weapon = 1;
-    // 1. Sword
-    // 2. Bow
-    // 3. 
-    // 4. 
+    public enum weaponType { Sword, Bow, Axe };
+    public weaponType currWeapon;
 
     // number means able to attack at that range and all lower ranges
-
     public float attackRange;
 
-    public void changeWeapon(int choice)
+    public void changeWeapon(weaponType choice)
     {
-        weapon = choice;
+        currWeapon = choice;
+    }
 
+    public void setWeaponStats()
+    {
         // sword (no stat change)
-        if (weapon == 1)
+        if (currWeapon == weaponType.Sword)
         {
             attackRange = 1;
 
@@ -62,7 +61,7 @@ public class Character : MonoBehaviour
             MOVMOD = 0;
 }
         // bow (no stat change)
-        else if (weapon == 2)
+        else if (currWeapon == weaponType.Bow)
         {
             attackRange = 2;
 
@@ -76,9 +75,9 @@ public class Character : MonoBehaviour
             MOVMOD = 0;
         }
         // axe (+3 STR, -3 SPD)
-        else if (weapon == 3)
+        else if (currWeapon == weaponType.Axe)
         {
-            attackRange = 2;
+            attackRange = 1;
 
             // 
             HPMOD = 0;
@@ -89,7 +88,17 @@ public class Character : MonoBehaviour
             SPDMOD = -3;
             MOVMOD = 0;
         }
+    }
 
+    public void updateStats()
+    {
+        HP = baseHP + HPMOD;
+        STR = baseSTR + STRMOD;
+        MAG = baseMAG + MAGMOD;
+        DEF = baseDEF + DEFMOD;
+        RES = baseRES + RESMOD;
+        SPD = baseSPD + SPDMOD;
+        MOV = baseMOV + MOVMOD;
     }
 
     public void takeDamage(int amount)
@@ -128,14 +137,8 @@ public class Character : MonoBehaviour
     void Start()
     {       
         charName = gameObject.name;
-        HP = baseHP + HPMOD;
-        STR = baseSTR + STRMOD;
-        MAG = baseMAG + MAGMOD;
-        DEF = baseDEF + DEFMOD;
-        RES = baseRES + RESMOD;
-        SPD = baseSPD + SPDMOD;
-        MOV = baseMOV + MOVMOD;
 
+        updateStats();
         resetHP();
         resetMove();
         setAttack(true);

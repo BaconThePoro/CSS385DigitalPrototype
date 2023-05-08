@@ -287,7 +287,7 @@ public class PlayerController : MonoBehaviour
         Character unitStats = unit.GetComponent<Character>();
 
         // sword + axe
-        if (unitStats.weapon == 1 || unitStats.weapon == 3)
+        if (unitStats.currWeapon == Character.weaponType.Sword || unitStats.currWeapon == Character.weaponType.Axe)
         {
             if (unitStats.movLeft < 0 || unitStats.movLeft > moveAreas.Length || unitStats.movLeft >= attackAreas.Length)
             {
@@ -309,7 +309,7 @@ public class PlayerController : MonoBehaviour
             }
         }
         // bow
-        else if (unitStats.weapon == 2)
+        else if (unitStats.currWeapon == Character.weaponType.Bow)
         {
             if (unitStats.movLeft < 0 || unitStats.movLeft > moveAreas.Length || unitStats.movLeft + 1 >= attackAreas.Length)
             {
@@ -431,14 +431,14 @@ public class PlayerController : MonoBehaviour
         Character unitStats = unit.GetComponent<Character>();
 
         // sword + axe
-        if (unitStats.weapon == 1 || unitStats.weapon == 3)
+        if (unitStats.currWeapon == Character.weaponType.Sword || unitStats.currWeapon == Character.weaponType.Axe)
         {
             Vector3Int distance = mousePos - Vector3Int.FloorToInt(unit.transform.position);
             if ((Mathf.Abs(distance.x) == 1 && distance.y == 0) || (distance.x == 0 && Mathf.Abs(distance.y) == 1))
                 return true;
         }
         // bow
-        else if (unitStats.weapon == 2)
+        else if (unitStats.currWeapon == Character.weaponType.Bow)
         {
             Vector3Int distance = mousePos - Vector3Int.FloorToInt(unit.transform.position);
             if ((Mathf.Abs(distance.x) == 2 && distance.y == 0) || (distance.x == 0 && Mathf.Abs(distance.y) == 2) || (Mathf.Abs(distance.x) == 1 && Mathf.Abs(distance.y) == 1)) 
@@ -637,6 +637,11 @@ public class PlayerController : MonoBehaviour
         }
 
         beginBattle(i);
+    }
+
+    public void changedName(string s)
+    {
+        currTargetedStats.charName = s;
     }
 }
 

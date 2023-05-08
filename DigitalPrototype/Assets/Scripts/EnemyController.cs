@@ -201,14 +201,14 @@ public class EnemyController : MonoBehaviour
         Character unitStats = unit.GetComponent<Character>();
 
         // sword
-        if (unitStats.weapon == 1)
+        if (unitStats.currWeapon == Character.weaponType.Sword || unitStats.currWeapon == Character.weaponType.Axe)
         {
             Vector3Int distance = targetPos - Vector3Int.FloorToInt(unit.transform.position);
             if ((Mathf.Abs(distance.x) == 1 && distance.y == 0) || (distance.x == 0 && Mathf.Abs(distance.y) == 1))
                 return true;
         }
         // bow
-        else if (unitStats.weapon == 2)
+        else if (unitStats.currWeapon == Character.weaponType.Bow)
         {
             Vector3Int distance = targetPos - Vector3Int.FloorToInt(unit.transform.position);
             if ((Mathf.Abs(distance.x) == 2 && distance.y == 0) || (distance.x == 0 && Mathf.Abs(distance.y) == 2) || (Mathf.Abs(distance.x) == 1 && Mathf.Abs(distance.y) == 1))
