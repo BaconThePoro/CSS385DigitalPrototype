@@ -29,8 +29,10 @@ public class GameController : MonoBehaviour
     public GameObject VictoryScreen = null;
     public GameObject DefeatScreen = null;
     public GameObject turnPanel = null;
+    public GameObject upgradeMenu = null;
     public TMPro.TMP_Text turnModeTXT = null;
     public Button endTurnButton = null;
+    public Button upgradeButton = null; 
     public Grid currGrid = null;
     public Tilemap currTilemap = null;
     public Tile hoverTile = null;
@@ -611,9 +613,37 @@ public class GameController : MonoBehaviour
 
     public void endTurnButtonPressed()
     {
+        // if not in mapmode dont do anything
+        if (currGameMode != gameMode.MapMode)
+            return;
+
         if (currTurnMode == turnMode.PlayerTurn)
             changeTurn(turnMode.EnemyTurn);
         else
             Debug.Log("!!! The end turn button was pressed BUT it isnt currently the players turn");
+    }
+
+    public void upgradeButtonPressed()
+    {
+        // if not in mapmode dont do anything
+        if (currGameMode != gameMode.MapMode)
+            return;
+
+        playerController.ourTurn = false;
+        changeMode(gameMode.MenuMode);
+        upgradeMenu.gameObject.SetActive(true);
+
+        
+        
+    }
+
+    public void closeUpgradeMenu()
+    {
+        if (upgradeMenu.activeSelf == true)
+        {
+            playerController.ourTurn = true;
+            changeMode(gameMode.MapMode);
+            upgradeMenu.gameObject.SetActive(false);
+        }
     }
 }
