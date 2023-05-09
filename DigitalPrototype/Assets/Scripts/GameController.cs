@@ -246,7 +246,7 @@ public class GameController : MonoBehaviour
         if (currGameMode == gameMode.BattleMode)
         {
             // if user left clicks during battle
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetKey(KeyCode.E))
             {
                 // set delay to 0 (fast mode)
                 inbetweenAttackDelay = 0.1f;
@@ -256,7 +256,7 @@ public class GameController : MonoBehaviour
         if (currTurnMode == turnMode.EnemyTurn)
         {
             // if user left clicks during enemy turn
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetKey(KeyCode.E))
             {
                 // set delay to 0 (fast mode)
                 enemyController.inBetweenDelay = 0.1f;
