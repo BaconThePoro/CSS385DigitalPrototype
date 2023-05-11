@@ -781,6 +781,8 @@ public class GameController : MonoBehaviour
         Character charStats = character.GetComponent<Character>();
         charName.text = charStats.name;
         charImage.sprite = character.GetComponent<SpriteRenderer>().sprite;
+        charImage.transform.localScale = character.transform.localScale;
+
         weaponIMG.sprite = character.transform.GetChild(1).GetComponent<SpriteRenderer>().sprite;
         weaponIMG.transform.localScale = charStats.transform.GetChild(1).localScale;
         charStats.updateCosts();

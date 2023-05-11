@@ -48,9 +48,9 @@ public class Character : MonoBehaviour
     private int SPDMAX = 20;
     private int MOVMAX = 6;
 
-    public enum bodyType { Spring, Cog };
+    public enum bodyType { Spring, Cog, Fisticuffs };
     private bodyType currBody;
-    public enum weaponType { Sword, Bow, Axe, FireTome, LightningTome };
+    public enum weaponType { Sword, Bow, Axe, FireTome, LightningTome, IceTome, AirTome, WaterTome };
     private weaponType currWeapon;
 
     // number means able to attack at that range and all lower ranges
@@ -154,7 +154,11 @@ public class Character : MonoBehaviour
 
     public void setBodyVisuals()
     {
-        GetComponent<SpriteRenderer>().sprite = bodySprites.transform.GetChild((int)currBody).GetComponent<SpriteRenderer>().sprite;
+        GameObject bodyPrefab = bodySprites.transform.GetChild((int)currBody).gameObject;
+        GetComponent<SpriteRenderer>().sprite = bodyPrefab.GetComponent<SpriteRenderer>().sprite;
+
+        transform.localScale = bodyPrefab.transform.localScale;
+        transform.position = transform.position +  bodyPrefab.transform.position;
 
         if (isEnemy == true)
             GetComponent<SpriteRenderer>().color = Color.red;
