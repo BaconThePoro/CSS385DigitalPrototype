@@ -576,7 +576,7 @@ public class GameController : MonoBehaviour
         int damageMinusDefense = -1;
         // if attacker has a physical weapon
         if (attacker.GetWeaponType() == Character.weaponType.Sword || attacker.GetWeaponType() == Character.weaponType.Bow 
-            || attacker.GetWeaponType() == Character.weaponType.Axe)
+            || attacker.GetWeaponType() == Character.weaponType.Axe || attacker.GetWeaponType() == Character.weaponType.Spear)
         {
             damageMinusDefense = attacker.STR - damageTaker.DEF;
             // make sure you cant do negative damage

@@ -50,7 +50,7 @@ public class Character : MonoBehaviour
 
     public enum bodyType { Spring, Cog, Fisticuffs };
     private bodyType currBody;
-    public enum weaponType { Sword, Bow, Axe, FireTome, LightningTome, IceTome, AirTome, WaterTome };
+    public enum weaponType { Sword, Bow, Axe, Spear, FireTome, LightningTome, IceTome, AirTome, WaterTome };
     private weaponType currWeapon;
 
     // number means able to attack at that range and all lower ranges
@@ -205,6 +205,20 @@ public class Character : MonoBehaviour
             DEFMOD = 0;
             RESMOD = 0;
             SPDMOD = -3;
+            MOVMOD = 0;
+        }
+        // spear (+3 DEF, -3 RES)
+        else if (currWeapon == weaponType.Spear)
+        {
+            attackRange = 1;
+
+            // (+3 DEF, -3 RES)
+            HPMOD = 0;
+            STRMOD = 0;
+            MAGMOD = 0;
+            DEFMOD = 3;
+            RESMOD = -3;
+            SPDMOD = 0;
             MOVMOD = 0;
         }
         // bow + fire tome + healing tome (no stat change)
