@@ -28531,10 +28531,10 @@ MonoBehaviour:
   gameControllerObj: {fileID: 2073513242}
   playerControllerObj: {fileID: 2084973102}
   enemyStartPos:
-  - {x: -6, y: -4, z: 0}
-  - {x: -7, y: -1, z: 0}
-  - {x: -7, y: 2, z: 0}
-  - {x: -6, y: 5, z: 0}
+  - {x: 6, y: -4, z: 0}
+  - {x: 7, y: -1, z: 0}
+  - {x: 7, y: 2, z: 0}
+  - {x: 3, y: 4, z: 0}
   bodysList: 00000000020000000000000001000000
   weaponsList: 00000000020000000100000004000000
   currTilemap: {fileID: 1357189901}
@@ -60441,10 +60441,10 @@ MonoBehaviour:
   moveAreaParent: {fileID: 880176732}
   attackAreaParent: {fileID: 652705634}
   allyStartPos:
-  - {x: 6, y: -2, z: 0}
-  - {x: 6, y: -1, z: 0}
-  - {x: 6, y: 0, z: 0}
-  - {x: 6, y: 1, z: 0}
+  - {x: -6, y: -2, z: 0}
+  - {x: -6, y: -1, z: 0}
+  - {x: -6, y: 0, z: 0}
+  - {x: -6, y: 1, z: 0}
   bodysList: 00000000010000000200000001000000
   weaponsList: 05000000020000000100000003000000
 --- !u!1 &2085740318
