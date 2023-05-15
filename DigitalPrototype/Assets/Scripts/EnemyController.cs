@@ -195,13 +195,20 @@ public class EnemyController : MonoBehaviour
         List<PathNode> bestPath = new List<PathNode>();
         bestPath = vectorPath;
 
-        for (int j = 0; j < OneRangePath.Count; j++)
+        List<Vector3> thisUnitsRange = new List<Vector3>();
+        if (currEnemyStats.getAttackRange() == 1)
+            thisUnitsRange = OneRangePath;
+        else if (currEnemyStats.getAttackRange() == 2)
+            thisUnitsRange = TwoRangePath;
+
+
+        for (int j = 0; j < thisUnitsRange.Count; j++)
         {
-            Debug.Log("trying target: " + ((int)target.transform.position.x + (int)OneRangePath[j].x) +
-                ", " + ((int)target.transform.position.y + (int)OneRangePath[j].y));
+            Debug.Log("trying target: " + ((int)target.transform.position.x + (int)thisUnitsRange[j].x) +
+                ", " + ((int)target.transform.position.y + (int)thisUnitsRange[j].y));
 
             vectorPath = playerController.pathfinding.FindEnemyPath((int)currEnemy.transform.position.x, (int)currEnemy.transform.position.y,
-                ((int)target.transform.position.x + (int)OneRangePath[j].x), ((int)target.transform.position.y + (int)OneRangePath[j].y),
+                ((int)target.transform.position.x + (int)thisUnitsRange[j].x), ((int)target.transform.position.y + (int)thisUnitsRange[j].y),
                 currEnemyStats.movLeft, ref newGCost);
 
             if (vectorPath != null && newGCost < oldGCost)
@@ -252,7 +259,7 @@ public class EnemyController : MonoBehaviour
 
         for (int i = 0; i < vectorPath.Count; i++)
         {
-            if (vectorPath[i].isWalkable && currEnemyStats.movLeft > -99)
+            if (vectorPath[i].isWalkable && currEnemyStats.movLeft > 0)
             {
                 if ((vectorPath[i].x - currEnemy.transform.position.x) == 1)
                     currEnemy.transform.rotation = new Quaternion(0f, 0f, 0f, 1f);
@@ -267,7 +274,6 @@ public class EnemyController : MonoBehaviour
                 break;
         }
 
-
         //gameController.changeMode(GameController.gameMode.MapMode);
     }
 
@@ -276,17 +282,17 @@ public class EnemyController : MonoBehaviour
         Character unitStats = unit.GetComponent<Character>();
 
         // sword
-        if (unitStats.GetWeaponType() == Character.weaponType.Sword || unitStats.GetWeaponType() == Character.weaponType.Axe)
+        if (unitStats.getAttackRange() == 1)
         {
             Vector3Int distance = targetPos - Vector3Int.FloorToInt(unit.transform.position);
             if ((Mathf.Abs(distance.x) == 1 && distance.y == 0) || (distance.x == 0 && Mathf.Abs(distance.y) == 1))
                 return true;
         }
         // bow
-        else if (unitStats.GetWeaponType() == Character.weaponType.Bow)
+        else if (unitStats.getAttackRange() == 2)
         {
             Vector3Int distance = targetPos - Vector3Int.FloorToInt(unit.transform.position);
-            if ((Mathf.Abs(distance.x) == 2 && distance.y == 0) || (distance.x == 0 && Mathf.Abs(distance.y) == 2) || (Mathf.Abs(distance.x) == 1 && Mathf.Abs(distance.y) == 1))
+            if ((Mathf.Abs(distance.x) <= 2 && distance.y == 0) || (distance.x == 0 && Mathf.Abs(distance.y) <= 2) || (Mathf.Abs(distance.x) == 1 && Mathf.Abs(distance.y) == 1))
                 return true;
         }
 
