@@ -58,15 +58,17 @@ public class PlayerController : MonoBehaviour
 
     // context menu stuff
     public GameObject contextMenu = null;
+    private Button moveButton = null;
     private Button attackButton = null;
     private Button upgradeButton = null;
     private Button inspectButton = null;
     private Button deselectButton = null;
     private int enemyNum = 0;
-    private Vector3 menuOffset = new Vector3(1.5f, 1, 0);
+    private Vector3 menuOffset = new Vector3(2f, 1, 0);
+    private Vector3 lastClickPos = Vector3.zero;
 
     private int gearAmount = 0;
-    private float delay = 0.25f; 
+    private float delay = 0f; 
 
     // Start is called before the first frame update
     void Start()
@@ -86,10 +88,11 @@ public class PlayerController : MonoBehaviour
         movLeftNUMObj = charInfoPanel.transform.GetChild(17).gameObject;
         movLeftNUM = movLeftNUMObj.GetComponent<TMPro.TextMeshProUGUI>();
 
-        attackButton = contextMenu.transform.GetChild(0).GetComponent<Button>();
-        upgradeButton = contextMenu.transform.GetChild(1).GetComponent<Button>();
-        inspectButton = contextMenu.transform.GetChild(2).GetComponent<Button>();
-        deselectButton = contextMenu.transform.GetChild(3).GetComponent<Button>();
+        moveButton = contextMenu.transform.GetChild(0).GetComponent<Button>();
+        attackButton = contextMenu.transform.GetChild(1).GetComponent<Button>();
+        upgradeButton = contextMenu.transform.GetChild(2).GetComponent<Button>();
+        inspectButton = contextMenu.transform.GetChild(3).GetComponent<Button>();
+        deselectButton = contextMenu.transform.GetChild(4).GetComponent<Button>();
 
         // get a handle on each child for PlayerController
         playerUnits = new GameObject[transform.childCount];
@@ -157,9 +160,8 @@ public class PlayerController : MonoBehaviour
                         // if clicking ally you already selected
                         else if (currTargeted.transform.position == mousePos)
                         {
-                            contextMenu.SetActive(true);
-                            contextMenu.transform.position = Camera.main.WorldToScreenPoint(mousePos + menuOffset);
-
+                            openContextMenu(mousePos);
+                            moveButton.interactable = false;
                             attackButton.interactable = false;
                             upgradeButton.interactable = true;
                             inspectButton.interactable = true;
@@ -190,9 +192,8 @@ public class PlayerController : MonoBehaviour
                         // if clicking enemy you already selected
                         else if (currTargeted.transform.position == mousePos)
                         {
-                            contextMenu.SetActive(true);
-                            contextMenu.transform.position = Camera.main.WorldToScreenPoint(mousePos + menuOffset);
-
+                            openContextMenu(mousePos);
+                            moveButton.interactable = false;
                             attackButton.interactable = false;
                             upgradeButton.interactable = false;
                             inspectButton.interactable = true;
@@ -202,9 +203,8 @@ public class PlayerController : MonoBehaviour
                         // if you have an ally clicked and click an in range enemy
                         else if (currTargeted != null && isTargetEnemy == false && currTargetedStats.getCanAttack() == true && inAttackRange(mousePos, currTargeted))
                         {
-                            contextMenu.SetActive(true);
-                            contextMenu.transform.position = Camera.main.WorldToScreenPoint(mousePos + menuOffset);
-
+                            openContextMenu(mousePos);
+                            moveButton.interactable = false;
                             attackButton.interactable = true;
                             upgradeButton.interactable = true;
                             inspectButton.interactable = true;
@@ -228,27 +228,17 @@ public class PlayerController : MonoBehaviour
                 // clicked in move range, move ally
                 if (currTargeted != null && inMovementRange(mousePos) && currTargetedStats.movLeft > 0 && isTargetEnemy != true)
                 {
-/*                    contextMenu.SetActive(true);
-                    contextMenu.transform.position = Camera.main.WorldToScreenPoint(mousePos);
-
-                    attackButton.interactable = true;
+                    openContextMenu(mousePos);
+                    moveButton.interactable = true;
+                    attackButton.interactable = false;
                     upgradeButton.interactable = true;
                     inspectButton.interactable = true;
-                    deselectButton.interactable = true;*/
-
+                    deselectButton.interactable = true;
+                    lastClickPos = mousePos;
 
                     //moveAlly(mousePos);
-                    List<PathNode> vectorPath = new List<PathNode>();
-                    vectorPath = pathfinding.FindPath((int)currTargeted.transform.position.x, (int)currTargeted.transform.position.y, 
-                        (int)mousePos.x, (int)mousePos.y, currTargetedStats.movLeft);
 
-                    if (vectorPath != null)
-                    {
-                        StartCoroutine(movePath(vectorPath));
-                        pathfinding.resetCollision();
-                        /* for (int i = 0; i < vectorPath.Count; i++)
-                            Debug.Log(vectorPath[i]);*/
-                    }
+                    
                 }
 
                 // clicked nothing
@@ -257,9 +247,8 @@ public class PlayerController : MonoBehaviour
                     // if have ally selected
                     if (currTargetedStats.getIsEnemy() == false)
                     {
-                        contextMenu.SetActive(true);
-                        contextMenu.transform.position = Camera.main.WorldToScreenPoint(mousePos + menuOffset);
-
+                        openContextMenu(mousePos);
+                        moveButton.interactable = false;
                         attackButton.interactable = false;
                         upgradeButton.interactable = true;
                         inspectButton.interactable = true;
@@ -267,9 +256,8 @@ public class PlayerController : MonoBehaviour
                     }
                     else
                     {
-                        contextMenu.SetActive(true);
-                        contextMenu.transform.position = Camera.main.WorldToScreenPoint(mousePos + menuOffset);
-
+                        openContextMenu(mousePos);
+                        moveButton.interactable = false;
                         attackButton.interactable = false;
                         upgradeButton.interactable = false;
                         inspectButton.interactable = true;
@@ -279,6 +267,30 @@ public class PlayerController : MonoBehaviour
                 }                            
             }
         }
+    }
+
+    public void openContextMenu(Vector3 mousePos)
+    {
+        contextMenu.SetActive(true);
+        contextMenu.transform.position = Camera.main.WorldToScreenPoint(mousePos + menuOffset);
+        
+    }
+
+    public void moveButtonPressed()
+    {
+        List<PathNode> vectorPath = new List<PathNode>();
+        vectorPath = pathfinding.FindPath((int)currTargeted.transform.position.x, (int)currTargeted.transform.position.y,
+            (int)lastClickPos.x, (int)lastClickPos.y, currTargetedStats.movLeft);
+
+        if (vectorPath != null)
+        {
+            StartCoroutine(movePath(vectorPath));
+            pathfinding.resetCollision();
+            /* for (int i = 0; i < vectorPath.Count; i++)
+                Debug.Log(vectorPath[i]);*/
+        }
+
+        contextMenu.SetActive(false);
     }
 
     public void attackButtonPressed()
@@ -916,5 +928,9 @@ public class PlayerController : MonoBehaviour
         return currTargeted;
     }
 
+    public void setDelay(float num)
+    {
+        delay = num;
+    }
 }
 

@@ -19,7 +19,7 @@ public class EnemyController : MonoBehaviour
     public Character.bodyType[] bodysList;
     public Character.weaponType[] weaponsList;
     public Tilemap currTilemap = null;
-    public float inBetweenDelay = 1f;
+    private float inBetweenDelay = 0f;
     public bool battleDone = false;
     private int aggroRange = 10;
     private enum direction { left, right, up, down };
@@ -61,13 +61,17 @@ public class EnemyController : MonoBehaviour
         TwoRangePath.Add(new Vector3(1, -1, 0));
         TwoRangePath.Add(new Vector3(-1, -1, 0));
 
-        resetDelay();
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    public void setDelay(float num)
+    {
+        inBetweenDelay = num; 
     }
 
     public bool allDead()
@@ -79,12 +83,6 @@ public class EnemyController : MonoBehaviour
         }
 
         return true; 
-    }
-
-    public void resetDelay()
-    {
-        inBetweenDelay = 0.3f;
-        gameController.resetDelay();
     }
 
     public GameObject findClosestTarget(GameObject us)
@@ -111,7 +109,6 @@ public class EnemyController : MonoBehaviour
     public IEnumerator enemyTurn()
     {
         Debug.Log("Enemy Turn start");
-        resetDelay();
 
         // for every enemy unit
         for (int i = 0; i < enemyUnits.Length; i++)
@@ -135,7 +132,7 @@ public class EnemyController : MonoBehaviour
                 if (inAttackRange(Vector3Int.FloorToInt(target.transform.position), currEnemy))
                 {
                     // small delay at the start of every units turn
-                    yield return new WaitForSeconds(inBetweenDelay * 4);
+                    yield return new WaitForSeconds(inBetweenDelay * 3);
                     // attack
                     currEnemy.transform.GetChild(0).gameObject.SetActive(false);
                     yield return StartCoroutine(beginBattle(i, target));
@@ -162,7 +159,7 @@ public class EnemyController : MonoBehaviour
                     if (inAttackRange(Vector3Int.FloorToInt(target.transform.position), currEnemy))
                     {
                         // small delay at the start of every units turn
-                        yield return new WaitForSeconds(inBetweenDelay * 4);
+                        yield return new WaitForSeconds(inBetweenDelay * 3);
                         // attack
                         currEnemy.transform.GetChild(0).gameObject.SetActive(false);
                         yield return StartCoroutine(beginBattle(i, target));
@@ -171,7 +168,7 @@ public class EnemyController : MonoBehaviour
                 }
             }
             
-            yield return new WaitForSeconds(inBetweenDelay * 2);
+            yield return new WaitForSeconds(inBetweenDelay);
             // disable target reticle
             enemyUnits[i].transform.GetChild(0).gameObject.SetActive(false);
         }

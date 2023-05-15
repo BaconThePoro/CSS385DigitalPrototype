@@ -35,6 +35,10 @@ public class GameController : MonoBehaviour
     public GameObject upgradeMenu = null;
     public TMPro.TMP_Text turnModeTXT = null;
     public Button endTurnButton = null;
+    private Button speed1 = null;
+    private Button speed2 = null;
+    private Button speed4 = null;
+    private Button speed8 = null;
     public Button upgradeButton = null; 
     public Grid currGrid = null;
     public Tilemap currTilemap = null;
@@ -42,8 +46,8 @@ public class GameController : MonoBehaviour
     // stuff for battlemode
     private Vector3 leftBattlePos1 = new Vector3(-1.5f, 0, -1);
     private Vector3 rightBattlePos1 = new Vector3(1.5f, 0, -1);
-    private Vector3 leftBattlePos2 = new Vector3(-3, 0, -1);
-    private Vector3 rightBattlePos2 = new Vector3(3, 0, -1);
+    private Vector3 leftBattlePos2 = new Vector3(-2.5f, 0, -1);
+    private Vector3 rightBattlePos2 = new Vector3(2.5f, 0, -1);
     private Vector3 camBattlePos = new Vector3(0, 1.25f, -50);
     private float camBattleSize = 2;
     private Quaternion leftBattleQua = new Quaternion();
@@ -54,9 +58,9 @@ public class GameController : MonoBehaviour
     private Quaternion savedQuaLeft;
     private Quaternion savedQuaRight;
     private float savedCamSize;
-    private float inbetweenAttackDelay = 0.75f;
-    private float animationDuration = 0.25f;
-    private Vector3 damageTextOffset = new Vector3(0, 0.5f, 0);
+    private float inbetweenAttackDelay = 0f;
+    private float animationDuration = 0.3f;
+    private Vector3 damageTextOffset = new Vector3(0, 0.8f, 0);
     // stat panel stuff
     private GameObject LmovLeftTXT = null;
     private GameObject LmovLeftNUMObj = null;
@@ -215,6 +219,13 @@ public class GameController : MonoBehaviour
         weaponStats1 = weaponStatsPanel.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>();
         weaponStats2 = weaponStatsPanel.transform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>();
         weaponRange = weaponStatsPanel.transform.GetChild(3).GetComponent<TMPro.TextMeshProUGUI>();
+        //
+        speed1 = turnPanel.transform.GetChild(4).GetComponent<Button>();
+        speed2 = turnPanel.transform.GetChild(5).GetComponent<Button>();
+        speed4 = turnPanel.transform.GetChild(6).GetComponent<Button>();
+        speed8 = turnPanel.transform.GetChild(7).GetComponent<Button>();
+
+        speed1ButtonPressed();
 
         targetZoom = mainCamera.orthographicSize;
 
@@ -239,28 +250,6 @@ public class GameController : MonoBehaviour
             else
             {
                 Time.timeScale = 0;
-            }
-        }
-   
-
-        if (currGameMode == gameMode.BattleMode)
-        {
-            // if user left clicks during battle
-            if (Input.GetKey(KeyCode.E))
-            {
-                // set delay to 0 (fast mode)
-                inbetweenAttackDelay = 0.1f;
-            }
-        }
-
-        if (currTurnMode == turnMode.EnemyTurn)
-        {
-            // if user left clicks during enemy turn
-            if (Input.GetKey(KeyCode.E))
-            {
-                // set delay to 0 (fast mode)
-                enemyController.inBetweenDelay = 0.1f;
-                inbetweenAttackDelay = 0.1f;
             }
         }
 
@@ -419,8 +408,8 @@ public class GameController : MonoBehaviour
         if (firstStats.getAttackRange() >= battleRange)
         {
             StartCoroutine(LerpPosition(firstAttacker, firstAttacker.transform.position + firstAttacker.transform.right, animationDuration));
-            yield return new WaitForSeconds(.5f);
-            StartCoroutine(updateDamageTXT(secondAttacker, Attack(firstStats, secondStats))); // person taking damage and damage value
+            yield return new WaitForSeconds(inbetweenAttackDelay);
+            yield return StartCoroutine(updateDamageTXT(secondAttacker, Attack(firstStats, secondStats))); // person taking damage and damage value
             updateBattleStats(leftStats, rightStats);
         }
  
@@ -431,8 +420,8 @@ public class GameController : MonoBehaviour
         if (secondStats.getAttackRange() >= battleRange)
         {
             StartCoroutine(LerpPosition(secondAttacker, secondAttacker.transform.position + secondAttacker.transform.right, animationDuration));
-            yield return new WaitForSeconds(.5f);
-            StartCoroutine(updateDamageTXT(firstAttacker, Attack(secondStats, firstStats))); // person taking damage and damage value
+            yield return new WaitForSeconds(inbetweenAttackDelay);
+            yield return StartCoroutine(updateDamageTXT(firstAttacker, Attack(secondStats, firstStats))); // person taking damage and damage value
             updateBattleStats(leftStats, rightStats);
         }
 
@@ -522,7 +511,7 @@ public class GameController : MonoBehaviour
             damageTXT.color = Color.yellow;
             damageTXT.text = "(" + damageNum + ")";
 
-            yield return new WaitForSeconds(0.75f);
+            yield return new WaitForSeconds(inbetweenAttackDelay * 3);
 
             damageTXT.text = "";
         }
@@ -531,10 +520,11 @@ public class GameController : MonoBehaviour
             damageTXT.color = Color.red;
             damageTXT.text = "(-" + damageNum + ")";
 
-            yield return new WaitForSeconds(0.75f);
+            yield return new WaitForSeconds(inbetweenAttackDelay * 3);
 
             damageTXT.text = "";
         }
+
         damageTXTPanel.gameObject.SetActive(false);
     }
 
@@ -1135,5 +1125,53 @@ public class GameController : MonoBehaviour
             movCOST.text = "MAX";
             movButton.gameObject.SetActive(false);
         }
+    }
+
+    public void speed1ButtonPressed()
+    {
+        inbetweenAttackDelay = 1;
+        enemyController.setDelay(1);
+        playerController.setDelay(1);
+
+        speed1.interactable = false;
+        speed2.interactable = true;
+        speed4.interactable = true;
+        speed8.interactable = true;
+    }
+
+    public void speed2ButtonPressed()
+    {
+        inbetweenAttackDelay = 0.5f;
+        enemyController.setDelay(0.5f);
+        playerController.setDelay(0.5f);
+
+        speed1.interactable = true;
+        speed2.interactable = false;
+        speed4.interactable = true;
+        speed8.interactable = true;
+    }
+
+    public void speed4ButtonPressed()
+    {
+        inbetweenAttackDelay = 0.2f;
+        enemyController.setDelay(0.2f);
+        playerController.setDelay(0.2f);
+
+        speed1.interactable = true;
+        speed2.interactable = true;
+        speed4.interactable = false;
+        speed8.interactable = true;
+    }
+
+    public void speed8ButtonPressed()
+    {
+        inbetweenAttackDelay = 0.1f;
+        enemyController.setDelay(0.1f);
+        playerController.setDelay(0.1f);
+
+        speed1.interactable = true;
+        speed2.interactable = true;
+        speed4.interactable = true;
+        speed8.interactable = false;
     }
 }
