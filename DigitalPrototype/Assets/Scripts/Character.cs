@@ -253,26 +253,26 @@ public class Character : MonoBehaviour
         {
             attackRange = 2;
 
-            // +2 DEF, +1 RES, -2 MAG
+            // +3 DEF, -2 MAG
             HPMOD = 0;
             STRMOD = 0;
             MAGMOD = -2;
-            DEFMOD = 2;
-            RESMOD = 1;
+            DEFMOD = 3;
+            RESMOD = 0;
             SPDMOD = 0;
             MOVMOD = 0;
         }
-        // air
+        // fire
         else if (currWeapon == weaponType.FireTome)
         {
             attackRange = 2;
 
-            // +3 MAG, -2 DEF, -2 RES
+            // +3 MAG, -3 DEF
             HPMOD = 0;
             STRMOD = 0;
             MAGMOD = 3;
-            DEFMOD = -2;
-            RESMOD = -2;
+            DEFMOD = -3;
+            RESMOD = 0;
             SPDMOD = 0;
             MOVMOD = 0;
         }
@@ -281,12 +281,12 @@ public class Character : MonoBehaviour
         {
             attackRange = 2;
 
-            // 
+            // +3 RES, -3 DEF
             HPMOD = 0;
             STRMOD = 0;
             MAGMOD = 0;
-            DEFMOD = 0;
-            RESMOD = 0;
+            DEFMOD = -3;
+            RESMOD = 3;
             SPDMOD = 0;
             MOVMOD = 0;
         }

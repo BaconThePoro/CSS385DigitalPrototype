@@ -200,7 +200,7 @@ public class PlayerController : MonoBehaviour
                             deselectButton.interactable = true;
                         }
 
-                        // if you have an ally clicked and click an in range enemy
+                        // if you have an ally clicked and click an enemy already in attack range
                         else if (currTargeted != null && isTargetEnemy == false && currTargetedStats.getCanAttack() == true && inAttackRange(mousePos, currTargeted))
                         {
                             openContextMenu(mousePos);
@@ -212,7 +212,19 @@ public class PlayerController : MonoBehaviour
                             enemyNum = i; 
                         }
 
-                        // 
+/*                        // if an ally is clicked and click an enemy that can be moved to and attacked
+                        else if (currTargeted != null && isTargetEnemy == false && currTargetedStats.getCanAttack() == true 
+                            && inRange(Vector3Int.FloorToInt(enemyController.enemyUnits[i].transform.position)))
+                        {
+                            openContextMenu(mousePos);
+                            moveButton.interactable = false;
+                            attackButton.interactable = true;
+                            upgradeButton.interactable = true;
+                            inspectButton.interactable = true;
+                            deselectButton.interactable = true;
+                            lastClickPos = mousePos;
+                        }*/
+                                
                         else
                         {
                             deselectTarget();
@@ -235,17 +247,13 @@ public class PlayerController : MonoBehaviour
                     inspectButton.interactable = true;
                     deselectButton.interactable = true;
                     lastClickPos = mousePos;
-
-                    //moveAlly(mousePos);
-
-                    
                 }
 
                 // clicked nothing
                 else
                 {
                     // if have ally selected
-                    if (currTargetedStats.getIsEnemy() == false)
+                    if (currTargeted != null && currTargetedStats.getIsEnemy() == false)
                     {
                         openContextMenu(mousePos);
                         moveButton.interactable = false;
@@ -254,7 +262,8 @@ public class PlayerController : MonoBehaviour
                         inspectButton.interactable = true;
                         deselectButton.interactable = true;
                     }
-                    else
+                    // if you have anything selected
+                    else if (currTargeted != null)
                     {
                         openContextMenu(mousePos);
                         moveButton.interactable = false;
@@ -295,8 +304,24 @@ public class PlayerController : MonoBehaviour
 
     public void attackButtonPressed()
     {
-        beginBattle(enemyNum);
-        contextMenu.SetActive(false);
+        int g = 0;
+        List<PathNode> vectorPath = new List<PathNode>();
+        if (!inAttackRange(Vector3Int.FloorToInt(lastClickPos), currTargeted))
+        {
+            vectorPath = enemyController.findBestForOne(currTargeted, enemyController.enemyUnits[enemyNum], ref g);
+        }
+
+        if (vectorPath != null)
+        {
+            for (int i = 0; i < vectorPath.Count; i++)
+                Debug.Log("VectorPath[" + i + "]: " + vectorPath[i]);
+        }
+
+        if (inAttackRange(Vector3Int.FloorToInt(lastClickPos), currTargeted))
+        {
+            beginBattle(enemyNum);
+            contextMenu.SetActive(false);
+        }
     }
 
     public void upgradeButtonPressed()
@@ -495,6 +520,7 @@ public class PlayerController : MonoBehaviour
                 attackAreas[unitStats.movLeft + 1].transform.position = unit.transform.position;
             }
         }
+
     }
 
     public void hideArea()
@@ -577,6 +603,16 @@ public class PlayerController : MonoBehaviour
         //updateCharInfo();
         //hideArea();
         //showArea(currTargeted);
+    }
+
+    public bool inRange(Vector3Int mousePos)
+    {
+        float maxDistance = currTargetedStats.movLeft + currTargetedStats.getAttackRange();
+        if ((mousePos - currTargeted.transform.position).magnitude < maxDistance)
+            return true;
+        else
+            return false;
+
     }
 
     bool inMovementRange(Vector3Int mousePos)
