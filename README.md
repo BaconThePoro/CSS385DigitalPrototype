@@ -19,6 +19,7 @@ Hotkeys:
 
 Tutorial:
 <ul> 
+  <li> Out of date </li>
  <li> Left Click a character to select them and view their stats </li>
  <ul>
   <li> A selected characters movement range will be highlighted in <span style="color:blue"> blue</span>. Left click a highlighted tile to move them there! </li> 
