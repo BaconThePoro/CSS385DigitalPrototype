@@ -13,15 +13,6 @@ Hotkeys:
   <li> Scroll Wheel: changes camera zoom </li>
  </ul>
  <br>
- <li> Enemy Turn: </li>
- <ul> 
-  <li> Left Click: Speeds up enemy turn </li>
- </ul>
- <br>
- <li> Battlemode: </li>
- <ul>
-  <li> Left Click: Speeds up battle </li>
- </ul>
 </ul>
 
 ***
