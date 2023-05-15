@@ -762,7 +762,7 @@ public class GameController : MonoBehaviour
         playerController.ourTurn = false;
         changeMode(gameMode.MenuMode);
         upgradeMenu.gameObject.SetActive(true);
-        updateUpgradeMenu(playerController.currTargeted);
+        updateUpgradeMenu(playerController.getCurrTargeted());
     }
 
     public void closeUpgradeMenu()

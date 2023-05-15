@@ -12,8 +12,8 @@ public class PlayerController : MonoBehaviour
     private GameController gameController = null;
     public GameObject enemyControllerObj = null; 
     private EnemyController enemyController = null;
-    public GameObject currTargeted = null;
-    public Character currTargetedStats = null;
+    private GameObject currTargeted = null;
+    private Character currTargetedStats = null;
     public GameObject charInfoPanel = null;
     public GameObject upgradePanel = null;
     private GameObject movLeftTXT = null;
@@ -56,6 +56,15 @@ public class PlayerController : MonoBehaviour
     public Character.bodyType[] bodysList;
     public Character.weaponType[] weaponsList;
 
+    // context menu stuff
+    public GameObject contextMenu = null;
+    private Button attackButton = null;
+    private Button upgradeButton = null;
+    private Button inspectButton = null;
+    private Button deselectButton = null;
+    private int enemyNum = 0;
+    private Vector3 menuOffset = new Vector3(1.5f, 1, 0);
+
     private int gearAmount = 0;
     private float delay = 0.25f; 
 
@@ -76,6 +85,11 @@ public class PlayerController : MonoBehaviour
         movNUM = charInfoPanel.transform.GetChild(16).GetComponent<TMPro.TextMeshProUGUI>();
         movLeftNUMObj = charInfoPanel.transform.GetChild(17).gameObject;
         movLeftNUM = movLeftNUMObj.GetComponent<TMPro.TextMeshProUGUI>();
+
+        attackButton = contextMenu.transform.GetChild(0).GetComponent<Button>();
+        upgradeButton = contextMenu.transform.GetChild(1).GetComponent<Button>();
+        inspectButton = contextMenu.transform.GetChild(2).GetComponent<Button>();
+        deselectButton = contextMenu.transform.GetChild(3).GetComponent<Button>();
 
         // get a handle on each child for PlayerController
         playerUnits = new GameObject[transform.childCount];
@@ -130,55 +144,99 @@ public class PlayerController : MonoBehaviour
                 Vector3Int mousePos = GetMousePosition();
                 mousePos = new Vector3Int(mousePos.x, mousePos.y, 0);
 
-                //Debug.Log("Clicked here: " + mousePos);
-                //Debug.Log("currTargeted is " + currTargeted.name);
-                //Debug.Log("childCount is " + transform.childCount);
-                for (int i = 0; i < transform.childCount; i++)
+                // checking if an ally was clicked
+                for (int i = 0; i < playerUnits.Length; i++)
                 {
-                    // clicked ally 
+                    // an ally was clicked
                     if (mousePos == playerUnits[i].transform.position && playerStats[i].getIsDead() == false)
                     {
-                        // target ally 
+                        // if nothing currently targeted
                         if (currTargeted == null)
-                        {
                             targetAlly(i);
-                        }
-                        // someone already selected, deselct and retarget them
-                        else
+
+                        // if clicking ally you already selected
+                        else if (currTargeted.transform.position == mousePos)
                         {
-                            deselectTarget();
-                            targetAlly(i);
+                            contextMenu.SetActive(true);
+                            contextMenu.transform.position = Camera.main.WorldToScreenPoint(mousePos + menuOffset);
+
+                            attackButton.interactable = false;
+                            upgradeButton.interactable = true;
+                            inspectButton.interactable = true;
+                            deselectButton.interactable = true;
                         }
 
-                        return;
-                    }
-                    // clicked enemy 
-                    else if (mousePos == enemyController.enemyUnits[i].transform.position && enemyController.enemyStats[i].getIsDead() == false)
-                    {
-                        // no ally selected target the enemy
-                        if (currTargeted == null)
-                        {
-                            targetEnemy(i);
-                        }
-                        // ally selected and in range, attack
-                        else if (currTargeted != null && isTargetEnemy == false && currTargetedStats.getCanAttack() == true && inAttackRange(mousePos, currTargeted))
-                        {
-                            beginBattle(i);
-                        }
-                        // ally selected but not in range, reselect enemy instead
+                        // another ally clicked
                         else
                         {
                             deselectTarget();
-                            targetEnemy(i);
+                            targetAlly(i);
                         }
 
                         return;
                     }
                 }
 
+                // checking if an enemy was clicked
+                for (int i = 0; i < enemyController.enemyUnits.Length; i++)
+                {
+                    // an enemy was clicked
+                    if (mousePos == enemyController.enemyUnits[i].transform.position && enemyController.enemyStats[i].getIsDead() == false)
+                    {
+                        // if nothing currently targeted
+                        if (currTargeted == null)
+                            targetEnemy(i);
+
+                        // if clicking enemy you already selected
+                        else if (currTargeted.transform.position == mousePos)
+                        {
+                            contextMenu.SetActive(true);
+                            contextMenu.transform.position = Camera.main.WorldToScreenPoint(mousePos + menuOffset);
+
+                            attackButton.interactable = false;
+                            upgradeButton.interactable = false;
+                            inspectButton.interactable = true;
+                            deselectButton.interactable = true;
+                        }
+
+                        // if you have an ally clicked and click an in range enemy
+                        else if (currTargeted != null && isTargetEnemy == false && currTargetedStats.getCanAttack() == true && inAttackRange(mousePos, currTargeted))
+                        {
+                            contextMenu.SetActive(true);
+                            contextMenu.transform.position = Camera.main.WorldToScreenPoint(mousePos + menuOffset);
+
+                            attackButton.interactable = true;
+                            upgradeButton.interactable = true;
+                            inspectButton.interactable = true;
+                            deselectButton.interactable = true;
+                            enemyNum = i; 
+                        }
+
+                        // 
+                        else
+                        {
+                            deselectTarget();
+                            targetEnemy(i);
+                        }
+
+                        return;
+                    }
+
+                }
+
+
                 // clicked in move range, move ally
                 if (currTargeted != null && inMovementRange(mousePos) && currTargetedStats.movLeft > 0 && isTargetEnemy != true)
                 {
+/*                    contextMenu.SetActive(true);
+                    contextMenu.transform.position = Camera.main.WorldToScreenPoint(mousePos);
+
+                    attackButton.interactable = true;
+                    upgradeButton.interactable = true;
+                    inspectButton.interactable = true;
+                    deselectButton.interactable = true;*/
+
+
                     //moveAlly(mousePos);
                     List<PathNode> vectorPath = new List<PathNode>();
                     vectorPath = pathfinding.FindPath((int)currTargeted.transform.position.x, (int)currTargeted.transform.position.y, 
@@ -188,17 +246,67 @@ public class PlayerController : MonoBehaviour
                     {
                         StartCoroutine(movePath(vectorPath));
                         pathfinding.resetCollision();
-/*                        for (int i = 0; i < vectorPath.Count; i++)
+                        /* for (int i = 0; i < vectorPath.Count; i++)
                             Debug.Log(vectorPath[i]);*/
                     }
                 }
-                // clicked nothing and/or outside of moverange, deselect target
+
+                // clicked nothing
                 else
                 {
-                    deselectTarget();
+                    // if have ally selected
+                    if (currTargetedStats.getIsEnemy() == false)
+                    {
+                        contextMenu.SetActive(true);
+                        contextMenu.transform.position = Camera.main.WorldToScreenPoint(mousePos + menuOffset);
+
+                        attackButton.interactable = false;
+                        upgradeButton.interactable = true;
+                        inspectButton.interactable = true;
+                        deselectButton.interactable = true;
+                    }
+                    else
+                    {
+                        contextMenu.SetActive(true);
+                        contextMenu.transform.position = Camera.main.WorldToScreenPoint(mousePos + menuOffset);
+
+                        attackButton.interactable = false;
+                        upgradeButton.interactable = false;
+                        inspectButton.interactable = true;
+                        deselectButton.interactable = true;
+                    }
+
                 }                            
             }
         }
+    }
+
+    public void attackButtonPressed()
+    {
+        beginBattle(enemyNum);
+        contextMenu.SetActive(false);
+    }
+
+    public void upgradeButtonPressed()
+    {
+        gameController.upgradeButtonPressed();
+        contextMenu.SetActive(false);
+    }
+
+    public void inspectButtonPressed()
+    {
+        charInfoPanel.gameObject.SetActive(true);
+        updateCharInfo();
+        hideArea();
+        showArea(currTargeted);
+
+        contextMenu.SetActive(false);
+    }
+
+    public void deselectButtonPressed()
+    {
+        deselectTarget(); 
+        contextMenu.SetActive(false);
     }
 
     public IEnumerator movePath(List<PathNode> vectorPath)
@@ -219,22 +327,7 @@ public class PlayerController : MonoBehaviour
         gameController.changeMode(GameController.gameMode.MapMode);
     }
 
-    public int getGearNum()
-    {
-        return gearAmount;
-    }
 
-    public void setGearNum(int i)
-    {
-        gearAmount = i;
-        gameController.updateGearNumPanel();
-    }
-
-    public void giveGearNum(int i)
-    {
-        gearAmount = gearAmount + i;
-        gameController.updateGearNumPanel();
-    }
 
     void beginBattle(int i)
     {
@@ -331,10 +424,10 @@ public class PlayerController : MonoBehaviour
         currTargeted.transform.GetChild(0).gameObject.SetActive(true);
         //currTargeted.transform.GetChild(1).gameObject.SetActive(true);
 
-        charInfoPanel.gameObject.SetActive(true);
-        updateCharInfo();
+        //charInfoPanel.gameObject.SetActive(true);
+        //updateCharInfo();
         showArea(currTargeted);
-        upgradePanel.SetActive(true);
+        //upgradePanel.SetActive(true);
         gameController.updateUpgradeMenu(currTargeted);
     }
 
@@ -412,10 +505,12 @@ public class PlayerController : MonoBehaviour
         charInfoPanel.gameObject.SetActive(false);
         hideArea();
 
-        if (isTargetEnemy == false)
-        {
-            upgradePanel.SetActive(false);
-        }
+        contextMenu.SetActive(false);
+
+        /*        if (isTargetEnemy == false)
+                {
+                    upgradePanel.SetActive(false);
+                }*/
 
     }
 
@@ -457,8 +552,7 @@ public class PlayerController : MonoBehaviour
     void targetEnemy(int i)
     {
         Debug.Log("Clicked enemy");
-        //Debug.Log("i: " + i);
-        //Debug.Log("playerUnit @ " + i + " is " + playerUnits[i].transform.name);
+        Debug.Log("i: " + i);
         currTargeted = enemyController.enemyUnits[i];
         currTargetedStats = currTargeted.GetComponent<Character>();
         isTargetEnemy = true;
@@ -467,10 +561,10 @@ public class PlayerController : MonoBehaviour
         currTargeted.transform.GetChild(0).gameObject.SetActive(true);
         //currTargeted.transform.GetChild(1).gameObject.SetActive(true);
 
-        charInfoPanel.gameObject.SetActive(true);
-        updateCharInfo();
-        hideArea();
-        showArea(currTargeted);
+        //charInfoPanel.gameObject.SetActive(true);
+        //updateCharInfo();
+        //hideArea();
+        //showArea(currTargeted);
     }
 
     bool inMovementRange(Vector3Int mousePos)
@@ -799,5 +893,28 @@ public class PlayerController : MonoBehaviour
             currTargetedStats.updateStats();            
         }
     }
+
+    public int getGearNum()
+    {
+        return gearAmount;
+    }
+
+    public void setGearNum(int i)
+    {
+        gearAmount = i;
+        gameController.updateGearNumPanel();
+    }
+
+    public void giveGearNum(int i)
+    {
+        gearAmount = gearAmount + i;
+        gameController.updateGearNumPanel();
+    }
+
+    public GameObject getCurrTargeted()
+    {
+        return currTargeted;
+    }
+
 }
 
