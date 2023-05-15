@@ -68,7 +68,11 @@ Hours Breakdown:
 
 Backlog (ordered by importance): 
 <ul>
- <li> Updates from Digital Prototype <em><strong>[] (1 hour)</strong></em> </li>
+ <li> Move-to Attack <em><strong>[] (1 hour)</strong></em> </li>
+ <li> Context attack menu <em><strong>[] (1 hour)</strong></em> </li>
+ <li> Speedup Button <em><strong>[] (1 hour)</strong></em> </li>
+ <li> Let player pick player and enemy colors <em><strong>[] (1 hour)</strong></em> </li>
+ <li> Battle Preview <em><strong>[] (1 hour)</strong></em> </li>
  <li> Start website on main final project page <em><strong>[Krisna] (1 hour)</strong></em> </li>
  <li> Use Djikstras for movement <em><strong>[Sanket + Kobe] (3 hours)</strong></em> </li>
  <li> Rest of the weapons (melee, damaging magic, healing magic) <em><strong>[Nobody] (2 hours)</strong></em> </li>
