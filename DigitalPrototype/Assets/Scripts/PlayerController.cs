@@ -212,7 +212,7 @@ public class PlayerController : MonoBehaviour
                             enemyNum = i; 
                         }
 
-/*                        // if an ally is clicked and click an enemy that can be moved to and attacked
+                        /* // if an ally is clicked and click an enemy that can be moved to and attacked
                         else if (currTargeted != null && isTargetEnemy == false && currTargetedStats.getCanAttack() == true 
                             && inRange(Vector3Int.FloorToInt(enemyController.enemyUnits[i].transform.position)))
                         {
@@ -304,7 +304,7 @@ public class PlayerController : MonoBehaviour
 
     public void attackButtonPressed()
     {
-        int g = 0;
+/*        int g = 0;
         List<PathNode> vectorPath = new List<PathNode>();
         if (!inAttackRange(Vector3Int.FloorToInt(lastClickPos), currTargeted))
         {
@@ -318,10 +318,9 @@ public class PlayerController : MonoBehaviour
         }
 
         if (inAttackRange(Vector3Int.FloorToInt(lastClickPos), currTargeted))
-        {
+        {*/
             beginBattle(enemyNum);
             contextMenu.SetActive(false);
-        }
     }
 
     public void upgradeButtonPressed()

@@ -450,7 +450,6 @@ public class GameController : MonoBehaviour
         {
             playerController.ourTurn = true;
             changeTurn(turnMode.PlayerTurn);
-            resetDelay(); // reset inbetweenAttackDelay in case user skipped battle
             leftStats.setAttack(false);
             rightStats.setAttack(false);
         }
@@ -490,11 +489,6 @@ public class GameController : MonoBehaviour
         gearNumPlus.transform.position = originalPos;
         rI.color = new Color(1, 1, 1, 1);
         gearNumPlus.SetActive(false);
-    }
-
-    public void resetDelay()
-    {
-        inbetweenAttackDelay = 0.5f;
     }
     
     // false == left hurt, true == right hurt
