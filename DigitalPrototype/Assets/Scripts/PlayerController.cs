@@ -38,12 +38,14 @@ public class PlayerController : MonoBehaviour
     public Tile targetTile = null;
     private Vector3Int prevTarget = Vector3Int.zero; 
 
-    public float mapBoundPlusX = 16f;
-    public float mapBoundPlusY = 10f;
-    public float mapBoundMinusX = -16f;
-    public float mapBoundMinusY = -10f;
+    public float mapBoundPlusX = 35;
+    public float mapBoundPlusY = 20;
+    public float mapBoundMinusX = -5f;
+    public float mapBoundMinusY = -5f;
 
     // movement area thingies
+    public Pathfinding pathfinding = null;
+    public Tilemap collisionGrid = null;
     public GameObject moveAreaParent = null;
     public GameObject attackAreaParent = null;
     private GameObject[] moveAreas;
@@ -55,6 +57,7 @@ public class PlayerController : MonoBehaviour
     public Character.weaponType[] weaponsList;
 
     private int gearAmount = 0;
+    private float delay = 0.25f; 
 
     // Start is called before the first frame update
     void Start()
@@ -105,6 +108,8 @@ public class PlayerController : MonoBehaviour
             attackAreas[i] = child.gameObject;
             i += 1;
         }
+
+        pathfinding = new Pathfinding(17, 11, collisionGrid);
     }
 
     // Update is called once per frame
@@ -125,7 +130,7 @@ public class PlayerController : MonoBehaviour
                 Vector3Int mousePos = GetMousePosition();
                 mousePos = new Vector3Int(mousePos.x, mousePos.y, 0);
 
-                Debug.Log("Clicked here: " + mousePos);
+                //Debug.Log("Clicked here: " + mousePos);
                 //Debug.Log("currTargeted is " + currTargeted.name);
                 //Debug.Log("childCount is " + transform.childCount);
                 for (int i = 0; i < transform.childCount; i++)
@@ -174,7 +179,18 @@ public class PlayerController : MonoBehaviour
                 // clicked in move range, move ally
                 if (currTargeted != null && inMovementRange(mousePos) && currTargetedStats.movLeft > 0 && isTargetEnemy != true)
                 {
-                    moveAlly(mousePos);
+                    //moveAlly(mousePos);
+                    List<PathNode> vectorPath = new List<PathNode>();
+                    vectorPath = pathfinding.FindPath((int)currTargeted.transform.position.x, (int)currTargeted.transform.position.y, 
+                        (int)mousePos.x, (int)mousePos.y, currTargetedStats.movLeft);
+
+                    if (vectorPath != null)
+                    {
+                        StartCoroutine(movePath(vectorPath));
+                        pathfinding.resetCollision();
+/*                        for (int i = 0; i < vectorPath.Count; i++)
+                            Debug.Log(vectorPath[i]);*/
+                    }
                 }
                 // clicked nothing and/or outside of moverange, deselect target
                 else
@@ -183,6 +199,24 @@ public class PlayerController : MonoBehaviour
                 }                            
             }
         }
+    }
+
+    public IEnumerator movePath(List<PathNode> vectorPath)
+    {
+        // stop player from ending turn during movement
+        gameController.changeMode(GameController.gameMode.MenuMode);
+
+        for (int i = 1; i < vectorPath.Count; i++)
+        {
+            currTargeted.transform.position = new Vector3(vectorPath[i].x, vectorPath[i].y, 0);
+            currTargetedStats.movLeft--;
+            hideArea();
+            showArea(currTargeted);
+            updateCharInfo();
+            yield return new WaitForSeconds(delay);
+        }
+
+        gameController.changeMode(GameController.gameMode.MapMode);
     }
 
     public int getGearNum()

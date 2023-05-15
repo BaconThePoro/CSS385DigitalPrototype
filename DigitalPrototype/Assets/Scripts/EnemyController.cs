@@ -19,10 +19,12 @@ public class EnemyController : MonoBehaviour
     public Character.bodyType[] bodysList;
     public Character.weaponType[] weaponsList;
     public Tilemap currTilemap = null;
-    public float inBetweenDelay = .3f;
+    public float inBetweenDelay = .75f;
     public bool battleDone = false;
     private int aggroRange = 10;
     private enum direction { left, right, up, down };
+    private List<Vector3> OneRangePath = new List<Vector3>();
+    private List<Vector3> TwoRangePath = new List<Vector3>();
 
     // Start is called before the first frame update
     void Start()
@@ -45,6 +47,11 @@ public class EnemyController : MonoBehaviour
 
             i += 1;
         }
+
+        OneRangePath.Add(new Vector3(1, 0, 0));
+        OneRangePath.Add(new Vector3(-1, 0, 0));
+        OneRangePath.Add(new Vector3(0, 1, 0));
+        OneRangePath.Add(new Vector3(0, -1, 0));
 
         resetDelay();
     }
@@ -72,125 +79,119 @@ public class EnemyController : MonoBehaviour
         gameController.resetDelay();
     }
 
+    public GameObject findClosestTarget(GameObject us)
+    {
+        int shortestVectorHaver = 0;
+        Vector3 shortestVector = new Vector3(999, 999, 0);
+
+        // for all of playerUnits
+        for (int i = 0; i < playerController.playerUnits.Length; i++)
+        {
+            Vector3 distanceVector = playerController.playerUnits[i].transform.position - us.transform.position;
+
+            if (distanceVector.magnitude < shortestVector.magnitude)
+            {
+                shortestVector = distanceVector;
+                shortestVectorHaver = i;
+            }
+                
+        }
+
+        return playerController.playerUnits[shortestVectorHaver];
+    }
+
     public IEnumerator enemyTurn()
     {
         Debug.Log("Enemy Turn start");
         resetDelay();
 
-        // find our target (whoever is closest)
+        // for every enemy unit
         for (int i = 0; i < enemyUnits.Length; i++)
         {
+            GameObject currEnemy = enemyUnits[i];
+            Character currEnemyStats = currEnemy.GetComponent<Character>();
+
             // if their dead skip them
-            if (enemyStats[i].getIsDead() == false)
+            if (currEnemyStats.getIsDead() == false)
             {
+
                 // turn on target reticle for this unit
-                enemyUnits[i].transform.GetChild(0).gameObject.SetActive(true);
+                currEnemy.transform.GetChild(0).gameObject.SetActive(true);
 
-                GameObject target = null;
-                Vector3 targetVector = Vector3.zero;
-                float targetDistance = 999;
+                // find target
+                GameObject target = findClosestTarget(currEnemy);
+                Debug.Log("target is here " + target.transform.position);
 
-                for (int j = 0; j < playerController.playerUnits.Length; j++)
+                // if in range already
+                if (inAttackRange(Vector3Int.FloorToInt(target.transform.position), currEnemy))
                 {
-                    if (playerController.playerStats[j].getIsDead() == false)
-                    {
-                        Vector3 distanceVector = playerController.playerUnits[j].transform.position - enemyUnits[i].transform.position;
-
-                        if (distanceVector.magnitude < targetDistance)
-                        {
-                            target = playerController.playerUnits[j];
-                            targetVector = distanceVector;
-                            targetDistance = distanceVector.magnitude;
-                        }
-                    }
+                    // small delay at the start of every units turn
+                    yield return new WaitForSeconds(inBetweenDelay * 4);
+                    // attack
+                    currEnemy.transform.GetChild(0).gameObject.SetActive(false);
+                    yield return StartCoroutine(beginBattle(i, target));
+                    currEnemy.transform.GetChild(0).gameObject.SetActive(true);
                 }
-
-                // dont chase from beyond 10 squares
-                if (targetDistance < aggroRange)
+                // have to move
+                else
                 {
+                    //facingWhere(currEnemy.transform.position, target.transform.position);
+                    int oldGCost = 0;
+                    int newGCost = 0;
 
-                    // if in range already
-                    if (inAttackRange(Vector3Int.FloorToInt(target.transform.position), enemyUnits[i]))
+                    List<PathNode> vectorPath = new List<PathNode>();
+                    vectorPath = playerController.pathfinding.FindEnemyPath((int)currEnemy.transform.position.x, (int)currEnemy.transform.position.y,
+                       (int)target.transform.position.x, (int)target.transform.position.y, currEnemyStats.movLeft, ref oldGCost);
+
+                    List<PathNode> bestPath = new List<PathNode>();
+                    bestPath = vectorPath; 
+
+                    for (int j = 0; j < OneRangePath.Count; j++)
+                    {
+                        Debug.Log("trying target: " + ((int)target.transform.position.x + (int)OneRangePath[j].x) +
+                            ", " + ((int)target.transform.position.y + (int)OneRangePath[j].y));
+
+                        vectorPath = playerController.pathfinding.FindEnemyPath((int)currEnemy.transform.position.x, (int)currEnemy.transform.position.y,
+                            ((int)target.transform.position.x + (int)OneRangePath[j].x), ((int)target.transform.position.y + (int)OneRangePath[j].y), 
+                            currEnemyStats.movLeft, ref newGCost);
+
+                        if (vectorPath != null && newGCost < oldGCost)
+                        {
+                            oldGCost = newGCost;
+                            bestPath = vectorPath;
+
+                            for (int k = 0; k < bestPath.Count; k++)
+                                Debug.Log("VectorPath[" + k + "]: " + vectorPath[k]);
+                        }
+                        else
+                            Debug.Log("VectorPath: null");
+                    }
+
+                    if (bestPath != null)
+                    {
+                        yield return StartCoroutine(movePath(bestPath, currEnemy));
+                        playerController.pathfinding.resetCollision();
+
+                        for (int j = 0; j < bestPath.Count; j++)
+                            Debug.Log("BestPath: " + bestPath[j]);
+                    }
+                    else
+                        Debug.Log("best path for enemy is null");
+                        
+
+                    // try attack at end of move
+                    if (inAttackRange(Vector3Int.FloorToInt(target.transform.position), currEnemy))
                     {
                         // small delay at the start of every units turn
                         yield return new WaitForSeconds(inBetweenDelay * 4);
                         // attack
-                        enemyUnits[i].transform.GetChild(0).gameObject.SetActive(false);
+                        currEnemy.transform.GetChild(0).gameObject.SetActive(false);
                         yield return StartCoroutine(beginBattle(i, target));
-                        enemyUnits[i].transform.GetChild(0).gameObject.SetActive(true);
-                    }
-                    else
-                    {
-
-                        for (enemyStats[i].movLeft = enemyStats[i].movLeft; enemyStats[i].movLeft > 0; enemyStats[i].movLeft--)
-                        {
-                            //Debug.Log("Target Vector: " + targetVector);
-
-                            // small delay at the start of every units turn
-                            yield return new WaitForSeconds(inBetweenDelay);
-
-                            // if target is in a straight line
-                            if ((Mathf.Abs(targetVector.normalized.x) == 1 || Mathf.Abs(targetVector.normalized.y) == 1)
-                                && playerController.unitHere(Vector3Int.FloorToInt(enemyUnits[i].transform.position + targetVector.normalized)) == false)
-                            {
-                                enemyUnits[i].transform.position = enemyUnits[i].transform.position + targetVector.normalized;
-                            }
-                            // target is not in a straight line
-                            else
-                            {
-                                float xMov = 0;
-                                float yMov = 0;
-
-                                if (targetVector.x < 0)
-                                    xMov = -1;
-                                else
-                                    xMov = 1;
-
-                                if (targetVector.y < 0)
-                                    yMov = -1;
-                                else
-                                    yMov = 1;
-
-                                Vector3 targetXPos = enemyUnits[i].transform.position + new Vector3(xMov, 0, 0);
-                                Vector3 targetYPos = enemyUnits[i].transform.position + new Vector3(0, yMov, 0);
-
-                                // try move vertically
-                                if (playerController.unitHere(Vector3Int.FloorToInt(targetYPos)) == false)
-                                {
-                                    enemyUnits[i].transform.position = targetYPos;
-                                }
-                                // try move horizontally
-                                else if (playerController.unitHere(Vector3Int.FloorToInt(targetXPos)) == false)
-                                {
-                                    enemyUnits[i].transform.position = targetXPos;
-                                }
-                                // both sides occupied, cant move
-                                else
-                                {
-                                    break;
-                                }
-
-                            }
-
-                            // recalc target vector since we moved
-                            targetVector = target.transform.position - enemyUnits[i].transform.position;
-
-                            // check if in range
-                            if (inAttackRange(Vector3Int.FloorToInt(target.transform.position), enemyUnits[i]))
-                            {
-                                // small delay at the start of every units turn
-                                yield return new WaitForSeconds(inBetweenDelay * 4);
-                                // attack
-                                enemyUnits[i].transform.GetChild(0).gameObject.SetActive(false);
-                                yield return StartCoroutine(beginBattle(i, target));
-                                enemyUnits[i].transform.GetChild(0).gameObject.SetActive(true);
-                                enemyStats[i].movLeft = 0;
-                            }
-                        }
+                        currEnemy.transform.GetChild(0).gameObject.SetActive(true);
                     }
                 }
             }
-
+            
             yield return new WaitForSeconds(inBetweenDelay);
             // disable target reticle
             enemyUnits[i].transform.GetChild(0).gameObject.SetActive(false);
@@ -207,6 +208,33 @@ public class EnemyController : MonoBehaviour
         Debug.Log("Enemy turn end");
         playerController.resetAllAttack();
         playerController.resetAllMove();
+    }
+
+    public IEnumerator movePath(List<PathNode> vectorPath, GameObject currEnemy)
+    {
+        // stop player from ending turn during movement
+        //gameController.changeMode(GameController.gameMode.MenuMode);
+        
+        // first Node is its own position must remove
+        vectorPath.RemoveAt(0);
+
+        for (int i = 0; i < vectorPath.Count; i++)
+        {
+            if (vectorPath[i].isWalkable)
+            {
+                if ((vectorPath[i].x - currEnemy.transform.position.x) == 1 || ((vectorPath[i].y - currEnemy.transform.position.y) == -1))
+                    currEnemy.transform.rotation = new Quaternion(0f, 0f, 0f, 1f);
+                else
+                    currEnemy.transform.rotation = new Quaternion(0f, 180f, 0f, 1f);
+
+                currEnemy.transform.position = new Vector3(vectorPath[i].x, vectorPath[i].y, 0);
+                currEnemy.GetComponent<Character>().movLeft--;
+                yield return new WaitForSeconds(inBetweenDelay);
+            }
+        }
+
+
+        //gameController.changeMode(GameController.gameMode.MapMode);
     }
 
     bool inAttackRange(Vector3Int targetPos, GameObject unit)
