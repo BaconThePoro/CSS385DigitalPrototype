@@ -56,12 +56,12 @@ Tutorial:
 
 Hours Breakdown: 
 <ul>
-  <li> Total Hours: ~33 hours </li>
-  <li> Kobe Kamin: 13 hours </li>
-  <li> Jacob Tea: 7 hours </li>
-  <li> Sanket Karna: 6 hours </li>
-  <li> Krisna Oeurn: 3 hours </li>
-  <li> Sandesh Rai: 5 hours </li>
+  <li> Total Hours: ~48 hours </li>
+  <li> Kobe Kamin: 16 hours </li>
+  <li> Jacob Tea: 10 hours </li>
+  <li> Sanket Karna: 9 hours </li>
+  <li> Krisna Oeurn: 6 hours </li>
+  <li> Sandesh Rai: 7 hours </li>
  </ul>
 
 ***
@@ -73,9 +73,6 @@ Backlog (ordered by importance):
  <li> Speedup Button <em><strong>[] (1 hour)</strong></em> </li>
  <li> Let player pick player and enemy colors <em><strong>[] (1 hour)</strong></em> </li>
  <li> Battle Preview <em><strong>[] (1 hour)</strong></em> </li>
- <li> Start website on main final project page <em><strong>[Krisna] (1 hour)</strong></em> </li>
- <li> Use Djikstras for movement <em><strong>[Sanket + Kobe] (3 hours)</strong></em> </li>
- <li> Rest of the weapons (melee, damaging magic, healing magic) <em><strong>[Nobody] (2 hours)</strong></em> </li>
  <li> Level design <em><strong>[Nobody] (>4 hours)</strong></em>  </li>
  <li> Sprites! <em><strong>[Sandesh] (>4 hours)</strong></em> </li>
  <li> Improve Animations <em><strong>[Nobody] (>4 hours) </strong></em> </li>
@@ -110,4 +107,7 @@ Completed:
  <li> Upgrade system/menu <em><strong>[Kobe] (3 hour)</strong></em>  </li>
  <li> Main menu mockup <em><strong>[Jacob] (30min)</strong></em>  </li>
  <li> Tutorial/How-to-play menu <em><strong>[Jacob + Sanket + Sandesh] (2 hours)</strong></em>  </li>
+ <li> Use A* Pathfinding for movement <em><strong>[Sanket + Kobe + Jacob] (3 hours)</strong></em> </li>
+ <li> Start website on main final project page <em><strong>[Krisna] (1 hour)</strong></em> </li>
+ <li> Rest of the weapons (melee, damaging magic, healing magic) <em><strong>[Krisna + Sandesh] (2 hours)</strong></em> </li>
 </ul>
