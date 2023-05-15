@@ -193,7 +193,7 @@ public class Character : MonoBehaviour
             SPDMOD = 0;
             MOVMOD = 0;
         }
-        // axe (+3 STR, -3 SPD)
+        // axe 
         else if (currWeapon == weaponType.Axe)
         {
             attackRange = 1;
@@ -207,7 +207,7 @@ public class Character : MonoBehaviour
             SPDMOD = -3;
             MOVMOD = 0;
         }
-        // spear (+3 DEF, -3 RES)
+        // spear 
         else if (currWeapon == weaponType.Spear)
         {
             attackRange = 1;
@@ -222,7 +222,7 @@ public class Character : MonoBehaviour
             MOVMOD = 0;
         }
         // bow + fire tome + healing tome (no stat change)
-        else if (currWeapon == weaponType.Bow || currWeapon == weaponType.FireTome)
+        else if (currWeapon == weaponType.Bow || currWeapon == weaponType.AirTome)
         {
             attackRange = 2;
 
@@ -246,6 +246,48 @@ public class Character : MonoBehaviour
             DEFMOD = 0;
             RESMOD = 0;
             SPDMOD = 3;
+            MOVMOD = 0;
+        }
+        // ice
+        else if (currWeapon == weaponType.IceTome)
+        {
+            attackRange = 2;
+
+            // +2 DEF, +1 RES, -2 MAG
+            HPMOD = 0;
+            STRMOD = 0;
+            MAGMOD = -2;
+            DEFMOD = 2;
+            RESMOD = 1;
+            SPDMOD = 0;
+            MOVMOD = 0;
+        }
+        // air
+        else if (currWeapon == weaponType.FireTome)
+        {
+            attackRange = 2;
+
+            // +3 MAG, -2 DEF, -2 RES
+            HPMOD = 0;
+            STRMOD = 0;
+            MAGMOD = 3;
+            DEFMOD = -2;
+            RESMOD = -2;
+            SPDMOD = 0;
+            MOVMOD = 0;
+        }
+        // water
+        else if (currWeapon == weaponType.WaterTome)
+        {
+            attackRange = 2;
+
+            // 
+            HPMOD = 0;
+            STRMOD = 0;
+            MAGMOD = 0;
+            DEFMOD = 0;
+            RESMOD = 0;
+            SPDMOD = 0;
             MOVMOD = 0;
         }
 

@@ -19,7 +19,7 @@ public class EnemyController : MonoBehaviour
     public Character.bodyType[] bodysList;
     public Character.weaponType[] weaponsList;
     public Tilemap currTilemap = null;
-    public float inBetweenDelay = .75f;
+    public float inBetweenDelay = 1f;
     public bool battleDone = false;
     private int aggroRange = 10;
     private enum direction { left, right, up, down };
@@ -52,6 +52,14 @@ public class EnemyController : MonoBehaviour
         OneRangePath.Add(new Vector3(-1, 0, 0));
         OneRangePath.Add(new Vector3(0, 1, 0));
         OneRangePath.Add(new Vector3(0, -1, 0));
+        TwoRangePath.Add(new Vector3(2, 0, 0));
+        TwoRangePath.Add(new Vector3(-2, 0, 0));
+        TwoRangePath.Add(new Vector3(0, 2, 0));
+        TwoRangePath.Add(new Vector3(0, -2, 0));
+        TwoRangePath.Add(new Vector3(1, 1, 0));
+        TwoRangePath.Add(new Vector3(-1, 1, 0));
+        TwoRangePath.Add(new Vector3(1, -1, 0));
+        TwoRangePath.Add(new Vector3(-1, -1, 0));
 
         resetDelay();
     }
@@ -117,6 +125,7 @@ public class EnemyController : MonoBehaviour
 
                 // turn on target reticle for this unit
                 currEnemy.transform.GetChild(0).gameObject.SetActive(true);
+                yield return new WaitForSeconds(inBetweenDelay);
 
                 // find target
                 GameObject target = findClosestTarget(currEnemy);
