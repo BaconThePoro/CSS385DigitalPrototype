@@ -56,8 +56,8 @@ Tutorial:
 
 Hours Breakdown: 
 <ul>
-  <li> Total Hours: ~48 hours </li>
-  <li> Kobe Kamin: 16 hours </li>
+  <li> Total Hours: ~49 hours </li>
+  <li> Kobe Kamin: 17 hours </li>
   <li> Jacob Tea: 10 hours </li>
   <li> Sanket Karna: 9 hours </li>
   <li> Krisna Oeurn: 6 hours </li>
@@ -70,7 +70,6 @@ Backlog (ordered by importance):
 <ul>
  <li> Move-to Attack <em><strong>[] (1 hour)</strong></em> </li>
  <li> Context attack menu <em><strong>[] (1 hour)</strong></em> </li>
- <li> Speedup Button <em><strong>[] (1 hour)</strong></em> </li>
  <li> Let player pick player and enemy colors <em><strong>[] (1 hour)</strong></em> </li>
  <li> Battle Preview <em><strong>[] (1 hour)</strong></em> </li>
  <li> Level design <em><strong>[Nobody] (>4 hours)</strong></em>  </li>
@@ -110,4 +109,5 @@ Completed:
  <li> Use A* Pathfinding for movement <em><strong>[Sanket + Kobe + Jacob] (3 hours)</strong></em> </li>
  <li> Start website on main final project page <em><strong>[Krisna] (1 hour)</strong></em> </li>
  <li> Rest of the weapons (melee, damaging magic, healing magic) <em><strong>[Krisna + Sandesh] (2 hours)</strong></em> </li>
+  <li> Speedup Button <em><strong>[Kobe] (1 hour)</strong></em> </li>
 </ul>
