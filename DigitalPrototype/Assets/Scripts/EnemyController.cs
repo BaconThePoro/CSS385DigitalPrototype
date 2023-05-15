@@ -93,14 +93,16 @@ public class EnemyController : MonoBehaviour
         // for all of playerUnits
         for (int i = 0; i < playerController.playerUnits.Length; i++)
         {
-            Vector3 distanceVector = playerController.playerUnits[i].transform.position - us.transform.position;
-
-            if (distanceVector.magnitude < shortestVector.magnitude)
+            if (playerController.playerStats[i].getIsDead() == false)
             {
-                shortestVector = distanceVector;
-                shortestVectorHaver = i;
-            }
-                
+                Vector3 distanceVector = playerController.playerUnits[i].transform.position - us.transform.position;
+
+                if (distanceVector.magnitude < shortestVector.magnitude)
+                {
+                    shortestVector = distanceVector;
+                    shortestVectorHaver = i;
+                }
+            }   
         }
 
         return playerController.playerUnits[shortestVectorHaver];

@@ -407,7 +407,7 @@ public class GameController : MonoBehaviour
         // first attacks
         if (firstStats.getAttackRange() >= battleRange)
         {
-            StartCoroutine(LerpPosition(firstAttacker, firstAttacker.transform.position + firstAttacker.transform.right, animationDuration));
+            yield return StartCoroutine(LerpPosition(firstAttacker, firstAttacker.transform.position + firstAttacker.transform.right, animationDuration));
             yield return new WaitForSeconds(inbetweenAttackDelay);
             yield return StartCoroutine(updateDamageTXT(secondAttacker, Attack(firstStats, secondStats))); // person taking damage and damage value
             updateBattleStats(leftStats, rightStats);
@@ -419,7 +419,7 @@ public class GameController : MonoBehaviour
         // second attack
         if (secondStats.getAttackRange() >= battleRange)
         {
-            StartCoroutine(LerpPosition(secondAttacker, secondAttacker.transform.position + secondAttacker.transform.right, animationDuration));
+            yield return StartCoroutine(LerpPosition(secondAttacker, secondAttacker.transform.position + secondAttacker.transform.right, animationDuration));
             yield return new WaitForSeconds(inbetweenAttackDelay);
             yield return StartCoroutine(updateDamageTXT(firstAttacker, Attack(secondStats, firstStats))); // person taking damage and damage value
             updateBattleStats(leftStats, rightStats);
