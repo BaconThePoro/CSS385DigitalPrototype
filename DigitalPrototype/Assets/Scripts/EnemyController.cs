@@ -135,37 +135,7 @@ public class EnemyController : MonoBehaviour
                 // have to move
                 else
                 {
-                    //facingWhere(currEnemy.transform.position, target.transform.position);
-                    int oldGCost = 0;
-                    int newGCost = 0;
-
-                    List<PathNode> vectorPath = new List<PathNode>();
-                    vectorPath = playerController.pathfinding.FindEnemyPath((int)currEnemy.transform.position.x, (int)currEnemy.transform.position.y,
-                       (int)target.transform.position.x, (int)target.transform.position.y, currEnemyStats.movLeft, ref oldGCost);
-
-                    List<PathNode> bestPath = new List<PathNode>();
-                    bestPath = vectorPath; 
-
-                    for (int j = 0; j < OneRangePath.Count; j++)
-                    {
-                        Debug.Log("trying target: " + ((int)target.transform.position.x + (int)OneRangePath[j].x) +
-                            ", " + ((int)target.transform.position.y + (int)OneRangePath[j].y));
-
-                        vectorPath = playerController.pathfinding.FindEnemyPath((int)currEnemy.transform.position.x, (int)currEnemy.transform.position.y,
-                            ((int)target.transform.position.x + (int)OneRangePath[j].x), ((int)target.transform.position.y + (int)OneRangePath[j].y), 
-                            currEnemyStats.movLeft, ref newGCost);
-
-                        if (vectorPath != null && newGCost < oldGCost)
-                        {
-                            oldGCost = newGCost;
-                            bestPath = vectorPath;
-
-                            for (int k = 0; k < bestPath.Count; k++)
-                                Debug.Log("VectorPath[" + k + "]: " + vectorPath[k]);
-                        }
-                        else
-                            Debug.Log("VectorPath: null");
-                    }
+                    List<PathNode> bestPath = findBestOverall(currEnemy);
 
                     if (bestPath != null)
                     {
@@ -192,7 +162,7 @@ public class EnemyController : MonoBehaviour
                 }
             }
             
-            yield return new WaitForSeconds(inBetweenDelay);
+            yield return new WaitForSeconds(inBetweenDelay * 2);
             // disable target reticle
             enemyUnits[i].transform.GetChild(0).gameObject.SetActive(false);
         }
@@ -210,8 +180,70 @@ public class EnemyController : MonoBehaviour
         playerController.resetAllMove();
     }
 
+    public List<PathNode> findBestForOne(GameObject currEnemy, GameObject target, ref int g)
+    {
+        Character currEnemyStats = currEnemy.GetComponent<Character>();
+
+        //facingWhere(currEnemy.transform.position, target.transform.position);
+        int oldGCost = 0;
+        int newGCost = 0;
+
+        List<PathNode> vectorPath = new List<PathNode>();
+        vectorPath = playerController.pathfinding.FindEnemyPath((int)currEnemy.transform.position.x, (int)currEnemy.transform.position.y,
+           (int)target.transform.position.x, (int)target.transform.position.y, currEnemyStats.movLeft, ref oldGCost);
+
+        List<PathNode> bestPath = new List<PathNode>();
+        bestPath = vectorPath;
+
+        for (int j = 0; j < OneRangePath.Count; j++)
+        {
+            Debug.Log("trying target: " + ((int)target.transform.position.x + (int)OneRangePath[j].x) +
+                ", " + ((int)target.transform.position.y + (int)OneRangePath[j].y));
+
+            vectorPath = playerController.pathfinding.FindEnemyPath((int)currEnemy.transform.position.x, (int)currEnemy.transform.position.y,
+                ((int)target.transform.position.x + (int)OneRangePath[j].x), ((int)target.transform.position.y + (int)OneRangePath[j].y),
+                currEnemyStats.movLeft, ref newGCost);
+
+            if (vectorPath != null && newGCost < oldGCost)
+            {
+                oldGCost = newGCost;
+                bestPath = vectorPath;
+
+                for (int k = 0; k < bestPath.Count; k++)
+                    Debug.Log("VectorPath[" + k + "]: " + vectorPath[k]);
+            }
+            else
+                Debug.Log("VectorPath: null");
+        }
+
+        g = oldGCost; 
+        return bestPath;
+    }
+
+    public List<PathNode> findBestOverall (GameObject currEnemy)
+    {
+        int oldG = 99999;
+        int newG = 99999;
+        List<PathNode> vectorPath = new List<PathNode>();
+        List<PathNode> bestPath = new List<PathNode>();
+
+        for (int i = 0; i < playerController.playerUnits.Length; i++)
+        {
+            vectorPath = findBestForOne(currEnemy, playerController.playerUnits[i], ref newG);
+
+            if (vectorPath != null && newG < oldG)
+            {
+                oldG = newG;
+                bestPath = vectorPath; 
+            }
+        }
+
+        return bestPath;
+    }
+
     public IEnumerator movePath(List<PathNode> vectorPath, GameObject currEnemy)
     {
+        Character currEnemyStats = currEnemy.GetComponent<Character>();
         // stop player from ending turn during movement
         //gameController.changeMode(GameController.gameMode.MenuMode);
         
@@ -220,17 +252,19 @@ public class EnemyController : MonoBehaviour
 
         for (int i = 0; i < vectorPath.Count; i++)
         {
-            if (vectorPath[i].isWalkable)
+            if (vectorPath[i].isWalkable && currEnemyStats.movLeft > -99)
             {
-                if ((vectorPath[i].x - currEnemy.transform.position.x) == 1 || ((vectorPath[i].y - currEnemy.transform.position.y) == -1))
+                if ((vectorPath[i].x - currEnemy.transform.position.x) == 1)
                     currEnemy.transform.rotation = new Quaternion(0f, 0f, 0f, 1f);
-                else
+                else if ((vectorPath[i].x - currEnemy.transform.position.x) == -1)
                     currEnemy.transform.rotation = new Quaternion(0f, 180f, 0f, 1f);
 
                 currEnemy.transform.position = new Vector3(vectorPath[i].x, vectorPath[i].y, 0);
-                currEnemy.GetComponent<Character>().movLeft--;
+                currEnemyStats.movLeft--;
                 yield return new WaitForSeconds(inBetweenDelay);
             }
+            else
+                break;
         }
 
 
