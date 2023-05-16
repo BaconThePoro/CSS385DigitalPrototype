@@ -287,12 +287,14 @@ public class PlayerController : MonoBehaviour
 
     public void moveButtonPressed()
     {
+        
         List<PathNode> vectorPath = new List<PathNode>();
         vectorPath = pathfinding.FindPath((int)currTargeted.transform.position.x, (int)currTargeted.transform.position.y,
             (int)lastClickPos.x, (int)lastClickPos.y, currTargetedStats.movLeft);
 
         if (vectorPath != null)
         {
+            ourTurn = false;
             StartCoroutine(movePath(vectorPath));
             pathfinding.resetCollision();
             /* for (int i = 0; i < vectorPath.Count; i++)
@@ -361,6 +363,7 @@ public class PlayerController : MonoBehaviour
         }
 
         gameController.changeMode(GameController.gameMode.MapMode);
+        ourTurn = true;
     }
 
 
