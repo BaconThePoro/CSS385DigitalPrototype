@@ -49,8 +49,8 @@ Tutorial:
 
 Hours Breakdown: 
 <ul>
-  <li> Total Hours: ~50 hours </li>
-  <li> Kobe Kamin: 17 hours </li>
+  <li> Total Hours: ~51 hours </li>
+  <li> Kobe Kamin: 18 hours </li>
   <li> Jacob Tea: 11 hours </li>
   <li> Sanket Karna: 9 hours </li>
   <li> Krisna Oeurn: 6 hours </li>
@@ -104,4 +104,5 @@ Completed:
  <li> Rest of the weapons (melee, damaging magic, healing magic) <em><strong>[Krisna + Sandesh] (2 hours)</strong></em> </li>
  <li> Speedup Button <em><strong>[Kobe] (1 hour)</strong></em> </li>
  <li> Context attack menu <em><strong>[Jacob] (1 hour)</strong></em> </li>
+ <li> Reworked context menu <em><strong>[Kobe] (1 hour)</strong></em> </li>
 </ul>
