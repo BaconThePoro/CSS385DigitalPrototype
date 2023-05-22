@@ -46,6 +46,10 @@ public class PlayerController : MonoBehaviour
     // movement area thingies
     public Pathfinding pathfinding = null;
     public Tilemap collisionGrid = null;
+    public Tilemap overlapGrid = null;
+    public Tile moveTile = null;
+    private bool moveActive = false;
+    private bool attackActive = false;
     public GameObject moveAreaParent = null;
     public GameObject attackAreaParent = null;
     private GameObject[] moveAreas;
@@ -64,7 +68,7 @@ public class PlayerController : MonoBehaviour
     private Button inspectButton = null;
     private Button deselectButton = null;
     private int enemyNum = 0;
-    private Vector3 menuOffset = new Vector3(2f, 1, 0);
+    private Vector3 menuOffset = new Vector3(2f, -1f, 0);
     private Vector3 lastClickPos = Vector3.zero;
 
     private int gearAmount = 0;
@@ -153,28 +157,9 @@ public class PlayerController : MonoBehaviour
                     // an ally was clicked
                     if (mousePos == playerUnits[i].transform.position && playerStats[i].getIsDead() == false)
                     {
-                        // if nothing currently targeted
-                        if (currTargeted == null)
-                            targetAlly(i);
-
-                        // if clicking ally you already selected
-                        else if (currTargeted.transform.position == mousePos)
-                        {
-                            openContextMenu(mousePos);
-                            moveButton.interactable = false;
-                            attackButton.interactable = false;
-                            upgradeButton.interactable = true;
-                            inspectButton.interactable = true;
-                            deselectButton.interactable = true;
-                        }
-
-                        // another ally clicked
-                        else
-                        {
-                            deselectTarget();
-                            targetAlly(i);
-                        }
-
+                        deselectTarget();
+                        targetAlly(i); 
+                        openContextMenu(mousePos);
                         return;
                     }
                 }
@@ -185,95 +170,53 @@ public class PlayerController : MonoBehaviour
                     // an enemy was clicked
                     if (mousePos == enemyController.enemyUnits[i].transform.position && enemyController.enemyStats[i].getIsDead() == false)
                     {
-                        // if nothing currently targeted
-                        if (currTargeted == null)
-                            targetEnemy(i);
-
-                        // if clicking enemy you already selected
-                        else if (currTargeted.transform.position == mousePos)
+                        // attackRing is active
+                        if (attackActive == true)
                         {
-                            openContextMenu(mousePos);
-                            moveButton.interactable = false;
-                            attackButton.interactable = false;
-                            upgradeButton.interactable = false;
-                            inspectButton.interactable = true;
-                            deselectButton.interactable = true;
+                            if (currTargetedStats.getCanAttack() == true &&
+                                inAttackRange(Vector3Int.FloorToInt(enemyController.enemyUnits[i].transform.position), currTargeted) == true)
+                            {
+                                beginBattle(i);
+                                return;
+                            }
                         }
 
-                        // if you have an ally clicked and click an enemy already in attack range
-                        else if (currTargeted != null && isTargetEnemy == false && currTargetedStats.getCanAttack() == true && inAttackRange(mousePos, currTargeted))
-                        {
-                            openContextMenu(mousePos);
-                            moveButton.interactable = false;
-                            attackButton.interactable = true;
-                            upgradeButton.interactable = true;
-                            inspectButton.interactable = true;
-                            deselectButton.interactable = true;
-                            enemyNum = i; 
-                        }
-
-                        /* // if an ally is clicked and click an enemy that can be moved to and attacked
-                        else if (currTargeted != null && isTargetEnemy == false && currTargetedStats.getCanAttack() == true 
-                            && inRange(Vector3Int.FloorToInt(enemyController.enemyUnits[i].transform.position)))
-                        {
-                            openContextMenu(mousePos);
-                            moveButton.interactable = false;
-                            attackButton.interactable = true;
-                            upgradeButton.interactable = true;
-                            inspectButton.interactable = true;
-                            deselectButton.interactable = true;
-                            lastClickPos = mousePos;
-                        }*/
-                                
-                        else
-                        {
-                            deselectTarget();
-                            targetEnemy(i);
-                        }
-
+                        deselectTarget();
+                        targetEnemy(i);
+                        openContextMenu(mousePos);
                         return;
                     }
-
                 }
 
-
-                // clicked in move range, move ally
-                if (currTargeted != null && inMovementRange(mousePos) && currTargetedStats.movLeft > 0 && isTargetEnemy != true)
+                // player clicked move
+                if (moveActive == true)
                 {
-                    openContextMenu(mousePos);
-                    moveButton.interactable = true;
-                    attackButton.interactable = false;
-                    upgradeButton.interactable = true;
-                    inspectButton.interactable = true;
-                    deselectButton.interactable = true;
-                    lastClickPos = mousePos;
+                    List<PathNode> vectorPath = new List<PathNode>();
+                    vectorPath = pathfinding.FindPath((int)currTargeted.transform.position.x, (int)currTargeted.transform.position.y,
+                    mousePos.x, mousePos.y, currTargetedStats.movLeft);
+
+                    // valid moveable path
+                    if (vectorPath != null)
+                    {
+                        //ourTurn = false;
+                        StartCoroutine(movePath(vectorPath));
+                        pathfinding.resetCollision();
+                    }
+                    // invalid path 
+                    else
+                    {
+                        deselectTarget();
+                    }
+
+                    // unhighlight moveTiles
+                    overlapGrid.ClearAllTiles();
+                    moveActive = false;
+                    return;
                 }
 
                 // clicked nothing
-                else
-                {
-                    // if have ally selected
-                    if (currTargeted != null && currTargetedStats.getIsEnemy() == false)
-                    {
-                        openContextMenu(mousePos);
-                        moveButton.interactable = false;
-                        attackButton.interactable = false;
-                        upgradeButton.interactable = true;
-                        inspectButton.interactable = true;
-                        deselectButton.interactable = true;
-                    }
-                    // if you have anything selected
-                    else if (currTargeted != null)
-                    {
-                        openContextMenu(mousePos);
-                        moveButton.interactable = false;
-                        attackButton.interactable = false;
-                        upgradeButton.interactable = false;
-                        inspectButton.interactable = true;
-                        deselectButton.interactable = true;
-                    }
-
-                }                            
+                deselectTarget();
+                contextMenu.SetActive(false);
             }
         }
     }
@@ -282,47 +225,122 @@ public class PlayerController : MonoBehaviour
     {
         contextMenu.SetActive(true);
         contextMenu.transform.position = Camera.main.WorldToScreenPoint(mousePos + menuOffset);
-        
+
+        // if ally
+        if (currTargetedStats.getIsEnemy() == false)
+        {
+            charInfoPanel.gameObject.SetActive(true);
+            updateCharInfo();
+            //hideArea();
+            //showArea(currTargeted);
+
+            // move button
+            if (currTargetedStats.movLeft > 0)
+            {
+                moveButton.interactable = true;
+            }
+            else
+            {
+                moveButton.interactable = false;
+                moveActive = false;
+            }
+
+            // attack button
+            if (currTargetedStats.getCanAttack() == true)
+            {
+                attackButton.interactable = true;
+            }
+            else
+            {
+                attackButton.interactable = false;
+            }
+
+            // upgrade button
+            upgradeButton.interactable = true;
+
+            // inspect button
+            inspectButton.interactable = true;
+
+            // deselect button
+            deselectButton.interactable = true;
+        }
+
+        // if enemy
+        else
+        {
+            charInfoPanel.gameObject.SetActive(true);
+            updateCharInfo();
+            //hideArea();
+            //showArea(currTargeted);
+
+            moveButton.interactable = false;
+            attackButton.interactable = false;
+            upgradeButton.interactable = false;
+            inspectButton.interactable = true;
+            deselectButton.interactable = true; 
+        }
     }
 
     public void moveButtonPressed()
     {
-        
+        moveActive = true;
+        attackActive = false;
         List<PathNode> vectorPath = new List<PathNode>();
-        vectorPath = pathfinding.FindPath((int)currTargeted.transform.position.x, (int)currTargeted.transform.position.y,
-            (int)lastClickPos.x, (int)lastClickPos.y, currTargetedStats.movLeft);
+        Vector3Int currPos = Vector3Int.FloorToInt(currTargeted.transform.position);
+        int currMov = currTargetedStats.movLeft;
 
-        if (vectorPath != null)
+        Debug.Log("movLeft: " + currMov + "   currPos: " + currPos.x + ", " + currPos.y);
+
+        // highlighting moveable tiles
+        for (int i = -currMov; i <= currMov; i++)
         {
-            ourTurn = false;
-            StartCoroutine(movePath(vectorPath));
-            pathfinding.resetCollision();
-            /* for (int i = 0; i < vectorPath.Count; i++)
-                Debug.Log(vectorPath[i]);*/
+            for (int j = -currMov; j <= currMov; j++)
+            {
+                vectorPath = pathfinding.FindPath(currPos.x, currPos.y, 
+                    currPos.x + i, currPos.y + j, currMov);
+
+                // Debug Stuff
+/*                if (vectorPath != null)
+                {
+                    for (int k = 0; k < vectorPath.Count; k++)
+                        Debug.Log(vectorPath[k]);
+                }
+                else
+                {
+                    Debug.Log("vectorPath is null"); 
+                }*/
+
+
+                // if path exists
+                if (vectorPath != null)
+                {
+                    Vector3Int newPos = new Vector3Int(currPos.x + i, currPos.y + j, 0);
+                    overlapGrid.SetTile(newPos, moveTile);
+                }
+            }
         }
 
         contextMenu.SetActive(false);
     }
 
+
     public void attackButtonPressed()
     {
-/*        int g = 0;
-        List<PathNode> vectorPath = new List<PathNode>();
-        if (!inAttackRange(Vector3Int.FloorToInt(lastClickPos), currTargeted))
+        attackActive = true;
+        if (currTargetedStats.getAttackRange() == 1)
         {
-            vectorPath = enemyController.findBestForOne(currTargeted, enemyController.enemyUnits[enemyNum], ref g);
+            attackAreas[0].gameObject.SetActive(true);
+            attackAreas[0].transform.position = currTargeted.transform.position;
+        }
+        else
+        {
+            attackAreas[0].gameObject.SetActive(true);
+            attackAreas[0].transform.position = currTargeted.transform.position;
+            attackAreas[1].gameObject.SetActive(true);
+            attackAreas[1].transform.position = currTargeted.transform.position;
         }
 
-        if (vectorPath != null)
-        {
-            for (int i = 0; i < vectorPath.Count; i++)
-                Debug.Log("VectorPath[" + i + "]: " + vectorPath[i]);
-        }
-
-        if (inAttackRange(Vector3Int.FloorToInt(lastClickPos), currTargeted))
-        {*/
-            beginBattle(enemyNum);
-            contextMenu.SetActive(false);
+        contextMenu.SetActive(false);
     }
 
     public void upgradeButtonPressed()
@@ -337,7 +355,6 @@ public class PlayerController : MonoBehaviour
         updateCharInfo();
         hideArea();
         showArea(currTargeted);
-
         contextMenu.SetActive(false);
     }
 
@@ -347,8 +364,10 @@ public class PlayerController : MonoBehaviour
         contextMenu.SetActive(false);
     }
 
+
     public IEnumerator movePath(List<PathNode> vectorPath)
     {
+        moveActive = false;
         // stop player from ending turn during movement
         gameController.changeMode(GameController.gameMode.MenuMode);
 
@@ -356,20 +375,22 @@ public class PlayerController : MonoBehaviour
         {
             currTargeted.transform.position = new Vector3(vectorPath[i].x, vectorPath[i].y, 0);
             currTargetedStats.movLeft--;
-            hideArea();
-            showArea(currTargeted);
+            //hideArea();
+            //showArea(currTargeted);
             updateCharInfo();
             yield return new WaitForSeconds(delay);
         }
 
         gameController.changeMode(GameController.gameMode.MapMode);
         ourTurn = true;
+        openContextMenu(currTargeted.transform.position);
     }
 
 
 
     void beginBattle(int i)
     {
+        attackActive = false;
         Debug.Log("battle time");
         ourTurn = false;
 
@@ -449,6 +470,8 @@ public class PlayerController : MonoBehaviour
 
     void targetAlly(int i)
     {
+        moveActive = false;
+        attackActive = false;
         //Debug.Log("Clicked ally");
         //Debug.Log("i: " + i);
         //Debug.Log("playerUnit @ " + i + " is " + playerUnits[i].transform.name);
@@ -465,64 +488,10 @@ public class PlayerController : MonoBehaviour
 
         //charInfoPanel.gameObject.SetActive(true);
         //updateCharInfo();
-        showArea(currTargeted);
+        //showArea(currTargeted);
         //upgradePanel.SetActive(true);
         gameController.updateUpgradeMenu(currTargeted);
-    }
-
-    public void showArea(GameObject unit)
-    {
-        Character unitStats = unit.GetComponent<Character>();
-
-        // 1 Range
-        if (unitStats.getAttackRange() == 1)
-        {
-            if (unitStats.movLeft < 0 || unitStats.movLeft > moveAreas.Length || unitStats.movLeft >= attackAreas.Length)
-            {
-                Debug.Log("movLeft out of range in showArea!!!");
-                hideArea();
-            }
-            else if (unitStats.movLeft == 0)
-            {
-                hideArea();
-                attackAreas[unitStats.movLeft].SetActive(true);
-                attackAreas[unitStats.movLeft].transform.position = unit.transform.position;
-            }
-            else
-            {
-                moveAreas[unitStats.movLeft - 1].SetActive(true);
-                moveAreas[unitStats.movLeft - 1].transform.position = unit.transform.position;
-                attackAreas[unitStats.movLeft].SetActive(true);
-                attackAreas[unitStats.movLeft].transform.position = unit.transform.position;
-            }
-        }
-        // 2 Range
-        else if (unitStats.getAttackRange() == 2)
-        {
-            if (unitStats.movLeft > moveAreas.Length || unitStats.movLeft + 1 >= attackAreas.Length)
-            {
-                Debug.Log("movLeft out of range in showArea!!!");
-                hideArea();
-            }
-            else if (unitStats.movLeft == 0)
-            {
-                hideArea();
-                attackAreas[unitStats.movLeft + 1].SetActive(true);
-                attackAreas[unitStats.movLeft + 1].transform.position = unit.transform.position;
-                attackAreas[unitStats.movLeft].SetActive(true);
-                attackAreas[unitStats.movLeft].transform.position = unit.transform.position;
-            }
-            else
-            {
-                moveAreas[unitStats.movLeft - 1].SetActive(true);
-                moveAreas[unitStats.movLeft - 1].transform.position = unit.transform.position;
-                attackAreas[unitStats.movLeft].SetActive(true);
-                attackAreas[unitStats.movLeft].transform.position = unit.transform.position;
-                attackAreas[unitStats.movLeft + 1].SetActive(true);
-                attackAreas[unitStats.movLeft + 1].transform.position = unit.transform.position;
-            }
-        }
-
+        hideArea();
     }
 
     public void hideArea()
@@ -536,6 +505,8 @@ public class PlayerController : MonoBehaviour
 
     public void deselectTarget()
     {
+        moveActive = false;
+        attackActive = false;
         if (currTargeted == null)
             return;
         currTargeted.transform.GetChild(0).gameObject.SetActive(false);
@@ -546,7 +517,7 @@ public class PlayerController : MonoBehaviour
         hideArea();
 
         contextMenu.SetActive(false);
-
+        overlapGrid.ClearAllTiles();
         /*        if (isTargetEnemy == false)
                 {
                     upgradePanel.SetActive(false);
@@ -585,12 +556,15 @@ public class PlayerController : MonoBehaviour
         //Debug.Log("moveUsedY: " + Mathf.Abs(distanceTraveled.y));
         //Debug.Log("moveLeft: " + moveLeft);
         updateCharInfo();
-        hideArea();
-        showArea(currTargeted);
+        //hideArea();
+        //showArea(currTargeted);
     }
 
     void targetEnemy(int i)
     {
+        hideArea();
+        moveActive = false;
+        attackActive = false;
         Debug.Log("Clicked enemy");
         Debug.Log("i: " + i);
         currTargeted = enemyController.enemyUnits[i];
@@ -860,7 +834,6 @@ public class PlayerController : MonoBehaviour
         int val = d.value;
         currTargetedStats.changeWeapon((Character.weaponType)val);
         gameController.updateUpgradeMenu(currTargeted);
-        showArea(currTargeted);
     }
 
     public void hpButtonPressed()
@@ -938,7 +911,6 @@ public class PlayerController : MonoBehaviour
             hideArea();
             currTargetedStats.baseMOV = currTargetedStats.baseMOV + 1;
             currTargetedStats.movLeft = currTargetedStats.movLeft + 1;
-            showArea(currTargeted);
             gameController.updateUpgradeMenu(currTargeted);
             currTargetedStats.updateStats();            
         }
@@ -969,6 +941,61 @@ public class PlayerController : MonoBehaviour
     public void setDelay(float num)
     {
         delay = num;
+    }
+
+    public void showArea(GameObject unit)
+    {
+        Character unitStats = unit.GetComponent<Character>();
+
+        // 1 Range
+        if (unitStats.getAttackRange() == 1)
+        {
+            if (unitStats.movLeft < 0 || unitStats.movLeft > moveAreas.Length || unitStats.movLeft >= attackAreas.Length)
+            {
+                Debug.Log("movLeft out of range in showArea!!!");
+                hideArea();
+            }
+            else if (unitStats.movLeft == 0)
+            {
+                hideArea();
+                attackAreas[unitStats.movLeft].SetActive(true);
+                attackAreas[unitStats.movLeft].transform.position = unit.transform.position;
+            }
+            else
+            {
+                moveAreas[unitStats.movLeft - 1].SetActive(true);
+                moveAreas[unitStats.movLeft - 1].transform.position = unit.transform.position;
+                attackAreas[unitStats.movLeft].SetActive(true);
+                attackAreas[unitStats.movLeft].transform.position = unit.transform.position;
+            }
+        }
+        // 2 Range
+        else if (unitStats.getAttackRange() == 2)
+        {
+            if (unitStats.movLeft > moveAreas.Length || unitStats.movLeft + 1 >= attackAreas.Length)
+            {
+                Debug.Log("movLeft out of range in showArea!!!");
+                hideArea();
+            }
+            else if (unitStats.movLeft == 0)
+            {
+                hideArea();
+                attackAreas[unitStats.movLeft + 1].SetActive(true);
+                attackAreas[unitStats.movLeft + 1].transform.position = unit.transform.position;
+                attackAreas[unitStats.movLeft].SetActive(true);
+                attackAreas[unitStats.movLeft].transform.position = unit.transform.position;
+            }
+            else
+            {
+                moveAreas[unitStats.movLeft - 1].SetActive(true);
+                moveAreas[unitStats.movLeft - 1].transform.position = unit.transform.position;
+                attackAreas[unitStats.movLeft].SetActive(true);
+                attackAreas[unitStats.movLeft].transform.position = unit.transform.position;
+                attackAreas[unitStats.movLeft + 1].SetActive(true);
+                attackAreas[unitStats.movLeft + 1].transform.position = unit.transform.position;
+            }
+        }
+
     }
 }
 

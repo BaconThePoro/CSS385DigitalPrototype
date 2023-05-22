@@ -81,12 +81,13 @@ public class Pathfinding {
         if (collisionGrid.HasTile(targetPos)
             || pcontroller.unitHere(targetPos))
         {
+            //Debug.Log("FindPath( " + endX + ", " + endY + ") Fail: encountered impassible terrain");
             endNode.SetIsWalkable(false);
         }
 
         if (startNode == null || endNode == null) {
             // Invalid Path
-            Debug.Log("path invalid!!!");
+            //Debug.Log("FindPath( " + endX + ", " + endY + ") Fail: Start/End does not exist"); 
             return null;
         }
 
@@ -124,10 +125,13 @@ public class Pathfinding {
                 // Reached final node
                 //PathfindingDebugStepVisual.Instance.TakeSnapshot(grid, currentNode, openList, closedList);
                 //PathfindingDebugStepVisual.Instance.TakeSnapshotFinalPath(grid, CalculatePath(endNode));
-                Debug.Log("Final G cost: " + endNode.gCost);
+                //Debug.Log("Final G cost: " + endNode.gCost);
 
                 if (endNode.gCost > (movLeft * 10))
+                {
+                    //Debug.Log("FindPath( " + endX + ", " + endY + ") Fail: not enough MovLeft");
                     return null;
+                }
                 else
                     return CalculatePath(endNode);
             }
@@ -158,6 +162,7 @@ public class Pathfinding {
         }
 
         // Out of nodes on the openList
+        //Debug.Log("FindPath( " + endX + ", " + endY + ") Fail: out of nodes to check"); 
         return null;
     }
 

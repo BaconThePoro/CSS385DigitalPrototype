@@ -144,7 +144,7 @@ public class GameController : MonoBehaviour
     float targetZoom;
     float sensitivity = 1;
     float camSpeed = 3;
-    float maxZoom = 7;
+    float maxZoom = 11;
     float minZoom = 2;
 
     bool isFocused = true; 
@@ -732,7 +732,10 @@ public class GameController : MonoBehaviour
             return;
 
         if (currTurnMode == turnMode.PlayerTurn)
+        {
             changeTurn(turnMode.EnemyTurn);
+            playerController.resetAllAttack();
+        }
         else
             Debug.Log("!!! The end turn button was pressed BUT it isnt currently the players turn");
     }
