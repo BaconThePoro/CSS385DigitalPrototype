@@ -122,6 +122,7 @@ public class GameController : MonoBehaviour
     private TMPro.TextMeshProUGUI weaponStats1 = null;
     private TMPro.TextMeshProUGUI weaponStats2 = null;
     private TMPro.TextMeshProUGUI weaponRange = null;
+    public GameObject weaponSprites = null; 
 
     // enum for whose turn it is currently, the players or the enemies.
     public enum turnMode { PlayerTurn, EnemyTurn };
@@ -797,8 +798,13 @@ public class GameController : MonoBehaviour
 
         if (weaponDropdown.options.Count == 0)
         {
-            string[] weaponNames = Enum.GetNames(typeof(Character.weaponType));
-            List<string> weapons = new List<string>(weaponNames);
+            List<string> weapons = new List<string>();
+
+            for (int i = 0; i < weaponSprites.transform.childCount; i++)
+            {
+                weapons.Add(weaponSprites.transform.GetChild(i).name);
+            }
+
             weaponDropdown.AddOptions(weapons);
         }
         else

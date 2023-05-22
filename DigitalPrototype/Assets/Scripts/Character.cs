@@ -50,8 +50,8 @@ public class Character : MonoBehaviour
 
     public enum bodyType { Spring, Cog, Fisticuffs };
     private bodyType currBody;
-    public enum weaponType { Sword, Bow, Axe, Spear, FireTome, LightningTome, IceTome, AirTome, WaterTome };
-    private weaponType currWeapon;
+    public enum weaponType { Sword, Bow, AirTome, Axe, Spear, FireTome, LightningTome, IceTome, WaterTome };
+    private weaponType currWeapon = 0;
 
     // number means able to attack at that range and all lower ranges
     private float attackRange;
