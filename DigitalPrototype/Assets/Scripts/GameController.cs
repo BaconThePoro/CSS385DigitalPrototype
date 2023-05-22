@@ -147,7 +147,16 @@ public class GameController : MonoBehaviour
     float maxZoom = 11;
     float minZoom = 2;
 
-    bool isFocused = true; 
+    bool isFocused = true;
+
+    // pause menu stuff
+    public GameObject pauseMenu = null;
+    public RawImage pC = null; 
+    public Slider pR = null;
+    public Slider pG = null;
+    public Slider pB = null;
+    private Color pColor = Color.white;
+    private Color eColor = Color.red;
 
     // Start is called before the first frame update
     void Start()
@@ -220,10 +229,10 @@ public class GameController : MonoBehaviour
         weaponStats2 = weaponStatsPanel.transform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>();
         weaponRange = weaponStatsPanel.transform.GetChild(3).GetComponent<TMPro.TextMeshProUGUI>();
         //
-        speed1 = turnPanel.transform.GetChild(4).GetComponent<Button>();
-        speed2 = turnPanel.transform.GetChild(5).GetComponent<Button>();
-        speed4 = turnPanel.transform.GetChild(6).GetComponent<Button>();
-        speed8 = turnPanel.transform.GetChild(7).GetComponent<Button>();
+        speed1 = turnPanel.transform.GetChild(3).GetComponent<Button>();
+        speed2 = turnPanel.transform.GetChild(4).GetComponent<Button>();
+        speed4 = turnPanel.transform.GetChild(5).GetComponent<Button>();
+        speed8 = turnPanel.transform.GetChild(6).GetComponent<Button>();
 
         speed1ButtonPressed();
 
@@ -1171,5 +1180,51 @@ public class GameController : MonoBehaviour
         speed2.interactable = true;
         speed4.interactable = true;
         speed8.interactable = false;
+    }
+
+    public void pauseButtonPressed()
+    {
+        Time.timeScale = 0;
+        changeMode(gameMode.MenuMode);
+        pauseMenu.SetActive(true);
+
+        pC.color = pColor;
+        pR.value = pC.color.r;
+        pG.value = pC.color.g;
+        pB.value = pC.color.b;
+    }
+
+    public void rChanged(Single s)
+    {
+        pColor = new Color(s, pColor.g, pColor.b, 1);
+        pC.color = pColor;
+    }
+
+    public void gChanged(Single s)
+    {
+        pColor = new Color(pColor.r, s, pColor.b, 1);
+        pC.color = pColor;
+    }
+
+    public void bChanged(Single s)
+    {
+        pColor = new Color(pColor.r, pColor.g, s, 1);
+        pC.color = pColor;
+    }
+
+    public void continueButtonPressed()
+    {
+        Time.timeScale = 1;
+        changeMode(gameMode.MapMode);
+        pauseMenu.SetActive(false);
+        //updateColors();
+    }
+
+    public void updateColors()
+    {
+        for (int i = 0; i < playerController.playerUnits.Length; i++)
+        {
+            playerController.playerUnits[i].GetComponent<SpriteRenderer>().color = pColor;
+        }
     }
 }

@@ -21,7 +21,7 @@ public class EnemyController : MonoBehaviour
     public Tilemap currTilemap = null;
     private float inBetweenDelay = 0f;
     public bool battleDone = false;
-    private int aggroRange = 10;
+    private int aggroRange = 15;
     private enum direction { left, right, up, down };
     private List<Vector3> OneRangePath = new List<Vector3>();
     private List<Vector3> TwoRangePath = new List<Vector3>();
@@ -129,6 +129,13 @@ public class EnemyController : MonoBehaviour
                 // find target
                 GameObject target = findClosestTarget(currEnemy);
                 Debug.Log("target is here " + target.transform.position);
+
+                // if closest target outside of aggro range
+                if ((currEnemy.transform.position - target.transform.position).magnitude > aggroRange)
+                {
+                    enemyUnits[i].transform.GetChild(0).gameObject.SetActive(false);
+                    break;
+                }
 
                 // if in range already
                 if (inAttackRange(Vector3Int.FloorToInt(target.transform.position), currEnemy))
