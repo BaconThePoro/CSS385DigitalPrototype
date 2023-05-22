@@ -760,6 +760,7 @@ public class GameController : MonoBehaviour
             changeMode(gameMode.MapMode);
             upgradeMenu.gameObject.SetActive(false);
             playerController.updateCharInfo();
+            playerController.openContextMenu(playerController.getCurrTargeted().transform.position);
         }
     }
 

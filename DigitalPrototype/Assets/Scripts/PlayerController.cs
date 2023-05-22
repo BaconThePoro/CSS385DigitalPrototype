@@ -68,7 +68,7 @@ public class PlayerController : MonoBehaviour
     private Button inspectButton = null;
     private Button deselectButton = null;
     private int enemyNum = 0;
-    private Vector3 menuOffset = new Vector3(2f, -1f, 0);
+    private Vector3 menuOffset = new Vector3(2f, -2f, 0);
     private Vector3 lastClickPos = Vector3.zero;
 
     private int gearAmount = 0;
@@ -224,7 +224,8 @@ public class PlayerController : MonoBehaviour
     public void openContextMenu(Vector3 mousePos)
     {
         contextMenu.SetActive(true);
-        contextMenu.transform.position = Camera.main.WorldToScreenPoint(mousePos + menuOffset);
+        Vector3 menuPos = Camera.main.WorldToScreenPoint(mousePos + menuOffset);
+        contextMenu.transform.position = menuPos;
 
         // if ally
         if (currTargetedStats.getIsEnemy() == false)
@@ -368,6 +369,7 @@ public class PlayerController : MonoBehaviour
     public IEnumerator movePath(List<PathNode> vectorPath)
     {
         moveActive = false;
+        ourTurn = false;
         // stop player from ending turn during movement
         gameController.changeMode(GameController.gameMode.MenuMode);
 
