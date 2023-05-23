@@ -50,8 +50,8 @@ Tutorial:
 
 Hours Breakdown: 
 <ul>
-  <li> Total Hours: ~53 hours </li>
-  <li> Kobe Kamin: 18 hours </li>
+  <li> Total Hours: ~54 hours </li>
+  <li> Kobe Kamin: 19 hours </li>
   <li> Jacob Tea: 11 hours </li>
   <li> Sanket Karna: 9 hours </li>
   <li> Krisna Oeurn: 7 hours </li>
@@ -104,4 +104,5 @@ Completed:
  <li> Speedup Button <em><strong>[Kobe] (1 hour)</strong></em> </li>
  <li> Context attack menu <em><strong>[Jacob] (1 hour)</strong></em> </li>
  <li> Reworked context menu <em><strong>[Kobe] (1 hour)</strong></em> </li>
+ <li> Make it so context menu positions based on screen position (doesnt go offscreen) <em><strong>[Kobe] (1 hour)</strong></em> </li>
 </ul>
