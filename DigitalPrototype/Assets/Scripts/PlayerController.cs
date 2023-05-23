@@ -68,7 +68,7 @@ public class PlayerController : MonoBehaviour
     private Button inspectButton = null;
     private Button deselectButton = null;
     private int enemyNum = 0;
-    private Vector3 menuOffset = new Vector3(2f, -2f, 0);
+    private Vector3 menuOffset = new Vector3(2.5f, -2f, 0);
     private Vector3 lastClickPos = Vector3.zero;
 
     private int gearAmount = 0;
@@ -224,7 +224,32 @@ public class PlayerController : MonoBehaviour
     public void openContextMenu(Vector3 mousePos)
     {
         contextMenu.SetActive(true);
-        Vector3 menuPos = Camera.main.WorldToScreenPoint(mousePos + menuOffset);
+
+        menuOffset = new Vector3(Screen.width*0.11f, -Screen.height*0.16f, 0);
+        Vector3 menuPos = Camera.main.WorldToScreenPoint(mousePos);
+        menuPos = menuPos + menuOffset;
+
+        // right % of screen
+        float widthPercent = 0.9f;
+        if (menuPos.x > Screen.width * widthPercent)
+        {          
+            float widthP = menuPos.x / Screen.width; // what % of screen are we at
+            float inverseW = 1 - widthP;
+
+            Vector3 newOffset = new Vector3((Screen.width * 0.2f) * widthP, 0, 0);
+            menuPos = menuPos - newOffset;
+        }
+        // bottom % of screen
+        float heightPercent = 0.25f;
+        if (menuPos.y < Screen.height * heightPercent)
+        {  
+            float heightP = menuPos.y / Screen.height; // what % of screen are we at
+            float inverseH = 1 - heightP;
+
+            Vector3 newOffset = new Vector3(0, (Screen.height * heightPercent) * inverseH, 0);
+            menuPos = menuPos + newOffset;
+        }
+
         contextMenu.transform.position = menuPos;
 
         // if ally
