@@ -50,26 +50,23 @@ Tutorial:
 
 Hours Breakdown: 
 <ul>
-  <li> Total Hours: ~51 hours </li>
+  <li> Total Hours: ~53 hours </li>
   <li> Kobe Kamin: 18 hours </li>
   <li> Jacob Tea: 11 hours </li>
   <li> Sanket Karna: 9 hours </li>
-  <li> Krisna Oeurn: 6 hours </li>
-  <li> Sandesh Rai: 7 hours </li>
+  <li> Krisna Oeurn: 7 hours </li>
+  <li> Sandesh Rai: 8 hours </li>
  </ul>
 
 ***
 
 Backlog (ordered by importance): 
 <ul>
- <li> Move-to Attack <em><strong>[] (1 hour)</strong></em> </li>
-
- <li> Let player pick player and enemy colors <em><strong>[] (1 hour)</strong></em> </li>
- <li> Battle Preview <em><strong>[] (1 hour)</strong></em> </li>
- <li> Level design <em><strong>[Nobody] (>4 hours)</strong></em>  </li>
- <li> Sprites! <em><strong>[Sandesh] (>4 hours)</strong></em> </li>
- <li> Improve Animations <em><strong>[Nobody] (>4 hours) </strong></em> </li>
- <li> Story/cutscenes <em><strong>[Nobody] (>4 hours)</strong> </em> </li>
+ <li> Tutorial <em><strong>[] ( hour)</strong></em> </li>
+ <li> Sound design <em><strong>[] ( hour)</strong></em> </li>
+ <li> Level design <em><strong>[Nobody] ( hours)</strong></em>  </li>
+ <li> Improve Animations <em><strong>[Nobody] ( hours) </strong></em> </li>
+ <li> Story/cutscenes <em><strong>[Nobody] ( hours)</strong> </em> </li>
 </ul>
 
 ***
@@ -97,6 +94,7 @@ Completed:
  <li> Rework weapon system to implement +/- stats on weapons <em><strong>[Kobe] (1 hour)</strong></em> </li>
  <li> Move areas up to 6 <em><strong>[Sanket] (30 min)</strong></em> </li>
  <li> Attack areas up to 8 <em><strong>[Sanket] (30 min)</strong></em> </li>
+ <li> Sprites! <em><strong>[Sandesh] (2 hours)</strong></em> </li>
  <li> Upgrade system/menu <em><strong>[Kobe] (3 hour)</strong></em>  </li>
  <li> Main menu mockup <em><strong>[Jacob] (30min)</strong></em>  </li>
  <li> Tutorial/How-to-play menu <em><strong>[Jacob + Sanket + Sandesh] (2 hours)</strong></em>  </li>
