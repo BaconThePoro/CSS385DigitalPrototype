@@ -236,7 +236,7 @@ public class PlayerController : MonoBehaviour
             float widthP = menuPos.x / Screen.width; // what % of screen are we at
             float inverseW = 1 - widthP;
 
-            Vector3 newOffset = new Vector3((Screen.width * 0.2f) * widthP, 0, 0);
+            Vector3 newOffset = new Vector3((Screen.width * 0.25f) * widthP, 0, 0);
             menuPos = menuPos - newOffset;
         }
         // bottom % of screen
