@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class savedPlayerChars : MonoBehaviour
 {
-    private PlayerController playerController; 
-
+    private PlayerController playerController;
     public Character.bodyType[] bodysList;
     public Character.weaponType[] weaponsList;
     public string[] charNames;
@@ -16,7 +15,7 @@ public class savedPlayerChars : MonoBehaviour
     public int[] baseRESs;
     public int[] baseSPDs;
     public int[] baseMOVs;
-    public int gearNum; 
+    public int gearNum;
 
 
     // Start is called before the first frame update
