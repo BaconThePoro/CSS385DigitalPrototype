@@ -9,6 +9,7 @@ using UnityEngine.Tilemaps;
 using Quaternion = UnityEngine.Quaternion;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
+using UnityEngine.SceneManagement;
 using System;
 
 public class GameController : MonoBehaviour
@@ -18,6 +19,8 @@ public class GameController : MonoBehaviour
     private PlayerController playerController = null;
     public GameObject enemyControllerObj = null;
     private EnemyController enemyController = null;
+    public GameObject savedPlayerCharsObj = null; 
+    private savedPlayerChars savedPlayerChars = null;
     public GameObject mainCameraObj = null;
     private Camera mainCamera = null;
     public GameObject Mapmode = null;
@@ -151,6 +154,7 @@ public class GameController : MonoBehaviour
     bool isFocused = true;
 
     // pause menu stuff
+    public GameObject settingsPanel = null; 
     public GameObject pauseMenu = null;
     public RawImage pC = null; 
     public Slider pR = null;
@@ -159,12 +163,18 @@ public class GameController : MonoBehaviour
     private Color pColor = Color.white;
     private Color eColor = Color.red;
 
+    // level 0 is testScene
+    static int currLevel = 1; 
+
     // Start is called before the first frame update
     void Start()
     {
         // getting a billion components
+        playerControllerObj = GameObject.Find("PlayerController");
         playerController = playerControllerObj.GetComponent<PlayerController>();
         enemyController = enemyControllerObj.GetComponent<EnemyController>();
+        savedPlayerCharsObj = GameObject.Find("savedPlayerChars");
+        savedPlayerChars = savedPlayerCharsObj.GetComponent<savedPlayerChars>();
         mainCamera = mainCameraObj.GetComponent<Camera>();
         damageTXTObj = damageTXTPanel.transform.GetChild(0).gameObject;
         damageTXT = damageTXTObj.GetComponent<TMPro.TextMeshProUGUI>();
@@ -244,7 +254,9 @@ public class GameController : MonoBehaviour
 
         updateTurnText();
 
-        playerController.setGearNum(springAmount);
+        //playerController.setGearNum(springAmount);
+
+        savedPlayerChars.loadChars();
     }
 
     // Update is called once per frame
@@ -329,12 +341,13 @@ public class GameController : MonoBehaviour
     // if the attack occurs on a playerTurn they need control returned to them as well
     public IEnumerator startBattle(GameObject leftChar, GameObject rightChar, bool playerTurn, int battleRange)
     {
-        Debug.Log("starting battle");
+        //Debug.Log("starting battle");
         Character leftStats = leftChar.GetComponent<Character>();
         Character rightStats = rightChar.GetComponent<Character>();
         // go to battlemode
         turnPanel.SetActive(false);
         gearNumPanel.SetActive(false);
+        settingsPanel.SetActive(false);
         playerController.deselectTarget();
         playerController.deactivateChildren();
         enemyController.deactivateChildren();
@@ -450,6 +463,7 @@ public class GameController : MonoBehaviour
         charInfoPanelR.SetActive(false);
         turnPanel.SetActive(true);
         gearNumPanel.SetActive(true);
+        settingsPanel.SetActive(true);
         playerController.activateChildren();
         enemyController.activateChildren();
         Mapmode.SetActive(true);
@@ -593,13 +607,13 @@ public class GameController : MonoBehaviour
         // all player characters dead
         if (playerController.allDead())
         {
-            Debug.Log("All allies dead you lose");
+            //Debug.Log("All allies dead you lose");
             StartCoroutine(defeat());
         }
         // all enemy characters dead
         else if (enemyController.allDead())
         {
-            Debug.Log("All enemies dead you win");
+            //Debug.Log("All enemies dead you win");
             StartCoroutine(victory());
         }
 
@@ -1232,5 +1246,20 @@ public class GameController : MonoBehaviour
         {
             playerController.playerUnits[i].GetComponent<SpriteRenderer>().color = pColor;
         }
+    }
+
+    public void nextLevelButton()
+    {
+        Debug.Log("Loading next scene");
+        savedPlayerChars.saveChars();
+        currLevel = currLevel + 1;
+        SceneManager.LoadScene(currLevel); // load scene
+        //SceneManager.MoveGameObjectToScene(savedPlayerCharsObj, SceneManager.GetActiveScene());
+    }
+
+    public void retryButton()
+    {
+        // stats should get reset
+        SceneManager.LoadScene(currLevel); // load scene
     }
 }

@@ -30,6 +30,7 @@ public class EnemyController : MonoBehaviour
     void Start()
     {
         gameController = gameControllerObj.GetComponent<GameController>();
+        playerControllerObj = GameObject.Find("PlayerController");
         playerController = playerControllerObj.GetComponent<PlayerController>();
 
         // get a handle on each child for EnemyController
@@ -110,7 +111,7 @@ public class EnemyController : MonoBehaviour
 
     public IEnumerator enemyTurn()
     {
-        Debug.Log("Enemy Turn start");
+        //Debug.Log("Enemy Turn start");
 
         // for every enemy unit
         for (int i = 0; i < enemyUnits.Length; i++)
@@ -128,18 +129,20 @@ public class EnemyController : MonoBehaviour
 
                 // find target
                 GameObject target = findClosestTarget(currEnemy);
-                Debug.Log("target is here " + target.transform.position);
+                //Debug.Log("target is here " + target.transform.position);
 
                 // if closest target outside of aggro range
                 if ((currEnemy.transform.position - target.transform.position).magnitude > aggroRange)
                 {
+                    //Debug.Log("target outside aggro range");
                     enemyUnits[i].transform.GetChild(0).gameObject.SetActive(false);
                     break;
                 }
 
                 // if in range already
-                if (inAttackRange(Vector3Int.FloorToInt(target.transform.position), currEnemy))
+                if (inAttackRange(Vector3Int.FloorToInt(target.transform.position), currEnemy) && currEnemyStats.getIsDead() == false)
                 {
+                    //Debug.Log("target in range, attacking");
                     // small delay at the start of every units turn
                     yield return new WaitForSeconds(inBetweenDelay * 3);
                     // attack
@@ -150,6 +153,7 @@ public class EnemyController : MonoBehaviour
                 // have to move
                 else
                 {
+                    //Debug.Log("target not in range, moving");
                     List<PathNode> bestPath = findBestOverall(currEnemy);
 
                     if (bestPath != null)
@@ -158,15 +162,20 @@ public class EnemyController : MonoBehaviour
                         playerController.pathfinding.resetCollision();
 
                         for (int j = 0; j < bestPath.Count; j++)
-                            Debug.Log("BestPath: " + bestPath[j]);
+                        {
+                            //Debug.Log("BestPath: " + bestPath[j]);
+                        }
                     }
                     else
-                        Debug.Log("best path for enemy is null");
+                    {
+                        //Debug.Log("best path for enemy is null");
+                    }
                         
 
                     // try attack at end of move
                     if (inAttackRange(Vector3Int.FloorToInt(target.transform.position), currEnemy))
                     {
+                        //Debug.Log("target now in range, attacking");
                         // small delay at the start of every units turn
                         yield return new WaitForSeconds(inBetweenDelay * 3);
                         // attack
@@ -190,7 +199,7 @@ public class EnemyController : MonoBehaviour
         yield return new WaitForSeconds(inBetweenDelay);
         resetAllMove();
         gameController.changeTurn(GameController.turnMode.PlayerTurn);
-        Debug.Log("Enemy turn end");
+        //Debug.Log("Enemy turn end");
         playerController.resetAllAttack();
         playerController.resetAllMove();
     }
@@ -219,8 +228,7 @@ public class EnemyController : MonoBehaviour
 
         for (int j = 0; j < thisUnitsRange.Count; j++)
         {
-            Debug.Log("trying target: " + ((int)target.transform.position.x + (int)thisUnitsRange[j].x) +
-                ", " + ((int)target.transform.position.y + (int)thisUnitsRange[j].y));
+            //Debug.Log("trying target: " + ((int)target.transform.position.x + (int)thisUnitsRange[j].x) + ", " + ((int)target.transform.position.y + (int)thisUnitsRange[j].y));
 
             vectorPath = playerController.pathfinding.FindEnemyPath((int)currEnemy.transform.position.x, (int)currEnemy.transform.position.y,
                 ((int)target.transform.position.x + (int)thisUnitsRange[j].x), ((int)target.transform.position.y + (int)thisUnitsRange[j].y),
@@ -232,10 +240,14 @@ public class EnemyController : MonoBehaviour
                 bestPath = vectorPath;
 
                 for (int k = 0; k < bestPath.Count; k++)
-                    Debug.Log("VectorPath[" + k + "]: " + vectorPath[k]);
+                {
+                    //Debug.Log("VectorPath[" + k + "]: " + vectorPath[k]);
+                }
             }
             else
-                Debug.Log("VectorPath: null");
+            {
+                //Debug.Log("VectorPath: null");
+            }
         }
 
         g = oldGCost; 
@@ -251,12 +263,15 @@ public class EnemyController : MonoBehaviour
 
         for (int i = 0; i < playerController.playerUnits.Length; i++)
         {
-            vectorPath = findBestForOne(currEnemy, playerController.playerUnits[i], ref newG);
-
-            if (vectorPath != null && newG < oldG)
+            if (playerController.playerStats[i].getIsDead() == false)
             {
-                oldG = newG;
-                bestPath = vectorPath; 
+                vectorPath = findBestForOne(currEnemy, playerController.playerUnits[i], ref newG);
+
+                if (vectorPath != null && newG < oldG)
+                {
+                    oldG = newG;
+                    bestPath = vectorPath;
+                }
             }
         }
 
@@ -324,7 +339,7 @@ public class EnemyController : MonoBehaviour
 
     IEnumerator beginBattle(int i, GameObject target)
     {
-        Debug.Log("battle time");        
+        //Debug.Log("battle time");        
 
         gameController.changeMode(GameController.gameMode.BattleMode);
 
@@ -381,7 +396,7 @@ public class EnemyController : MonoBehaviour
         else if (difference.y > 0)
             return direction.up;
 
-        Debug.Log("facingWhere() is broke, units somehow standing on top of each other");
+        //Debug.Log("facingWhere() is broke, units somehow standing on top of each other");
         return direction.left;
     }
 

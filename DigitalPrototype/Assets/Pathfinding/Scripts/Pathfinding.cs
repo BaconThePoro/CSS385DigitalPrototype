@@ -249,7 +249,7 @@ public class Pathfinding {
         }
 
         // Out of nodes on the openList
-        Debug.Log("out of nodes on openList");
+        //Debug.Log("out of nodes on openList");
         gCost = 9999;
         return null;
     }

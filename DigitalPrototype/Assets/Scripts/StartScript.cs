@@ -19,7 +19,7 @@ public class StartScript : MonoBehaviour
 
     public void loadOnClick()
     {
-        SceneManager.LoadScene("TestScene");
+        SceneManager.LoadScene("Level1");
     }
 
     public void loadTutorial(){

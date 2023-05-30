@@ -143,7 +143,7 @@ public class PlayerController : MonoBehaviour
             {
                 if (EventSystem.current.IsPointerOverGameObject())
                 {
-                    Debug.Log("Clicked UI, ignoring");
+                    //Debug.Log("Clicked UI, ignoring");
                     return;
                 }
 
@@ -315,7 +315,7 @@ public class PlayerController : MonoBehaviour
         Vector3Int currPos = Vector3Int.FloorToInt(currTargeted.transform.position);
         int currMov = currTargetedStats.movLeft;
 
-        Debug.Log("movLeft: " + currMov + "   currPos: " + currPos.x + ", " + currPos.y);
+        //Debug.Log("movLeft: " + currMov + "   currPos: " + currPos.x + ", " + currPos.y);
 
         // highlighting moveable tiles
         for (int i = -currMov; i <= currMov; i++)
@@ -418,7 +418,7 @@ public class PlayerController : MonoBehaviour
     void beginBattle(int i)
     {
         attackActive = false;
-        Debug.Log("battle time");
+        //Debug.Log("battle time");
         ourTurn = false;
 
         // can only fight once per turn, reduce movement to 0
@@ -556,7 +556,7 @@ public class PlayerController : MonoBehaviour
     {
         if (mousePos.x > mapBoundPlusX || mousePos.x < mapBoundMinusX || mousePos.y > mapBoundPlusY || mousePos.y < mapBoundMinusY)
         {
-            Debug.Log("Movement area out of bounds, cancelling movement");
+            //Debug.Log("Movement area out of bounds, cancelling movement");
             return;
         }
 
@@ -592,8 +592,8 @@ public class PlayerController : MonoBehaviour
         hideArea();
         moveActive = false;
         attackActive = false;
-        Debug.Log("Clicked enemy");
-        Debug.Log("i: " + i);
+        //Debug.Log("Clicked enemy");
+        //Debug.Log("i: " + i);
         currTargeted = enemyController.enemyUnits[i];
         currTargetedStats = currTargeted.GetComponent<Character>();
         isTargetEnemy = true;
@@ -734,114 +734,6 @@ public class PlayerController : MonoBehaviour
         return true;
     }
 
-    public void moveToAttack(Vector3Int mousePos, int i)
-    {
-        // if you clicked an enemy but arent next to them yet, then move next to them
-        Vector3Int distanceFrom = mousePos - Vector3Int.FloorToInt(currTargeted.transform.position);
-        //Debug.Log("initial distanceFrom = " + distanceFrom);
-
-        // to far diagonally
-        if (Mathf.Abs(distanceFrom.x) >= 1 && Mathf.Abs(distanceFrom.y) >= 1)
-        {
-            // just copies the vertical movement stuff
-            Vector3Int temp;
-
-            if (distanceFrom.y < 0) // if the distance is negative
-                temp = new Vector3Int(0, -1, 0);
-            else // its positive
-                temp = new Vector3Int(0, 1, 0);
-
-            distanceFrom = distanceFrom - temp;
-            Debug.Log("Initiated combat within mov range but not adjacent. Moving: " + distanceFrom);
-
-            // if theres an ally already in the space your moving to
-            if (unitHere(Vector3Int.FloorToInt(currTargeted.transform.position) + distanceFrom))
-            { // try move horizontally
-
-                distanceFrom = distanceFrom + temp;
-                if (distanceFrom.x < 0) // if the distance is negative
-                    temp = new Vector3Int(-1, 0, 0);
-                else // its positive
-                    temp = new Vector3Int(1, 0, 0);
-
-                distanceFrom = distanceFrom - temp;
-                Debug.Log("Initiated combat within mov range but not adjacent. Moving: " + distanceFrom);
-
-                // both sides occupied just cant attack
-                if (unitHere(Vector3Int.FloorToInt(currTargeted.transform.position) + distanceFrom))
-                {
-                    deselectTarget();
-                    targetEnemy(i);
-                    return;
-                }
-            }
-
-            moveAlly(Vector3Int.FloorToInt(currTargeted.transform.position) + distanceFrom);
-
-            // small delay before beginning battle so user can see character move
-            StartCoroutine(waitBattle(i));
-            return;
-        }
-
-        // to far horizontally
-        else if (Mathf.Abs(distanceFrom.x) > 1)
-        {
-            Vector3Int temp;
-
-            if (distanceFrom.x < 0) // if the distance is negative
-                temp = new Vector3Int(-1, 0, 0);
-            else // its positive
-                temp = new Vector3Int(1, 0, 0);
-
-            distanceFrom = distanceFrom - temp;
-            //Debug.Log("new distanceFrom = " + distanceFrom);
-            //Debug.Log("Initiated combat within mov range but not adjacent. Moving: " + distanceFrom);
-
-            // if theres an ally already in the space your moving to
-            if (unitHere(Vector3Int.FloorToInt(currTargeted.transform.position) + distanceFrom))
-            {
-                deselectTarget();
-                targetEnemy(i);
-                return;
-            }
-
-            moveAlly(Vector3Int.FloorToInt(currTargeted.transform.position) + distanceFrom);
-
-            // small delay before beginning battle so user can see character move
-            StartCoroutine(waitBattle(i));
-            return;
-        }
-        // to far vertically
-        else if (Mathf.Abs(distanceFrom.y) > 1)
-        {
-            Vector3Int temp;
-
-            if (distanceFrom.y < 0) // if the distance is negative
-                temp = new Vector3Int(0, -1, 0);
-            else // its positive
-                temp = new Vector3Int(0, 1, 0);
-
-            distanceFrom = distanceFrom - temp;
-            //Debug.Log("Initiated combat within mov range but not adjacent. Moving: " + distanceFrom);
-
-            // if theres an ally already in the space your moving to
-            if (unitHere(Vector3Int.FloorToInt(currTargeted.transform.position) + distanceFrom))
-            {
-                deselectTarget();
-                targetEnemy(i);
-                return;
-            }
-
-            moveAlly(Vector3Int.FloorToInt(currTargeted.transform.position) + distanceFrom);
-
-            // small delay before beginning battle so user can see character move
-            StartCoroutine(waitBattle(i));
-            return;
-        }
-
-        beginBattle(i);
-    }
-
     public void changedName(string s)
     {
         currTargetedStats.charName = s;
@@ -979,7 +871,7 @@ public class PlayerController : MonoBehaviour
         {
             if (unitStats.movLeft < 0 || unitStats.movLeft > moveAreas.Length || unitStats.movLeft >= attackAreas.Length)
             {
-                Debug.Log("movLeft out of range in showArea!!!");
+                //Debug.Log("movLeft out of range in showArea!!!");
                 hideArea();
             }
             else if (unitStats.movLeft == 0)
