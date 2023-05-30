@@ -4636,9 +4636,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2084973104}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: moveButtonPressed
+      - m_Target: {fileID: 2073513243}
+        m_TargetAssemblyTypeName: GameController, Assembly-CSharp
+        m_MethodName: tutorialButtonPressed
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -63142,9 +63142,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2084973104}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: moveButtonPressed
+      - m_Target: {fileID: 2073513243}
+        m_TargetAssemblyTypeName: GameController, Assembly-CSharp
+        m_MethodName: exitButtonPressed
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
