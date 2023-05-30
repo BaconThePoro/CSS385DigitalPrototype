@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 873569110}
   - component: {fileID: 873569109}
   - component: {fileID: 873569108}
+  - component: {fileID: 873569111}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -207,6 +208,15 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!45 &873569111
+Skybox:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 873569107}
+  m_Enabled: 1
+  m_CustomSkybox: {fileID: 2100000, guid: 03d35b4c1d3cf3d47b178f04e08fd784, type: 2}
 --- !u!1 &1265927375
 GameObject:
   m_ObjectHideFlags: 0
@@ -286,6 +296,7 @@ GameObject:
   - component: {fileID: 1516809692}
   - component: {fileID: 1516809694}
   - component: {fileID: 1516809693}
+  - component: {fileID: 1516809695}
   m_Layer: 5
   m_Name: Credits
   m_TagString: Untagged
@@ -333,11 +344,12 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Kobe Kamin\nSanket Karna\nJacob Tea\nKrisna Oeurn\nSandesh Rai\n\nSpecial
-    Thanks To \nProfessor Yusaf Pisan\nProfessor Dong Si\nRiley Rochon\nSanket's
-    Mom \nAngel Gayzolas\nMr. Beast \nNFL Commisoner Rodger Goddell \nFormer President
-    Barack Obama\nKevin Macleod \nShinji Ikarai\nAsuka Langley \nMaster Yi\nShin
-    Noze\n"
+  m_text: "Kobe Kamin\nSanket Karna\nJacob Tea\nKrisna Oeurn\nSandesh Rai\n\nAssets
+    Used:\nJakub Varga - UI Assets\nAnsimuz - Countryside Art\nLucas Hermann - Tilemap
+    Algorithim\nCainos \t- Topdown PixelArt\n\nSpecial Thanks To \nProfessor Yusaf
+    Pisan\nProfessor Dong Si\nRiley Rochon\nSanket's Mom \nAngel Gonzales\nMr. Beast
+    \nNFL Commisoner Rodger Goddell \nFormer President Barack Obama\nKevin Macleod
+    \nShinji Ikarai\nAsuka Langley \nMaster Yi\nMario \nLuigi \nIke\nAbraham Lincoln\n\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -346,8 +358,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278255603
+  m_fontColor: {r: 0.9511087, g: 1, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -414,6 +426,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1516809691}
   m_CullTransparentMesh: 1
+--- !u!114 &1516809695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1516809691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d5b6292360368c4e82846ed8501fc0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scrollSpeed: 10
 --- !u!1 &1628841588
 GameObject:
   m_ObjectHideFlags: 0
