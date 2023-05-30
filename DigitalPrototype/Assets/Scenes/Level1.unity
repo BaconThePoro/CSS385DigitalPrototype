@@ -51334,13 +51334,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: 
-  baseHP: 12
-  baseSTR: 1
+  baseHP: 20
+  baseSTR: 40
   baseMAG: 1
   baseDEF: 4
   baseRES: 1
   baseSPD: 2
-  baseMOV: 3
+  baseMOV: 6
   HPMOD: 0
   STRMOD: 0
   MAGMOD: 0
@@ -62766,7 +62766,7 @@ MonoBehaviour:
   allyStartPos:
   - {x: 13, y: 4, z: 0}
   bodysList: 00000000
-  weaponsList: 05000000
+  weaponsList: 00000000
   contextMenu: {fileID: 1477384663}
 --- !u!1 &2085740318
 GameObject:

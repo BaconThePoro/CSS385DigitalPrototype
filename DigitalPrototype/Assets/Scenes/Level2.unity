@@ -22080,8 +22080,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: blankName
-  baseHP: 20
-  baseSTR: 20
+  baseHP: 1
+  baseSTR: 1
   baseMAG: 1
   baseDEF: 2
   baseRES: 2
@@ -22094,7 +22094,7 @@ MonoBehaviour:
   RESMOD: 0
   SPDMOD: 0
   MOVMOD: 0
-  HP: 25
+  HP: 1
   STR: 1
   MAG: 1
   DEF: 1

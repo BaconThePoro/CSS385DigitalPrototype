@@ -622,7 +622,7 @@ public class GameController : MonoBehaviour
 
     public IEnumerator victory()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1.5f);
         VictoryScreen.SetActive(true);
         Mapmode.SetActive(false);
         turnPanel.SetActive(false);

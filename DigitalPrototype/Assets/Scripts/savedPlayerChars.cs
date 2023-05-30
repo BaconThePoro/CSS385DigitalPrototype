@@ -35,9 +35,8 @@ public class savedPlayerChars : MonoBehaviour
     public void saveChars()
     {
         gearNum = playerController.getGearNum();
-        bodysList = playerController.bodysList;
-        weaponsList = playerController.weaponsList;
-
+        bodysList = new Character.bodyType[playerController.playerStats.Length];
+        weaponsList = new Character.weaponType[playerController.playerStats.Length];
         charNames = new string[playerController.playerStats.Length];
         baseHPs = new int[playerController.playerStats.Length];
         baseSTRs = new int[playerController.playerStats.Length];
@@ -50,6 +49,9 @@ public class savedPlayerChars : MonoBehaviour
         for (int i = 0; i < playerController.playerStats.Length; i++)
         {
             Debug.Log("playerStats at " + i);
+            bodysList[i] = playerController.playerStats[i].GetBodyType();
+            weaponsList[i] = playerController.playerStats[i].GetWeaponType();
+
             charNames[i] = playerController.playerStats[i].name;
             baseHPs[i] = playerController.playerStats[i].baseHP;
             baseSTRs[i] = playerController.playerStats[i].baseSTR;
