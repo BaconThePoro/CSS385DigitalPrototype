@@ -1240,6 +1240,16 @@ public class GameController : MonoBehaviour
         //updateColors();
     }
 
+    public void tutorialButtonPressed()
+    {
+        SceneManager.LoadScene("TutorialScene", LoadSceneMode.Additive);
+    }
+
+    public void exitButtonPressed()
+    {
+        Application.Quit();
+    }
+
     public void updateColors()
     {
         for (int i = 0; i < playerController.playerUnits.Length; i++)

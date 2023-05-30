@@ -29,4 +29,9 @@ public class StartScript : MonoBehaviour
     public void loadCredits(){
         SceneManager.LoadScene("Credits");
     }
+
+    public void exitButton()
+    {
+        Application.Quit();
+    }
 }

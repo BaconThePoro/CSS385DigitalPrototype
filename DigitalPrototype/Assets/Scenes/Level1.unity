@@ -4574,7 +4574,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -481, y: -381}
+  m_AnchoredPosition: {x: -481, y: -332}
   m_SizeDelta: {x: 178.9339, y: 50.808}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &173528015
@@ -4636,9 +4636,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2084973104}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: moveButtonPressed
+      - m_Target: {fileID: 2073513243}
+        m_TargetAssemblyTypeName: GameController, Assembly-CSharp
+        m_MethodName: tutorialButtonPressed
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7280,7 +7280,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -759.0054, y: -383}
+  m_AnchoredPosition: {x: -759.0054, y: -334}
   m_SizeDelta: {x: 279.7989, y: 284.8653}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &267273833
@@ -15116,7 +15116,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -197, y: -383}
+  m_AnchoredPosition: {x: -197, y: -334}
   m_SizeDelta: {x: 279.7989, y: 284.8653}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &590874076
@@ -41133,8 +41133,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -474, y: -296.1}
-  m_SizeDelta: {x: 948, y: 592.22}
+  m_AnchoredPosition: {x: -474, y: -266.72}
+  m_SizeDelta: {x: 948, y: 533.45}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1364904545
 MonoBehaviour:
@@ -51037,7 +51037,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -481, y: -280}
+  m_AnchoredPosition: {x: -481, y: -231}
   m_SizeDelta: {x: 178.9339, y: 50.808}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1732245000
@@ -61821,7 +61821,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -481, y: -483}
+  m_AnchoredPosition: {x: -481, y: -434}
   m_SizeDelta: {x: 178.9339, y: 50.808}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2073027129
@@ -61883,9 +61883,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2084973104}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: moveButtonPressed
+      - m_Target: {fileID: 2073513243}
+        m_TargetAssemblyTypeName: GameController, Assembly-CSharp
+        m_MethodName: exitButtonPressed
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
