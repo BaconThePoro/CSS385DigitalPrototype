@@ -5,6 +5,8 @@ Beta V2 WebGL: [https://bacontheporo.github.io/CSS385DigitalPrototype/BetaV2/](h
 
 ***
 
+Postmortem Presentation: [https://docs.google.com/presentation/d/1KVhh_6h9SLMAvvqPYk2tpvaa_VCwepOytOgTTjd_XRs/edit?usp=sharing](https://docs.google.com/presentation/d/1KVhh_6h9SLMAvvqPYk2tpvaa_VCwepOytOgTTjd_XRs/edit?usp=sharing)
+***
 Hotkeys:
 <ul> 
  <li> Player Turn (Map): </li>
@@ -50,8 +52,8 @@ Tutorial:
 
 Hours Breakdown: 
 <ul>
-  <li> Total Hours: ~54 hours </li>
-  <li> Kobe Kamin: 19 hours </li>
+  <li> Total Hours: ~56 hours </li>
+  <li> Kobe Kamin: 21 hours </li>
   <li> Jacob Tea: 11 hours </li>
   <li> Sanket Karna: 9 hours </li>
   <li> Krisna Oeurn: 7 hours </li>
@@ -105,4 +107,6 @@ Completed:
  <li> Context attack menu <em><strong>[Jacob] (1 hour)</strong></em> </li>
  <li> Reworked context menu <em><strong>[Kobe] (1 hour)</strong></em> </li>
  <li> Make it so context menu positions based on screen position (doesnt go offscreen) <em><strong>[Kobe] (1 hour)</strong></em> </li>
+ <li> Make it so you can progress from level to level (save stuff through scenes) <em><strong>[Kobe] (1 hours)</strong> </em> </li>
+ <li> Make it so you can reset a level after losing (must reset character stats back to before beginning level) <em><strong>[Kobe] (1 hours)</strong> </em> </li>
 </ul>
