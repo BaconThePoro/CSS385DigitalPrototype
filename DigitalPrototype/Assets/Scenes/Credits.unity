@@ -346,10 +346,11 @@ MonoBehaviour:
       m_Calls: []
   m_text: "Kobe Kamin\nSanket Karna\nJacob Tea\nKrisna Oeurn\nSandesh Rai\n\nAssets
     Used:\nJakub Varga - UI Assets\nAnsimuz - Countryside Art\nLucas Hermann - Tilemap
-    Algorithim\nCainos - Topdown PixelArt\n\nSpecial Thanks To \nProfessor Yusaf
-    Pisan\nProfessor Dong Si\nRiley Rochon\nSanket's Mom \nAngel Gonzales\nMr. Beast
-    \nNFL Commisoner Rodger Goddell \nFormer President Barack Obama\nKevin Macleod
-    \nShinji Ikarai\nAsuka Langley \nMaster Yi\nMario \nLuigi \nIke\nAbraham Lincoln\n\n"
+    Algorithim\nCainos - Topdown PixelArt\nCodeMonkey - Pathfinding Algorithm\n\nSpecial
+    Thanks To \nProfessor Yusaf Pisan\nProfessor Dong Si\nRiley Rochon\nSanket's
+    Mom \nAngel Gonzales\nMr. Beast \nNFL Commisoner Rodger Goddell \nFormer President
+    Barack Obama\nKevin Macleod \nShinji Ikarai\nAsuka Langley \nMaster Yi\nMario
+    \nLuigi \nIke\nAbraham Lincoln\n\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
