@@ -23,8 +23,7 @@ public class StartScript : MonoBehaviour
     }
 
     public void loadTutorial(){
-        SceneManager.LoadScene("TutorialScene");
-
+        SceneManager.LoadScene("TutorialScene", LoadSceneMode.Additive);
     }
 
     public void loadCredits(){
