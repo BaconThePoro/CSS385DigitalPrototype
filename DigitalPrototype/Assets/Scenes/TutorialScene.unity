@@ -911,7 +911,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: RES (resistence) measures a characters defense against magic damage. Each
+  m_text: RES (resistance) measures a characters defense against magic damage. Each
     point in RES reduces magic damage by 1.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9b27ff8adf22d7b4d9b2ebbc157c6bee, type: 2}
@@ -4182,7 +4182,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: 'MOV (movement) determines how many tiles a character move in one turn.
-    Left provides a running count for moves remaining this turn. '
+    Movement Left provides a running count for moves remaining this turn. '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9b27ff8adf22d7b4d9b2ebbc157c6bee, type: 2}
   m_sharedMaterial: {fileID: 6807316993868383495, guid: 9b27ff8adf22d7b4d9b2ebbc157c6bee, type: 2}
@@ -5512,7 +5512,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: 'SPD (speed) determines who attacks first in a battle. Whoever has more
-    wins. Who goes first in a tie is random. '
+    speed gets to attack first. Who goes first in a tie is random. '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9b27ff8adf22d7b4d9b2ebbc157c6bee, type: 2}
   m_sharedMaterial: {fileID: 6807316993868383495, guid: 9b27ff8adf22d7b4d9b2ebbc157c6bee, type: 2}

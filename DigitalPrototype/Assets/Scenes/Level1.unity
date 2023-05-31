@@ -51335,7 +51335,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   charName: 
   baseHP: 10
-  baseSTR: 20
+  baseSTR: 1
   baseMAG: 1
   baseDEF: 1
   baseRES: 1

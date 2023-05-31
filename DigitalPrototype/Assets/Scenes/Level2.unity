@@ -34192,7 +34192,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: 
-  baseHP: 5
+  baseHP: 7
   baseSTR: 1
   baseMAG: 1
   baseDEF: 1
