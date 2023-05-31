@@ -30,6 +30,11 @@ public class StartScript : MonoBehaviour
         SceneManager.LoadScene("Credits");
     }
 
+    public void leaveCredits()
+    {
+        SceneManager.LoadScene("MenuScene");
+    }
+
     public void exitButton()
     {
         Application.Quit();

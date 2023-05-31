@@ -254,9 +254,9 @@ public class GameController : MonoBehaviour
 
         updateTurnText();
 
-        //playerController.setGearNum(springAmount);
-
         savedPlayerChars.loadChars();
+
+        playerController.giveGearNum(7); 
     }
 
     // Update is called once per frame
@@ -1264,6 +1264,9 @@ public class GameController : MonoBehaviour
         savedPlayerChars.saveChars();
         currLevel = currLevel + 1;
         SceneManager.LoadScene(currLevel); // load scene
+
+
+
         //SceneManager.MoveGameObjectToScene(savedPlayerCharsObj, SceneManager.GetActiveScene());
     }
 

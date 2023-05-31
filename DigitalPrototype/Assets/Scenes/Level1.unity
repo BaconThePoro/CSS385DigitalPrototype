@@ -21897,7 +21897,7 @@ GameObject:
   - component: {fileID: 792725627}
   - component: {fileID: 792725628}
   m_Layer: 0
-  m_Name: Swordsman
+  m_Name: Axemen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21985,13 +21985,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: blankName
-  baseHP: 1
-  baseSTR: 3
+  baseHP: 8
+  baseSTR: 1
   baseMAG: 1
-  baseDEF: 2
-  baseRES: 2
-  baseSPD: 2
-  baseMOV: 3
+  baseDEF: 1
+  baseRES: 1
+  baseSPD: 1
+  baseMOV: 2
   HPMOD: 0
   STRMOD: 0
   MAGMOD: 0
@@ -31921,8 +31921,8 @@ MonoBehaviour:
   playerControllerObj: {fileID: 2084973102}
   enemyStartPos:
   - {x: 12, y: 5, z: 0}
-  bodysList: 00000000
-  weaponsList: 00000000
+  bodysList: 02000000
+  weaponsList: 03000000
   currTilemap: {fileID: 1357189901}
   battleDone: 0
 --- !u!1 &1111332266
@@ -51334,13 +51334,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: 
-  baseHP: 20
-  baseSTR: 40
+  baseHP: 10
+  baseSTR: 20
   baseMAG: 1
-  baseDEF: 4
+  baseDEF: 1
   baseRES: 1
-  baseSPD: 2
-  baseMOV: 6
+  baseSPD: 1
+  baseMOV: 1
   HPMOD: 0
   STRMOD: 0
   MAGMOD: 0
@@ -62764,7 +62764,7 @@ MonoBehaviour:
   moveAreaParent: {fileID: 880176732}
   attackAreaParent: {fileID: 652705634}
   allyStartPos:
-  - {x: 13, y: 4, z: 0}
+  - {x: 1, y: 5, z: 0}
   bodysList: 00000000
   weaponsList: 00000000
   contextMenu: {fileID: 1477384663}
