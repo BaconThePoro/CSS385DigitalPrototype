@@ -1168,9 +1168,9 @@ public class GameController : MonoBehaviour
 
     public void speed2ButtonPressed()
     {
-        inbetweenAttackDelay = 0.5f;
-        enemyController.setDelay(0.5f);
-        playerController.setDelay(0.5f);
+        inbetweenAttackDelay = 0.3f;
+        enemyController.setDelay(0.3f);
+        playerController.setDelay(0.3f);
 
         speed1.interactable = true;
         speed2.interactable = false;
@@ -1180,9 +1180,9 @@ public class GameController : MonoBehaviour
 
     public void speed4ButtonPressed()
     {
-        inbetweenAttackDelay = 0.2f;
-        enemyController.setDelay(0.2f);
-        playerController.setDelay(0.2f);
+        inbetweenAttackDelay = 0.1f;
+        enemyController.setDelay(0.1f);
+        playerController.setDelay(0.1f);
 
         speed1.interactable = true;
         speed2.interactable = true;
@@ -1192,9 +1192,9 @@ public class GameController : MonoBehaviour
 
     public void speed8ButtonPressed()
     {
-        inbetweenAttackDelay = 0.1f;
-        enemyController.setDelay(0.1f);
-        playerController.setDelay(0.1f);
+        inbetweenAttackDelay = 0.01f;
+        enemyController.setDelay(0.01f);
+        playerController.setDelay(0.01f);
 
         speed1.interactable = true;
         speed2.interactable = true;

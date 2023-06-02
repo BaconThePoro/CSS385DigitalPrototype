@@ -239,10 +239,10 @@ public class Character : MonoBehaviour
         {
             attackRange = 2;
 
-            // -3 STR, +3 SPD
+            // -2 MAG, +3 SPD
             HPMOD = 0;
-            STRMOD = -3;
-            MAGMOD = 0;
+            STRMOD = 0;
+            MAGMOD = -2;
             DEFMOD = 0;
             RESMOD = 0;
             SPDMOD = 3;
