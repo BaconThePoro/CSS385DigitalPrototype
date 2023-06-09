@@ -1,11 +1,11 @@
 CREATED WITH UNITY VERSION 2021.3.21f1
-Game Website: [https://bacontheporo.github.io/CSS385DigitalPrototype/](https://bacontheporo.github.io/CSS385DigitalPrototype/) <br>
+Game Website: [https://bacontheporo.github.io/SpringTactics/](https://bacontheporo.github.io/SpringTactics/) <br>
 
-Digital Prototype WebGL: [https://bacontheporo.github.io/CSS385DigitalPrototype/DigitalProtoBuild/](https://bacontheporo.github.io/CSS385DigitalPrototype/DigitalProtoBuild/) <br>
+Digital Prototype WebGL: [https://bacontheporo.github.io/SpringTactics/DigitalProtoBuild/](https://bacontheporo.github.io/CSS385DigitalPrototype/DigitalProtoBuild/) <br>
 Alpha Playtest WebGL: [https://bacontheporo.github.io/CSS385DigitalPrototype/AlphaBuild/](https://bacontheporo.github.io/CSS385DigitalPrototype/AlphaBuild/) <br>
 Beta Playtest WebGL: [https://bacontheporo.github.io/CSS385DigitalPrototype/BetaBuild/](https://bacontheporo.github.io/CSS385DigitalPrototype/BetaBuild/) <br>
 Beta V2 WebGL: [https://bacontheporo.github.io/CSS385DigitalPrototype/BetaV2/](https://bacontheporo.github.io/CSS385DigitalPrototype/BetaV2/) <br>
-Final Presentation WebGL: [https://bacontheporo.github.io/CSS385DigitalPrototype/FinalPresentationBuild/](https://bacontheporo.github.io/CSS385DigitalPrototype/FinalPresentationBuild/)
+Final Presentation WebGL: [https://bacontheporo.github.io/SpringTactics/FinalPresentationBuild/](https://bacontheporo.github.io/SpringTactics/FinalPresentationBuild/)
 
 ***
 
